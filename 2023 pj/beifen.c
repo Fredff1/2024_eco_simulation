@@ -229,6 +229,7 @@ void main_game(){
                         printf("请输入你希望的间隔时间(以毫秒为单位)\n");                     
                         if(scanf("%d",&pause_time)==1&&pause_time>0){                       
                             printf("已修改时间为%d,请等待两秒",pause_time);
+                            clear_all_input();
                             Sleep(2000);
                             system("cls");
                             continue;
@@ -263,10 +264,13 @@ void main_game(){
                 printf("已回到菜单\n");
             }else if(strcmp(continue_game,"\\sw")==0){//切换模式
                 auto_game=1;
+                clear_all_input();
+                system("cls");
                 printf("进入自动模式\n");
             }else{
-                printf("无效输入!\n");
+                system("cls");
                 print_world(world,rows,cols);
+                printf("无效输入!\n");
                 clear_all_input();
 
         }
@@ -286,8 +290,8 @@ void import_file(){
             system("cls");
             print_world(world,rows,cols);
             printf("文件%s打开如上\n",filename);
-            printf("输入任意数字或字母返回菜单");
-            scanf("%s",input_4);
+            printf("按回车返回菜单");
+            while(!kbhit()){}
             system("cls");
             
 }
@@ -438,13 +442,14 @@ int main(){
         }else if(strcmp(menu_command,"\\p")==0){//打印当前世界
             if (rows<=0||cols<=0){
                 printf("没有合适地图\n");
+                system("cls");
                 continue;
             }else{ 
                 system("cls");          
                 print_current_world(); 
                 char input_3[10];
-                printf("输入任意数字或字母返回");
-                scanf("%s",input_3);
+                printf("按回车返回菜单");
+                while(!kbhit()){}
                 system("cls");
             }                                
         }else if(strcmp(menu_command,"end")==0){//结束游戏
@@ -455,4 +460,5 @@ int main(){
     return 0;
 }
 //关于行列对齐问题，似乎和电脑分辨率有关
+
 
