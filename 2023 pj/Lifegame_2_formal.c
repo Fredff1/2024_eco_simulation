@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include<conio.h>
 #include <windows.h>
+#include <time.h> 
 
 int rows=0,cols=0;
 int **world;
@@ -345,13 +346,14 @@ void design_mode(char menu_command){//ÕâÀïÓöµ½Çå³ı»º³åÇøµÄÎÊÌâ,²»ÇåÀí»áµ¼ÖÂÎŞÏŞÑ
             char input_1[100];//ÅĞ¶ÏÊäÈëµÄÀàĞÍ
             int flag_change=0;//ÅĞ¶ÏÊÇ·ñÍË³öÉè¼ÆÏ¸°ûÍ¼µÄÑ­»·
             int count_change=-1;//Í³¼Æ²Ù×÷µÄ´ÎÊı£¬·ÀÖ¹¸Õ¿ªÊ¼Ö´ĞĞelse if
+            int random_generator;//ÓÃÓÚÉú²úËæ»ú¸öÏ¸°û
             while(flag_change==0){
                 int leap=0;
                 fgets(input_1,100,stdin);
                 char *input_1_trace=input_1;
                 system("cls"); 
                 if (sscanf(input_1,"%d %d",&temp_rows,&temp_cols)==2){
-                    while (sscanf(input_1_trace, "%d %d%n", &temp_rows, &temp_cols,&leap) == 2) { // µ±ÎÒÃÇ¿ÉÒÔ¶ÁÈ¡Á½¸öÊı×ÖÊ±
+                    while (sscanf(input_1_trace, "%d %d%n", &temp_rows, &temp_cols,&leap) == 2) { // µ±ÎÒÃÇ¿ÉÒÔ¶ÁÈ¡Á½¸öÊı×ÖÊ±ÇÒÓÃ%n¶ÁÈ¡ÒÔ¼°¶ÁÈ¡µÄ×Ö·ûÊı£¬ÔÚÏÂÒ»´ÎÌø¹ı
                         if (0 < temp_rows && temp_rows <= rows && 0 < temp_cols && temp_cols <= cols) {
                             world[temp_rows - 1][temp_cols - 1] = 1; // ½«Ö¸¶¨Î»ÖÃÉèÖÃÎª»îÏ¸°û
                             printf("µÚ%dĞĞ%dÁĞ±ä³ÉÁË»îÏ¸°û!\n", temp_rows, temp_cols);
@@ -371,26 +373,45 @@ void design_mode(char menu_command){//ÕâÀïÓöµ½Çå³ı»º³åÇøµÄÎÊÌâ,²»ÇåÀí»áµ¼ÖÂÎŞÏŞÑ
                     count_change+=1; 
                     printf("ÇëÊäÈëÄãÏëÒªµÄ»îÏ¸°ûÎ»ÖÃ£¬ÓÃ¿Õ¸ñ¸ô¿ª£¬ÔÊĞí¶à¸öÊäÈë£¬Í¬ÑùÓÃ¿Õ¸ñ¸ô¿ª£¬³¬³ö·¶Î§»áÌáÊ¾´íÎó:\n");
                     printf("ÊäÈë-x -y (x  yÊÇÓĞ»îÏ¸°ûµÄÎ»ÖÃ)¿ÉÒÔÉ¾³ı»îÏ¸°û\n");
+                    printf("ÊäÈërandom Êı×Ö£¨×¢Òâ¿Õ¸ñ£©¿ÉÒÔËæ»úÉú³É»îÏ¸°û,ÍÆ¼öÌîÂúÖÁÉÙ10%%µÄ¸ñ×Ó\n");
                     printf("Èç¹ûÄãÒÑÊäÈëÍê±Ï,ÔòÊäÈë\\q\n");                   
                     continue;
                 }else if(strncmp(input_1,"\\q",2)==0){
-                    printf("ÊÇ·ñĞèÒª±£´æµØÍ¼ÖÁÎÄ¼ş,Èç¹ûÊÇÇëÊäÈë\\s,·ñÔòÊäÈëÈÎÒâÊı×Ö»ò×ÖÄ¸ÒÔÍË³ö\n");
+                    printf("ÊÇ·ñĞèÒª±£´æµØÍ¼ÖÁÎÄ¼ş,Èç¹ûÊÇÇëÊäÈë\\s,Èç¹ûÒª·µ»ØÉÏÒ»¸öÒ³ÃæÔòÊäÈë\\b\n");
                     char input_2[20];
                     scanf("%s",input_2);
                     if(strcmp(input_2,"\\s")==0){
                         save_file();
-                    }
+                    }else if (strcmp(input_2,"\\b")==0){
+                        continue;
+                    }else{
                     flag_set_world=1;
                     flag_change=1;
-                    break; //ÍË³öÉè¼ÆÑ­»·                 
+                    break; //ÍË³öÉè¼ÆÑ­»·  
+                    }               
+                }else if(sscanf(input_1,"random %d",&random_generator)==1){
+                    srand(time(NULL));
+                    if (random_generator<=(rows*cols)){
+                        for(int i=0;i<random_generator;){
+                            int random_rows=rand()%rows;
+                            int random_cols=rand()%cols;
+                            if (world[random_rows][random_cols]==0){
+                                world[random_rows][random_cols]=1;
+                                i+=1;
+                            }
+                        }
+                    }else{
+                        printf("ÇëÊäÈëºÏÊÊµÄÊı×Ö");
+                        continue;
+                    }
+                      
+                }else if(strcmp(input_1,"\\h")==0){
+                    print_help();
                 }else if(sscanf(input_1,"%d %d",&temp_rows,&temp_cols)!=2||temp_rows>=rows||temp_cols>=cols){
                     if(count_change>=0){
                     printf("ÎŞĞ§µÄÊı×Ö!ÖØĞÂÊäÈë!\n");//¶Ô¸÷ÖÖ´íÎóÊäÈë
-                    print_world(world,rows,cols);
                     }
-                }else if(strcmp(input_1,"\\h")==0){
-                    print_help();
-                }
+                } 
             print_world(world,rows,cols);
             printf("ÇëÊäÈëÄãÏëÒªµÄ»îÏ¸°ûÎ»ÖÃ£¬ÓÃ¿Õ¸ñ¸ô¿ª£¬ÔÊĞí¶à¸öÊäÈë£¬Í¬ÑùÓÃ¿Õ¸ñ¸ô¿ª£¬³¬³ö·¶Î§»áÌáÊ¾´íÎó:\n");
             printf("ÊäÈë-x -y (x  yÊÇÓĞ»îÏ¸°ûµÄÎ»ÖÃ)¿ÉÒÔÉ¾³ı»îÏ¸°û\n");
