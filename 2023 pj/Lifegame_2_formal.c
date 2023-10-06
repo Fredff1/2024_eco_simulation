@@ -205,7 +205,14 @@ void main_game(){
         auto_game=1;
     }else if(strcmp(game_state,"\\g")==0){
         auto_game=0;
+    }else{
+        printf("ÎŞĞ§ÊäÈë£¬Ä¬ÈÏÎª×Ô¶¯Ä£Ê½");
+        auto_game=1;
+        Sleep(1000);
     }
+    system("cls");
+    print_world(world,rows,cols);
+    Sleep(1000);
     system("cls");
     while(flag_start_game==1){            
         if (auto_game==1){            
@@ -246,7 +253,7 @@ void main_game(){
         
             update_world(world);
             print_world(world,rows,cols);
-            printf("´¦ÓÚ×Ô¶¯Ä£Ê½,°´»Ø³µÔİÍ£");
+            printf("´¦ÓÚ×Ô¶¯Ä£Ê½,°´»Ø³µÔİÍ£ÒÔ½øÒ»²½¸Ä±ä¼ä¸ôÊ±¼ä¡¢ÍË³öÖÁ²Ëµ¥»ò½øÈëÊÖ¶¯Ä£Ê½");
             printf("\n");
             Sleep(pause_time);
             system("cls");
@@ -286,7 +293,9 @@ void import_file(){
     char filename[20];
     char input_4[10];
             printf("ÇëÊäÈëÄãĞèÒªµ¼ÈëµÄÎÄ¼şÃû,×¢Òâºó×º:");
-            scanf("%s",filename);            
+            scanf("%s",filename);
+            free_world(world,rows);
+            rows=0,cols=0;           
             read_file(filename);
             system("cls");
             print_world(world,rows,cols);
@@ -349,6 +358,7 @@ void design_mode(char menu_command){//ÕâÀïÓöµ½Çå³ı»º³åÇøµÄÎÊÌâ,²»ÇåÀí»áµ¼ÖÂÎŞÏŞÑ
             int random_generator;//ÓÃÓÚÉú²úËæ»ú¸öÏ¸°û
             while(flag_change==0){
                 int leap=0;
+                input_1[0] = '\0';
                 fgets(input_1,100,stdin);
                 char *input_1_trace=input_1;
                 system("cls"); 
@@ -376,8 +386,8 @@ void design_mode(char menu_command){//ÕâÀïÓöµ½Çå³ı»º³åÇøµÄÎÊÌâ,²»ÇåÀí»áµ¼ÖÂÎŞÏŞÑ
                     printf("ÊäÈërandom Êı×Ö£¨×¢Òâ¿Õ¸ñ£©¿ÉÒÔËæ»úÉú³É»îÏ¸°û,ÍÆ¼öÌîÂúÖÁÉÙ10%%µÄ¸ñ×Ó\n");
                     printf("Èç¹ûÄãÒÑÊäÈëÍê±Ï,ÔòÊäÈë\\q\n");                   
                     continue;
-                }else if(strncmp(input_1,"\\q",2)==0){
-                    printf("ÊÇ·ñĞèÒª±£´æµØÍ¼ÖÁÎÄ¼ş,Èç¹ûÊÇÇëÊäÈë\\s,Èç¹ûÒª·µ»ØÉÏÒ»¸öÒ³ÃæÔòÊäÈë\\b\n");
+                }else if(strncmp(input_1,"\\q",2)==0){//±£´æÎÄµµ
+                    printf("ÊÇ·ñĞèÒª±£´æµØÍ¼ÖÁÎÄ¼ş,Èç¹ûÊÇÇëÊäÈë\\s,Èç¹ûÒª·µ»ØÉÏÒ»¸öÒ³ÃæÔòÊäÈë\\bÊäÈë\nÊäÈëÆäËü×Ö·û½«²»±£´æÇÒÍË³ö\n");
                     char input_2[20];
                     scanf("%s",input_2);
                     if(strcmp(input_2,"\\s")==0){
@@ -404,7 +414,7 @@ void design_mode(char menu_command){//ÕâÀïÓöµ½Çå³ı»º³åÇøµÄÎÊÌâ,²»ÇåÀí»áµ¼ÖÂÎŞÏŞÑ
                         printf("ÇëÊäÈëºÏÊÊµÄÊı×Ö");
                         continue;
                     }
-                      
+                       
                 }else if(strcmp(input_1,"\\h")==0){
                     print_help();
                 }else if(sscanf(input_1,"%d %d",&temp_rows,&temp_cols)!=2||temp_rows>=rows||temp_cols>=cols){
@@ -415,6 +425,7 @@ void design_mode(char menu_command){//ÕâÀïÓöµ½Çå³ı»º³åÇøµÄÎÊÌâ,²»ÇåÀí»áµ¼ÖÂÎŞÏŞÑ
             print_world(world,rows,cols);
             printf("ÇëÊäÈëÄãÏëÒªµÄ»îÏ¸°ûÎ»ÖÃ£¬ÓÃ¿Õ¸ñ¸ô¿ª£¬ÔÊĞí¶à¸öÊäÈë£¬Í¬ÑùÓÃ¿Õ¸ñ¸ô¿ª£¬³¬³ö·¶Î§»áÌáÊ¾´íÎó:\n");
             printf("ÊäÈë-x -y (x  yÊÇÓĞ»îÏ¸°ûµÄÎ»ÖÃ)¿ÉÒÔÉ¾³ı»îÏ¸°û\n");
+            printf("ÊäÈërandom Êı×Ö£¨×¢Òâ¿Õ¸ñ£©¿ÉÒÔËæ»úÉú³É»îÏ¸°û,ÍÆ¼öÌîÂúÖÁÉÙ10%%µÄ¸ñ×Ó\n");
             printf("Èç¹ûÄãÒÑÊäÈëÍê±Ï,ÔòÊäÈë\\q\n");
             count_change+=1;//·ÀÖ¹ÉèÖÃµØÍ¼´óĞ¡Ê±³öÏÖ´íÎóÌáÊ¾
             }
