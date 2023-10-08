@@ -302,6 +302,7 @@ void import_file(){
             printf("文件%s打开如上\n",filename);
             printf("按回车返回菜单\n");
             while(!kbhit()){}
+            getch();
             system("cls");
             
 }
@@ -482,6 +483,7 @@ int main(){
                 char input_3[10];
                 printf("按回车返回菜单");
                 while(!kbhit()){}
+                getch();
                 system("cls");
             }                                
         }else if(strcmp(menu_command,"end")==0){//结束游戏
