@@ -300,7 +300,7 @@ void import_file(){
             system("cls");
             print_world(world,rows,cols);
             printf("文件%s打开如上\n",filename);
-            printf("按回车返回菜单");
+            printf("按回车返回菜单\n");
             while(!kbhit()){}
             system("cls");
             
@@ -323,7 +323,7 @@ void print_current_world(){
         printf("当前的地图状态如下\n");
         print_world(world,rows,cols);
     }else{
-        printf("当前没有合适的地图!");
+        printf("当前没有合适的地图!\n");
     }
 }
 //细胞图设计模式
