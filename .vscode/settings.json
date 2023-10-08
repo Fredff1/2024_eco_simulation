@@ -4,6 +4,9 @@
         "stdlib.h": "c",
         "string.h": "c"
     },
+    "cSpell.words": [
+        "kbhit"
+    ],
     
 }
 
