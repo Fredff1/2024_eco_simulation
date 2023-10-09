@@ -6,5 +6,6 @@ int main(){
     if (nu>0&&t>0){
          result=(nu*nu*nu)/(exp(nu/t)-1);
          printf("%lf",result);
+         return 0;
     }
 }
