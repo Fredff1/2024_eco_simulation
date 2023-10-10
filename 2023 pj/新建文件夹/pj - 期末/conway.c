@@ -5,7 +5,9 @@
 
 // 构造新格点，分配内存
 // malloc()
-Conway new_conway(const uint16_t m, const uint16_t n) {
+//这个功能已经有了，应该是用于主游戏把
+void decide_new_conway(const uint16_t rows, const uint16_t cols) {
+    
 
 }
 

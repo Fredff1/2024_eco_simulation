@@ -2,6 +2,10 @@
 #define CONWAY_H
 
 #include <stdint.h>
+#include<string.h>
+#include<stdio.h>
+#include <stdlib.h>
+#include<time.h>
 
 #define STATE_DEAD 0
 #define STATE_ALIVE 1
@@ -12,18 +16,20 @@
 // 其它状态，可扩展
 #define STATE_OTHER 2
 
-// typedef enum {
-//     Dead,
-//     Alive,
+typedef enum {
+    Dead=0,
+    Alive=1,
 
-//     // 其它状态，可扩展
+//    // 其它状态，可扩展
 //     Other,
 
 //     // 用作get越界时的返回值？
-//     None,
-// } GridState;
+     None=-1,
+ } GridState;
 
-typedef int GridState;
+
+typedef int probability;
+
 
 // 康威生命游戏(Conway's Game of Life)
 // 在一个二维方格中，每个格点有生存或者死亡的状态
@@ -35,36 +41,81 @@ typedef int GridState;
 // 4. 任何空格点，若邻居活格点数 = 3，则该格点在下一世代变为活格点
 typedef struct {
     // 行数
-    uint16_t m;
+    uint16_t rows;
 
     // 列数
-    uint16_t n;
+    uint16_t cols;
 
-    GridState **_grids;
+    GridState **normal_grids;
+
+    int probability;
+
+
+
+
 
     // 其它状态，可扩展...
     // float density;
 } Conway;
+
 
 // 前言：涉及指针操作和内存分配，随时记得指针判空
 
 // 构造新格点，分配内存
 // 创建失败则返回NULL
 // malloc()
-Conway new_conway(const uint16_t m, const uint16_t n);
+Conway* new_conway(const uint16_t rows, const uint16_t cols){
+    Conway* c = (Conway*)malloc(sizeof(Conway));
+    if (!c){
+        return NULL;
+    }
+    c->rows = rows;
+    c->cols = cols;
+    c->normal_grids = (GridState**)malloc(rows * sizeof(GridState*));
+    if (!c->normal_grids) {
+        free(c);
+        return NULL;
+    }
+    for(int i=0;i<rows;i++){
+        c->normal_grids[i]=(GridState*)malloc(cols*sizeof(GridState));
+        if(!c->normal_grids[i]){
+            for(int j=0;j<rows;j++){
+                free(c->normal_grids[i]);
+            }
+            free(c->normal_grids);
+            free(c);
+            return NULL;
+        }
+    }
+    return c;
+}
 
 // 删除格点，回收内存
 // free()
-void delete_grids(Conway *c);
+void delete_grids(Conway *c){
+    for(int i=0;i<c->rows;i++){
+        free(c->normal_grids[i]);
+    }
+    free(c->normal_grids);
+
+}
 
 // 随机地初始化格点
-void init_random(Conway *c);
+void init_random(Conway *c){
+    srand(time(NULL));
+    int change_into_living=c->rows*c->cols*c->probability;
+    for(int i=0;i<change_into_living;){
+        int rand_rows=rand()%c->rows;
+        int rand_cols=rand()%c->cols;
+        if(c->normal_grids[rand_rows][rand_cols]==0){
+        c->normal_grids[rand_rows][rand_cols]=1;
+        i+=1;
+        }
+    }
 
-// 将系统演化到下一世代
-void next_generation(Conway *c);
+}
 
-// 自定义的系统演化
-void custom_next_generation(Conway *c);
+
 
 // 获取格点的当前状态
 // 注意下标边界检查
@@ -74,29 +125,184 @@ void custom_next_generation(Conway *c);
 // 但是封装后会安全一点
 // 越界或者遇到空指针返回GridState::None ?
 // if (get_current_state(c, x, y) == GridState::None) {
-//     // balabalabala
+//     
 // }
-GridState get_state(const Conway *c, const uint16_t x, const uint16_t y);
+GridState get_state(const Conway *c, const uint16_t x, const uint16_t y){
+    if(x>=c->rows&&y>=c->cols){
+    return None;
+    }
+    return c->normal_grids[x][y];
+    
+}
 
-void set_state(Conway *c, const uint16_t x, const uint16_t y, GridState s);
+GridState count_neighbor(const Conway *c, const uint16_t x, const uint16_t y){
+    int living_neighbor=0;
+    GridState temp_grid[c->rows][c->cols];
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            temp_grid[i][j]=get_state(c,i,j);
+        }
+    }
+    if(x<c->rows&&y<c->cols&&x>=0&&y>=0){
+        for(int i=x-1;i<=x+1;i++){
+            for(int j=y-1;j<=y+1;j++){
+                if(i>=0&&j>=0){
+                    if(temp_grid[i][j]==1){
+                        living_neighbor+=1;
+                    }
+                }
+            }
+        }
+    }
+    living_neighbor-=get_state(c,x,y);
+    return living_neighbor;
+}
 
 // 获取格点下一个世代的状态
 // 注意下标边界检查
 // 0 <= x < m,
 // 0 <= y < n,
-GridState get_next_state(const Conway *c, const uint16_t x, const uint16_t y);
+GridState get_next_state(const Conway *c, const uint16_t x, const uint16_t y){
+    GridState state;
+    GridState neighbor=0;
+    if(!(x<c->rows&&y<c->cols&&x>=0&&y>=0)){
+        return None;
+    }
+    neighbor=count_neighbor(c,x,y);
+    if(neighbor<2){
+        return Dead;
+    }else if(neighbor==2){
+        return get_state(c,x,y);
+    }else if(neighbor==3){
+        return Alive;
+    }else if(neighbor>3){
+        return Dead;
+    }else{
+        return None;
+    }
+
+}
+
+//没看出这个函数有什么用，删了
+/*void set_state(Conway *c, const uint16_t x, const uint16_t y){
+    GridState neighbor=0;
+    if(!(x<c->rows&&y<c->cols&&x>=0&&y>=0)){
+        return;
+    }
+    GridState temp_grid[c->rows][c->cols];
+    neighbor=count_neighbor(c,x,y);
+    
+    
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            =temp_
+        }
+        }
+}
+*/
+
 
 // 展示格点，一般来说是printf打印吧
 // 不过长和宽设置的都是uint16_t类型，稍微大一点的格点就不好打印了
-void show_conway(const Conway *c);
+void show_conway(const Conway *c){
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            GridState u=get_state(c,i,j);
+            if(u==0){
+                printf("| |");
+            }else if(u==1){
+                printf("|*|");
+            }
+        }
+    printf("\n");   
+    }
+}
+
+
+
+// 将系统演化到下一世代
+void next_generation(Conway *c){
+    GridState temp_grid[c->rows][c->cols];
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            temp_grid[i][j]=get_next_state(c,i,j);
+        }
+    }
+    //更新原来的格点
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            c->normal_grids[i][j]=temp_grid[i][j];
+        }
+    }
+}
+
+// 自定义的系统演化
+void custom_next_generation(Conway *c);
+
+
 
 // 保存格点到文件（可能得考虑一下数据保存到文件的格式）
 // 成功则返回0，失败返回非0值
-int save_conway(const Conway *c, const char *path);
+int save_conway(const Conway *c, const char *filename){
+    FILE*fp=fopen(filename,"w");
+    if (!fp) {
+        return -1; // 返回错误代码
+    }
+    fprintf(fp, "%d %d\n", c->rows, c->cols);//第一行的数据
+    for (int i=0;i<c->rows;i++){
+        for (int j=0;j<c->cols;j++){
+            GridState write_state=get_state(c,i,j);
+            fprintf(fp,"%d ",write_state);
+        }
+    fprintf(fp,",");
+    fprintf(fp,"\n");
+    }
+    fclose(fp);
+    return 0;
+}
+
+
 
 // 从文件读取格点
 // 失败则Conway._grids = NULL
-// 涉及malloc()
-Conway new_conway_from_file(const char *path);
+Conway* new_conway_from_file(Conway *c,const char *filename){
+     FILE*fp=fopen(filename,"r");
+    if (fp == NULL) {
+        printf("错误\n");
+        return NULL;
+    }
+    if(fscanf(fp,"%d,%d",&c->rows,&c->cols)!=2){
+        return NULL;
+    }
+    delete_grids(c);
+    if(new_conway(c->rows,c->cols)!=NULL){}
+    fscanf(fp, "\n");//跳过第一行
+    char scan_input;
+    GridState temp_grid[c->rows][c->cols];
+    for (int i=0;i<c->rows;i++){
+        for (int j=0;j<c->cols;j++){
+            scan_input=fgetc(fp);//逐个读取
+            if (scan_input=='0'){
+                temp_grid[i][j]=0;                
+            }else if(scan_input=='1'){
+                temp_grid[i][j]=1;
+            }else if(scan_input=='\n'||scan_input==EOF){
+                break;
+            }else if(scan_input==','){
+                j-=1;//跳过","
+            }
+
+        }
+        fscanf(fp,",");//最后一个逗号
+        fscanf(fp,"\n");//跳过换行符
+    }
+    fclose(fp);
+     for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            c->normal_grids[i][j]=temp_grid[i][j];
+        }
+    }
+    return c;
+}
 
 #endif
