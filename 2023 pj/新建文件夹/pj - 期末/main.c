@@ -49,8 +49,8 @@ int main() {
     while(1){
         print_game(&c);
         show_conway(c);
-        char menu_command[20];
-        fgets(menu_command,20,stdin);
+        char menu_command[50];
+        fgets(menu_command,50,stdin);
         char basic_command;
         char filename_command[20];
         if(sscanf(menu_command," %c %d %d",&basic_command,&c->rows,&c->cols)==3){//i rows cols 情况
