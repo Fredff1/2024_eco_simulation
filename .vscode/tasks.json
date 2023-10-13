@@ -10,11 +10,12 @@
                 "-g",
                 "-static",
                
-                "${file}",
+                //"${file}",
+                "*.c",
                 "-lpthread",
                 "-fexec-charset=UTF-8",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${workspaceFolder}\\my_program.exe"
                 
             ],
             "presentation": {

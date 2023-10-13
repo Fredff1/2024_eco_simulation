@@ -131,8 +131,16 @@ GridState get_state(const Conway *c, const uint16_t x, const uint16_t y){
 
 // 随机地初始化格点
 void init_random(Conway *c){
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;i<c->cols;j++){
+            c->normal_grids[i][j]=0;
+        }
+    }
     srand(time(NULL));
     int change_into_living;
+    if(c->probability<=0||c->probability>100){
+        c->probability=50;
+    }
     change_into_living=(c->rows)*(c->cols)*(c->probability)/100;
     for(int i=0;i<change_into_living;i+=0){
          int rand_rows=rand()%(c->rows);
