@@ -507,4 +507,51 @@ Conway* new_conway_from_file(Conway *c,const char *filename){
     }
     return new_conway;
 }
+
+
+
+
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile and Link",
+            "command": "D:\\mingwin64_now\\mingw64\\bin\\gcc.exe",
+            "type": "shell",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "-static",
+                "${workspaceFolder}/*.c",
+                "-lpthread",
+                "-fexec-charset=UTF-8",
+                "-o",
+                "${workspaceFolder}/my_program.exe"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}
+
+
+
+
+
+
 */
