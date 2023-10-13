@@ -49,12 +49,13 @@ void automatic_evolve(Conway* c,int time) {
 
 int main() {
     Conway* c = update_conway(0, 0);
-    int running=1;
+    int time=1000;
     c->probability=50;
-    char menu_command[50];
+    char menu_command[100];
     char basic_command;
-    char filename_command[20];
+    char filename_command[50];
     int flag_input_or_not=0;
+    int test_input;
     char filename[50];
     while(1){
         clear_screen();
@@ -62,11 +63,15 @@ int main() {
         print_conway(c);
         printf("%d %d\n",c->rows,c->cols);
         printf("%d\n",c->probability);
-        fgets(menu_command,50,stdin);
+        fgets(menu_command,100,stdin);
+        //clear_input();
         sscanf(menu_command,"%c",&basic_command);
         if(basic_command=='i'){ //i rows cols 情况
             sscanf(menu_command,"%c %d %d",&basic_command,&c->rows,&c->cols);
             if(c->rows<=0||c->cols<=0){
+                c=update_conway(0,0);
+                printf("warning\n");
+                sleep(1);
                 continue;
             }
             c=update_conway(c->rows,c->cols);
@@ -80,12 +85,15 @@ int main() {
             sscanf(menu_command,"%c %49s",&basic_command,&filename);
             save_conway(c,filename);
         }else if(basic_command=='c'){//解析读入 读出命令
-            int time=1000;
+            if(c->rows<=0||c->cols<=0){
+                continue;
+            }        
             //while (running) {
             char cmd='c';
             char path[40];           
             if(flag_input_or_not>0){
-            scanf(" %c", &cmd);   
+            scanf(" %c", &cmd); 
+            clear_input();  
             }                
             switch (cmd)
             {
@@ -102,18 +110,24 @@ int main() {
                 flag_input_or_not=0;
                 //break;
             }
-
         //}
         }else if(basic_command=='r'){
-            if(sscanf(menu_command,"%c %d",&basic_command,&c->probability)==2){
+            if(sscanf(menu_command,"%c %d",&basic_command,&c->probability)==2&&c->probability>0){
                 init_random(c);
             }else{
-                continue;
+                c->probability=50;
+                init_random(c);
             }
         }else if(basic_command=='q'){ 
             break;  
+        }else if(basic_command=='t'){
+            scanf("%d",&time);
+            clear_input();
+        }else if(basic_command=='h'){
+            print_help();
         }else{//解析错误输入
             clear_input();
+            continue;
         }
         
 

@@ -1,7 +1,229 @@
+//备份文件
+/*
+#include <stdio.h>
+#include <pthread.h>
+#include "conway.h"
+#include <unistd.h>
+
+
+void clear_screen() {
+    // Use ANSI escape codes to clear the screen
+    printf("\e[1;1H\e[2J");
+    printf("\e[?25l");
+    //system("cls");
+}
+
+void print_help() {
+
+}
+
+void print_game(const Conway* c) {
+
+}
+
+void* listen_break(void* flag) {
+    char c = 0;
+    while (c != 'b'&&c!='t') {
+        scanf(" %c", &c);
+        scanf("%*[^\n]"); // 清除未读内容
+    }
+
+    *(int*)flag = 1;
+    return NULL;
+}
+
+void automatic_evolve(Conway* c,int time) {
+    int flag = 0;
+    pthread_t listener;
+    pthread_create(&listener, NULL, listen_break, &flag);
+    while (flag != 1) {
+        next_generation(c);
+        clear_screen();
+        print_game(c);
+        printf("automatically evolving...\n");
+        print_conway(c);
+        usleep(time*1000); // 每秒演化一次
+    }
+
+    pthread_join(listener, NULL);
+    print_game(c);
+}
+
+int main() {
+    Conway* c = update_conway(0, 0);
+    int running=1;
+    c->probability=50;
+    char menu_command[100];
+    char basic_command;
+    char filename_command[50];
+    int flag_input_or_not=0;
+    int test_input;
+    char filename[50];
+    while(1){
+        clear_screen();
+        print_game(c);
+        print_conway(c);
+        printf("%d %d\n",c->rows,c->cols);
+        printf("%d\n",c->probability);
+        fgets(menu_command,100,stdin);
+        //clear_input();
+        sscanf(menu_command,"%c",&basic_command);
+        if(basic_command=='i'){ //i rows cols 情况
+            sscanf(menu_command,"%c %d %d",&basic_command,&c->rows,&c->cols);
+            if(c->rows<=0||c->cols<=0){
+                c=update_conway(0,0);
+                printf("warning\n");
+                sleep(1);
+                continue;
+            }
+            c=update_conway(c->rows,c->cols);
+            c->probability=50;        
+        }else if(basic_command=='n'){//解析单个字母命令
+            next_generation(c); 
+        }else if(basic_command=='l'){
+            sscanf(menu_command,"%c %48s",&basic_command,&filename);
+            c=new_conway_from_file(c,filename);                      
+        }else if(basic_command=='s'){
+            sscanf(menu_command,"%c %49s",&basic_command,&filename);
+            save_conway(c,filename);
+        }else if(basic_command=='c'){//解析读入 读出命令
+            if(c->rows<=0||c->cols<=0){
+                continue;
+            }
+            int time=1000;
+            //while (running) {
+            char cmd='c';
+            char path[40];           
+            if(flag_input_or_not>0){
+            scanf(" %c", &cmd);   
+            }                
+            switch (cmd)
+            {
+            case 'c':
+                automatic_evolve(c,time);
+                flag_input_or_not+=1;
+                break;
+            /*others
+            case 't':
+                flag_input_or_not=0;
+                scanf("%d",&time);
+                
+            default:
+                flag_input_or_not=0;
+                //break;
+            }
+
+        //}
+        }else if(basic_command=='r'){
+            if(sscanf(menu_command,"%c %d",&basic_command,&c->probability)==2&&c->probability>0){
+                init_random(c);
+            }else{
+                continue;
+            }
+        }else if(basic_command=='q'){ 
+            break;  
+        
+        }else{//解析错误输入
+            clear_input();
+            continue;
+        }
+        
+
+}
+    delete_grids(c);
+    clear_screen();
+    return 0;
+}
+*/
+/*
+
 #include "conway.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+
+// 构造新格点，分配内存
+// malloc()
+
+void decide_new_conway(const uint16_t rows, const uint16_t cols) {
+    
+
+}
+
+// 删除格点，回收分配给格点二维数组的内存
+// Conway游戏本身的结构体 c 不用删除，只删除其格点
+// 使用free()
+void delete_grids(Conway *c) {
+
+}
+
+// 随机地初始化格点
+void init_random(Conway *c) {
+    
+}
+
+// 将系统演化到下一世代
+void next_generation(Conway *c) {
+
+}
+
+// 获取格点的当前状态
+// 注意下标边界检查
+// 0 <= x < m,
+// 0 <= y < n,
+// 虽然看上去这样一个封装没有必要，毕竟可以 c->_grids[x][y]来访问
+// 但是封装后会安全一点
+// 越界或者遇到空指针返回GridState::None ?
+// if (get_current_state(c, x, y) == GridState::None) {
+//     // balabalabala
+// }
+GridState get_state(const Conway *c, const uint16_t x, const uint16_t y) {
+
+}
+
+void set_state(Conway *c, const uint16_t x, const uint16_t y, GridState s) {
+
+}
+
+// 获取格点下一个世代的状态
+// 注意下标边界检查
+// 0 <= x < m,
+// 0 <= y < n,
+GridState get_next_state(const Conway *c, const uint16_t x, const uint16_t y) {
+
+}
+
+// 展示格点，一般来说是printf打印吧
+// 不过长和宽设置的都是uint16_t类型，稍微大一点的格点就不好打印了
+void print_conway(const Conway *c) {
+
+}
+
+// 保存格点到文件（可能得考虑一下数据保存到文件的格式）
+// 成功则返回0，失败返回非0值
+int save_conway(const Conway *c, const char *path) {
+
+}
+
+// 从文件读取格点
+// 失败则Conway._grids = NULL
+// 涉及malloc()
+Conway new_conway_from_file(const char *path) {
+
+}
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 void delete_grids(Conway *c){
     if(c->rows!=0&&c->cols!=0&&c->normal_grids!=NULL){
@@ -167,7 +389,7 @@ GridState get_next_state(const Conway *c, const uint16_t x, const uint16_t y){
         }
         }
 }
-*/
+
 
 
 // 展示格点，一般来说是printf打印吧
@@ -285,4 +507,4 @@ Conway* new_conway_from_file(Conway *c,const char *filename){
     }
     return new_conway;
 }
-
+*/
