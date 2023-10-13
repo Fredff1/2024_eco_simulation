@@ -57,31 +57,30 @@ int main() {
     int flag_input_or_not=0;
     char filename[50];
     while(1){
-        //clear_screen();
+        clear_screen();
         print_game(c);
         print_conway(c);
         printf("%d %d\n",c->rows,c->cols);
         printf("%d\n",c->probability);
         fgets(menu_command,50,stdin);
-        if(sscanf(menu_command,"%c",&basic_command)==1&&basic_command=='i'){ //i rows cols 情况
+        sscanf(menu_command,"%c",&basic_command);
+        if(basic_command=='i'){ //i rows cols 情况
             sscanf(menu_command,"%c %d %d",&basic_command,&c->rows,&c->cols);
             c=update_conway(c->rows,c->cols);
             c->probability=50;
             printf("%d %d\n",c->rows,c->cols);            
-        }else if(sscanf(menu_command,"%c",&basic_command)==1&&basic_command=='n'){//解析单个字母命令
+        }else if(basic_command=='n'){//解析单个字母命令
             next_generation(c); 
-        }else if(sscanf(menu_command,"%c",&basic_command)==1&&basic_command=='l'){
-            //sscanf(menu_command,"%c %s",&basic_command,&filename);
-            scanf("%s",&filename);
+        }else if(basic_command=='l'){
+            sscanf(menu_command,"%c %49s",&basic_command,&filename);
+            //scanf("%s",&filename);
             c=new_conway_from_file(c,filename);
             
             
-        }else if(sscanf(menu_command,"%c",&basic_command)==1&&basic_command=='s'){
-   
-            int result;
-            printf("write\n");
-            result=save_conway(c,filename);
-        }else if(sscanf(menu_command,"%c",&basic_command)==1&&basic_command=='c'){//解析读入 读出命令
+        }else if(basic_command=='s'){
+            sscanf(menu_command,"%c %49s",&basic_command,&filename);
+            save_conway(c,filename);
+        }else if(basic_command=='c'){//解析读入 读出命令
             int time=1000;
             //while (running) {
             char cmd='c';

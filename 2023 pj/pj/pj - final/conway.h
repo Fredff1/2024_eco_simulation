@@ -61,7 +61,7 @@ typedef struct {
 // 删除格点，回收内存
 // free()
 void delete_grids(Conway *c){
-    if(c->rows!=0&&c->cols!=0){
+    if(c->rows!=0&&c->cols!=0&&c->normal_grids!=NULL){
         for(int i=0;i<c->rows;i++){
             free(c->normal_grids[i]);
         }    
@@ -87,20 +87,17 @@ Conway* update_conway( uint16_t rows,  uint16_t cols){
     }
     c->rows = rows;
     c->cols = cols;
-    //delete_grids(c);
-    if(c->normal_grids==NULL||c==NULL){
+    delete_grids(c);
+    c->normal_grids = (GridState**)malloc(rows*sizeof(GridState*));
+    if (!c->normal_grids) {
+        free(c);
         return NULL;
     }
-    c->normal_grids = (GridState**)malloc(rows*sizeof(GridState*));
-    //if (!c->normal_grids) {
-        //free(c);
-       // return NULL;
-    //}
     for(int i=0;i<rows;i++){
         c->normal_grids[i]=(GridState*)malloc(cols*sizeof(GridState));
         if(!c->normal_grids[i]){
             for(int j=0;j<rows;j++){
-                //free(c->normal_grids[i]);
+                free(c->normal_grids[i]);
             }
             free(c->normal_grids);
             free(c);
@@ -297,12 +294,8 @@ Conway* new_conway_from_file(Conway *c,const char *filename){
     //delete_grids(c);
     c=update_conway(c->rows,c->cols);
     printf("%d %d\n",c->rows,c->cols);
-    for (int i=0;i<c->rows;i++){
-        for (int j=0;j<c->cols;j++){
-            printf("%d",c->normal_grids[i][j]);
-        }
-        printf("\n");
-    }
+
+    
     fscanf(fp, "\n");//跳过第一行
     char scan_input;
     GridState temp_grid[c->rows][c->cols];
@@ -327,12 +320,7 @@ Conway* new_conway_from_file(Conway *c,const char *filename){
     }
     fclose(fp);
     
-    for(int i=0;i<c->rows;i++){
-        for(int j=0;j<c->cols;j++){
-            printf("%d",temp_grid[i][j]);
-        }
-        printf("\n");
-    }
+    
 
      for(int i=0;i<c->rows;i++){
         for(int j=0;j<c->cols;j++){
