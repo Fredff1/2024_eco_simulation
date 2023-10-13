@@ -6,6 +6,7 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include<time.h>
+#include<conio.h>
 
 #define STATE_DEAD 0
 #define STATE_ALIVE 1
@@ -28,7 +29,6 @@ typedef enum {
  } GridState;
 
 
-typedef int probability;
 
 
 // 康威生命游戏(Conway's Game of Life)
@@ -46,7 +46,7 @@ typedef struct {
     // 列数
     uint16_t cols;
 
-    GridState **normal_grids;
+    int **normal_grids;
 
     int probability;
 
@@ -58,61 +58,58 @@ typedef struct {
     // float density;
 } Conway;
 
+// 删除格点，回收内存
+// free()
+void delete_grids(Conway *c){
+    if(c->rows!=0&&c->cols!=0){
+        for(int i=0;i<c->rows;i++){
+            free(c->normal_grids[i]);
+        }    
+    free(c->normal_grids);
+    c->normal_grids = NULL;
+    }
+}
 
+
+void clear_input(){
+    int x;
+    while((x=getchar())!='\n'&&x!=EOF){}
+}
 // 前言：涉及指针操作和内存分配，随时记得指针判空
 
 // 构造新格点，分配内存
 // 创建失败则返回NULL
 // malloc()
-Conway* new_conway(const uint16_t rows, const uint16_t cols){
+Conway* update_conway( uint16_t rows,  uint16_t cols){
     Conway* c = (Conway*)malloc(sizeof(Conway));
     if (!c){
         return NULL;
     }
     c->rows = rows;
     c->cols = cols;
-    c->normal_grids = (GridState**)malloc(rows * sizeof(GridState*));
-    if (!c->normal_grids) {
-        free(c);
+    //delete_grids(c);
+    if(c->normal_grids==NULL||c==NULL){
         return NULL;
     }
+    c->normal_grids = (GridState**)malloc(rows*sizeof(GridState*));
+    //if (!c->normal_grids) {
+        //free(c);
+       // return NULL;
+    //}
     for(int i=0;i<rows;i++){
         c->normal_grids[i]=(GridState*)malloc(cols*sizeof(GridState));
         if(!c->normal_grids[i]){
             for(int j=0;j<rows;j++){
-                free(c->normal_grids[i]);
+                //free(c->normal_grids[i]);
             }
             free(c->normal_grids);
             free(c);
             return NULL;
         }
+        memset(c->normal_grids[i], 0, cols * sizeof(int));
     }
+    
     return c;
-}
-
-// 删除格点，回收内存
-// free()
-void delete_grids(Conway *c){
-    for(int i=0;i<c->rows;i++){
-        free(c->normal_grids[i]);
-    }
-    free(c->normal_grids);
-
-}
-
-// 随机地初始化格点
-void init_random(Conway *c){
-    srand(time(NULL));
-    int change_into_living=c->rows*c->cols*c->probability;
-    for(int i=0;i<change_into_living;){
-        int rand_rows=rand()%c->rows;
-        int rand_cols=rand()%c->cols;
-        if(c->normal_grids[rand_rows][rand_cols]==0){
-        c->normal_grids[rand_rows][rand_cols]=1;
-        i+=1;
-        }
-    }
-
 }
 
 
@@ -134,6 +131,26 @@ GridState get_state(const Conway *c, const uint16_t x, const uint16_t y){
     return c->normal_grids[x][y];
     
 }
+
+// 随机地初始化格点
+void init_random(Conway *c){
+    srand(time(NULL));
+    int change_into_living;
+    change_into_living=(c->rows)*(c->cols)*(c->probability)/100;
+    for(int i=0;i<change_into_living;i+=0){
+         int rand_rows=rand()%(c->rows);
+         int rand_cols=rand()%(c->cols);
+        if(c->normal_grids[rand_rows][rand_cols]==0){
+        c->normal_grids[rand_rows][rand_cols]=1;
+        i+=1;
+        }
+    }
+
+}
+
+
+
+
 
 GridState count_neighbor(const Conway *c, const uint16_t x, const uint16_t y){
     int living_neighbor=0;
@@ -164,7 +181,7 @@ GridState count_neighbor(const Conway *c, const uint16_t x, const uint16_t y){
 // 0 <= y < n,
 GridState get_next_state(const Conway *c, const uint16_t x, const uint16_t y){
     GridState state;
-    GridState neighbor=0;
+    int neighbor=0;
     if(!(x<c->rows&&y<c->cols&&x>=0&&y>=0)){
         return None;
     }
@@ -204,16 +221,17 @@ GridState get_next_state(const Conway *c, const uint16_t x, const uint16_t y){
 
 // 展示格点，一般来说是printf打印吧
 // 不过长和宽设置的都是uint16_t类型，稍微大一点的格点就不好打印了
-void show_conway(const Conway *c){
+void print_conway(const Conway *c){
     for(int i=0;i<c->rows;i++){
         for(int j=0;j<c->cols;j++){
             GridState u=get_state(c,i,j);
             if(u==0){
-                printf("| |");
+                printf("| ");
             }else if(u==1){
-                printf("|*|");
+                printf("|*");
             }
         }
+    printf("|");    
     printf("\n");   
     }
 }
@@ -252,7 +270,7 @@ int save_conway(const Conway *c, const char *filename){
     for (int i=0;i<c->rows;i++){
         for (int j=0;j<c->cols;j++){
             GridState write_state=get_state(c,i,j);
-            fprintf(fp,"%d ",write_state);
+            fprintf(fp,"%d,",write_state);
         }
     fprintf(fp,",");
     fprintf(fp,"\n");
@@ -267,15 +285,24 @@ int save_conway(const Conway *c, const char *filename){
 // 失败则Conway._grids = NULL
 Conway* new_conway_from_file(Conway *c,const char *filename){
      FILE*fp=fopen(filename,"r");
+     printf("ok\n");
     if (fp == NULL) {
         printf("错误\n");
         return NULL;
     }
-    if(fscanf(fp,"%d,%d",&c->rows,&c->cols)!=2){
-        return NULL;
+    fscanf(fp,"%d,%d",&c->rows,&c->cols);
+        
+    
+    //if(update_conway(c->rows,c->cols)!=NULL){}
+    //delete_grids(c);
+    c=update_conway(c->rows,c->cols);
+    printf("%d %d\n",c->rows,c->cols);
+    for (int i=0;i<c->rows;i++){
+        for (int j=0;j<c->cols;j++){
+            printf("%d",c->normal_grids[i][j]);
+        }
+        printf("\n");
     }
-    delete_grids(c);
-    if(new_conway(c->rows,c->cols)!=NULL){}
     fscanf(fp, "\n");//跳过第一行
     char scan_input;
     GridState temp_grid[c->rows][c->cols];
@@ -283,9 +310,11 @@ Conway* new_conway_from_file(Conway *c,const char *filename){
         for (int j=0;j<c->cols;j++){
             scan_input=fgetc(fp);//逐个读取
             if (scan_input=='0'){
-                temp_grid[i][j]=0;                
+                temp_grid[i][j]=0;  
+                           
             }else if(scan_input=='1'){
                 temp_grid[i][j]=1;
+               
             }else if(scan_input=='\n'||scan_input==EOF){
                 break;
             }else if(scan_input==','){
@@ -297,6 +326,14 @@ Conway* new_conway_from_file(Conway *c,const char *filename){
         fscanf(fp,"\n");//跳过换行符
     }
     fclose(fp);
+    
+    for(int i=0;i<c->rows;i++){
+        for(int j=0;j<c->cols;j++){
+            printf("%d",temp_grid[i][j]);
+        }
+        printf("\n");
+    }
+
      for(int i=0;i<c->rows;i++){
         for(int j=0;j<c->cols;j++){
             c->normal_grids[i][j]=temp_grid[i][j];
