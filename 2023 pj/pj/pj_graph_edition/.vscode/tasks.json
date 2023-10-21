@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "D:\\mingw64\\bin\\g++.exe",
+            "type": "shell",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+               
+                "${workspaceFolder}/main.c",
+                "${workspaceFolder}/Conway.c",
+                "-fexec-charset=UTF-8",
+                "-o",
+                "${workspaceFolder}/program.exe",
+                "-lmingw32",
+                "-lSDL2main",
+                "-lSDL2",
+                
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}

@@ -1,0 +1,2 @@
+D:\mingwin64_now\mingw64\bin\ar.exe qc libnew_graph.a CMakeFiles/new_graph.dir/new_graph.cpp.obj
+D:\mingwin64_now\mingw64\bin\ranlib.exe libnew_graph.a

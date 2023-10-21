@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "intelliSenseMode": "${default}",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:\\extra h for c cpp\\pthread\\Pre-built.2\\include",   // 添加 pthread 的头文件路径
+                "D:\\VS2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\include",
+                "D:\\VS2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\atlmfc\\include",
+                "D:\\VS2022\\Community\\VC\\Auxiliary\\VS\\include",
+                "D:\\VS2022\\Community\\VC\\Auxiliary\\VS\\include",
+                "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "compilerPath": "cl.exe",   // 如果您已经将 cl.exe 添加到了环境变量 PATH，那么可以省略此行
+            "compilerArgs": []
+        }
+    ],
+    "version": 4
+}

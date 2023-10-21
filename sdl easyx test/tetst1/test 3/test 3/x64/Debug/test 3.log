@@ -1,0 +1,3 @@
+﻿test 3.obj : error LNK2019: 无法解析的外部符号 __imp_pthread_create，函数 main 中引用了该符号
+test 3.obj : error LNK2019: 无法解析的外部符号 __imp_pthread_join，函数 main 中引用了该符号
+D:\C++\tetst1\test 3\x64\Debug\test 3.exe : fatal error LNK1120: 2 个无法解析的外部命令

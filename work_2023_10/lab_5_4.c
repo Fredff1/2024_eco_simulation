@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-//年份对应的生肖和月份对应的星座是随机设置成字母的的
+//年份对应的生肖和月份对应的星座是随机设置的，就当是平行世界的年份好了，星座简单记为A B C.....
 
 int main(){
     int year,stella;
@@ -15,7 +15,7 @@ int main(){
         printf("A\nyou are lazy\n");
         break;
         case 2:
-        printf("B \nou are ugly\n");
+        printf("B \nou are beautiful\n");
         break;
         case 3:
         printf("C\nyou are brave\n");
@@ -24,7 +24,7 @@ int main(){
         printf("D\nno feature\n");
         break;
         case 5:
-        printf("E\nyou are determine\n");
+        printf("E\nyou are determined\n");
         break;
         case 6:
         printf("F\nyou are jealous\n");
@@ -93,8 +93,4 @@ int main(){
         printf("Invalid input!\n");
     }
     printf("\n");
-        
-        
-
-    
 }
