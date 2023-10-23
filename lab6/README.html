@@ -1,0 +1,294 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\74051\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.8\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="lab-6">Lab 6 </h1>
+<p>本节课的内容：</p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>介绍vs code debug
+循环代码示例
+</code></pre><p>4道作业题：</p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>孪生素数
+蒙特卡洛
+圆、极限与积分
+RSA算法
+</code></pre><p>超星提交截止时间 2023/10/27 23:59</p>
+<h2 id="debug">Debug </h2>
+<p>人是会犯错的，我们写程序时不一定可以洋洋洒洒地bug free. 很多逻辑上的错误不容易察觉，这个时候我们需要一些找bug的手段，所谓debug。我们以下面这个例子演示debug的流程：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;math.h&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ERROR</span> <span class="token expression"><span class="token number">0.00001</span></span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-float">float</span> target <span class="token operator">=</span> <span class="token number">1.5</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> ans <span class="token operator">=</span> a <span class="token operator">/</span> b<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">abs</span><span class="token punctuation">(</span>target <span class="token operator">-</span> ans<span class="token punctuation">)</span> <span class="token operator">&lt;</span> ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"precise!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+        <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"not precise..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>如果你还记得先前课程中提到的整数除法，那么你应该期望这个程序输出"not precise..."</p>
+<p>这个代码，GPT是这样说的：</p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>根据给定的代码，它会输出 "not precise..."。
+
+在这段代码中，首先定义了一个名为 ERROR 的常量，其值为 0.00001。然后，声明了变量 a 和 b，
+分别赋值为 3 和 2。接下来，声明了一个浮点数变量 target，赋值为 1.5。
+
+代码中的 ans 变量被赋值为 a / b，即 3 / 2。由于 a 和 b 的类型为整数，所以这是一个整数除法，
+结果会被截断为整数。因此，ans 的值为 1。
+
+然后，使用条件语句检查 target 和 ans 之间的差的绝对值是否小于 ERROR。在这种情况下，target
+是 1.5，而 ans 是 1，它们之间的差的绝对值为 0.5，大于 ERROR 的值 0.00001。
+
+因此，条件语句的判断结果为假，代码会执行 else 分支，输出 "not precise..."。
+</code></pre><p>编译运行这个程序，输出的结果竟然是"precise!"</p>
+<p>我们使用<code>VS Code</code>的Debugger来寻找问题</p>
+<p><img src="./figs/breakpoint.jpg" alt=""></p>
+<p>如图所示，你可以在代码行号的左边点击鼠标左键设置/取消断点，在debug模式下，程序会在执行这一行代码前的那一刻暂停程序</p>
+<p>点击编辑界面右上角的<code>Debug C/C++ File</code></p>
+<p><img src="./figs/run_debug.png" alt=""></p>
+<p>然后你可以看到如下界面：</p>
+<p><img src="./figs/debug_main.jpg" alt=""></p>
+<p>在中上方的有控制代码执行的几个按键，分别是</p>
+<ul>
+<li>continue: 继续执行直到下一个断点</li>
+<li>step over: 再执行一行代码</li>
+<li>step into: 再执行一行代码，如果遇到函数调用，则进入函数内部</li>
+<li>step over: 执行完当前函数</li>
+<li>restart: 重开</li>
+<li>stop: 停止</li>
+</ul>
+<p></p>
+<pre class="language-text">关于step over和step into:
+
+如果你了解函数可以自己尝试尝试这两个的区别。
+</pre>
+<p>你可以在左边看到变量的值。如我们所料，整数除法的结果<code>ans</code>等于1，直到这一步为止程序如期运行。似乎在<code>abs()</code>之后出现Bug。</p>
+<p>我们引入一个中间变量观察计算：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;math.h&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ERROR</span> <span class="token expression"><span class="token number">0.00001</span></span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-float">float</span> target <span class="token operator">=</span> <span class="token number">1.5</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> ans <span class="token operator">=</span> a <span class="token operator">/</span> b<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-float">float</span> e <span class="token operator">=</span> <span class="token function">abs</span><span class="token punctuation">(</span>target <span class="token operator">-</span> ans<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">abs</span><span class="token punctuation">(</span>target <span class="token operator">-</span> ans<span class="token punctuation">)</span> <span class="token operator">&lt;</span> ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"precise!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+        <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"not precise..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>这里我们发现了问题：</p>
+<p><img src="figs/error.png" alt=""></p>
+<p>我们期望为0.5的<code>e</code>实际的值为0. 搜索发现<code>abs()</code>只适用于整数</p>
+<p>这样我们发现了问题所在：0.5被强制转化为<code>int</code>类型后变为0，对浮点数类型应该使用<code>fabs()</code>。替换后程序如我们期望的那样运行。</p>
+<p>以上便是一个完整的debug流程，你需要提出假设，打断点，观察数据，尝试解释，搜索资料，尝试解决问题（和科学实验一样）。</p>
+<p>另一个例子：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-char">char</span> c<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%c"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"received: %c\n"</span><span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>超星讨论区有帖子讨论过这个问题，上面的代码输出怪异，并且只会循环5次</p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>a
+received: a
+received:
+
+c
+received: c
+received:
+
+b
+received: b
+received:
+
+e
+received: e
+received:
+
+f
+received: f
+received:
+</code></pre><p>在<code>printf</code>处设置断点，debug模型运行，在终端输入<code>a</code>，敲回车，第一次到断点时一切正常：</p>
+<p><img src="./figs/scanf_1.png" alt=""></p>
+<p>但是<code>continue</code>之后发生了意外的事情：</p>
+<p><img src="./figs/scanf_2.png" alt=""></p>
+<p>此时我们看到<code>c</code>的值变成了<code>\n</code>，并且本来应该阻塞住的第二次<code>scanf</code>并没有阻塞，只有再按一下<code>continue</code>才会继续等待输入。</p>
+<p>这一过程在debug界面可以推理出来，<code>scanf</code>在读入一个字母输入以后，我们敲的那一个回车没有被处理，残留在外。下一次调用会将这个残留的回车，也就是<code>\n</code>读进来，导致意外的结果。观察变量<code>i</code>也可以发现我们<code>a</code>回车这个输入使循环小节运行了两次。</p>
+<p>此前很多同学困惑的行为其实可以用debug的方式很容易发现。至于解决方案:</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token comment">// %c前面加一个空格，表示在读入的时候跳过类似于\n的空字符</span>
+<span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">" %c"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>VS Code debugger基于一个名为GDB的开源软件。GDB本身虽然没有图形界面，但是能够方便在汇编指令层级上debug.</p>
+<p>编译能够被debugger监控的程序需要加上<code>-g</code>选项</p>
+<pre class="language-text">除了打断点之外，打印输出也是一种常用的debug方法
+</pre>
+<h2 id="关于循环">关于循环 </h2>
+<p>一般来说如果要一段代码执行<code>n</code>次习惯上会这样写：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// code here</span>
+<span class="token punctuation">}</span>
+</code></pre><p><code>i</code>从0开始，用<code>i &lt; n</code>做截止判断。这样统一可以降低心智负担，在学习数组之后有更直观的体现</p>
+<p><code>i += 1</code>, <code>i = i + 1</code>, <code>i++</code>, <code>++i</code>都无所谓</p>
+<p>跳出外层：<code>break</code>跳出的是最里层的循环，有些时候我们想要跳出稍微外层的循环，这时可以引入控制变量帮助实现</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-int">int</span> found <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>found<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> j <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        found <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">*</span> <span class="token number">442</span> <span class="token operator">+</span> j <span class="token operator">*</span> <span class="token number">433</span> <span class="token operator">%</span> <span class="token number">7</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="例子">例子 </h2>
+<p>学了条件判断和循环之后，我们已经可以解决很多问题了。</p>
+<p>下面给一个计算最大公约数的例子</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+
+<span class="token comment">// 暴力求解</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation">,</span> b<span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Enter two numbers: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">" %d %d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> <span class="token operator">&amp;</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> min <span class="token operator">=</span> <span class="token punctuation">(</span>a <span class="token operator">&lt;</span> b<span class="token punctuation">)</span> <span class="token operator">?</span> a <span class="token operator">:</span> b<span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> gcd <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> min<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>a <span class="token operator">%</span> i <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> b <span class="token operator">%</span> i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            gcd <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The GCD of %d and %d is %d\n"</span><span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> gcd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+
+<span class="token comment">// 辗转相除法</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation">,</span> b<span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Enter two numbers: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">" %d %d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> <span class="token operator">&amp;</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>b <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-int">int</span> temp <span class="token operator">=</span> b<span class="token punctuation">;</span>
+        b <span class="token operator">=</span> a <span class="token operator">%</span> b<span class="token punctuation">;</span>
+        a <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-int">int</span> gcd <span class="token operator">=</span> a<span class="token punctuation">;</span>
+
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The GCD is %d\n"</span><span class="token punctuation">,</span> gcd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="作业">作业 </h2>
+<h3 id="1-孪生素数">1. 孪生素数 </h3>
+<p>相差为2的两个质数称为一对孪生素数<br>
+<strong>目标：使用条件判断和循环打印出1到10000以内所有的孪生素数对</strong></p>
+<p>如果<code>n</code>和<code>n + 2</code>是孪生素数，请按以下格式打印</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"(%d, %d)\n"</span><span class="token punctuation">,</span> n<span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>例如1到100以内的孪生素数对</p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>(3, 5)
+(5, 7)
+(11, 13)
+(17, 19)
+(29, 31)
+(41, 43)
+(59, 61)
+(71, 73)
+</code></pre><p><strong>Hints:</strong></p>
+<p>搜寻一个数的因数时不需要遍历特别多的数<br>
+如果a * b = c，且a &lt; b，那么a * a &lt; c</p>
+<h3 id="2-蒙特卡洛">2. 蒙特卡洛 </h3>
+<p>蒙特卡洛方法是一种基于随机抽样和统计推断的数值计算方法。它通过生成大量的随机样本，并利用统计学原理来估算未知量的值或解决复杂问题（名字听上去很炫酷，实际就是随机模拟）。</p>
+<p><img src="./figs/mc.png" alt=""></p>
+<p>蒙特卡洛方法可以用来计算圆周率<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span>(这里圆周率可能被渲染成<code>$\pi$</code>)：随机地往正方区域内扔小点时，这些小点位于圆内的概率等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span> / 4</p>
+<p><strong>目标：用1,000,000个点计算圆周率<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span></strong></p>
+<p><strong>Hints:</strong></p>
+<p>你可以用这样生成0到1内的随机数</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;time.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 设置随机数种子</span>
+    <span class="token function">srand</span><span class="token punctuation">(</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> x <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation">)</span><span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> RAND_MAX<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="3-圆极限与积分">3. 圆，极限与积分 </h3>
+<p><img src="./figs/limit.png" alt=""></p>
+<p>图中的圆的半径为1。如图所示，我们可以用若干个等宽矩形来估计圆的面积。使用红色矩形估计的面积偏大，使用蓝色矩形估计的面积偏小（注意红色矩形的左上角在圆上，而蓝色矩形的右上角在圆上）。</p>
+<p>定义误差为两种方法估计面积的差</p>
+<p><strong>目标：分别计算误差首次小于等于0.001和0.0001时估计面积的上下界。</strong></p>
+<p>例如，误差分别小于10, 1, 0,1, 0.01时的输出为：</p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>(0.000000, 4.000000)
+(2.495709, 3.495709)
+(3.088336, 3.185897)
+(3.136446, 3.146446)
+</code></pre><p><em>程序运行时间可能需要数十秒，如果你想稍微快一点可以在编译的时候开启优化</em></p>
+<pre data-role="codeBlock" data-info="" class="language-text text"><code>gcc main.c -o main -Wall -Wextra -O2
+</code></pre><p><em>题外话 1: 两道题计算圆周率的方法都是低效的，真高效还得从拉马努金说起</em><br>
+<em>题外话 2: 这道题有没有让你想起数学分析中关于数列极限的定义？</em></p>
+<h3 id="4-rsa算法">4. RSA算法 </h3>
+<p>RSA是一种经典的非对称加密算法，最早由Ron Rivest、Adi Shamir和Leonard Adleman于1977年提出。它的安全性基于数论中的两个重要问题：大整数的质因数分解和模幂运算。其算法可以表示如下：</p>
+<ol>
+<li>选择两个不同的大素数p和q。</li>
+<li>计算n = p * q，n为两个素数的乘积，称为模数。</li>
+<li>计算欧拉函数phi = (p - 1) * (q - 1)。</li>
+<li>选择一个整数e，满足1 &lt; e &lt; phi，且e与phi互质。e称为公钥指数。</li>
+<li>计算e的模反元素d，即满足(d * e) % phi = 1的整数d。d称为私钥指数。</li>
+<li>公钥为(e, n)，私钥为(d, n)。</li>
+<li>加密：将要加密的消息m转换为整数，满足0 &lt;= m &lt; n。加密后的密文c = (m ^ e) % n。（这里^是幂，不是或运算）</li>
+<li>解密：使用私钥指数d对密文c进行解密，得到原始消息m' = (c ^ d) % n。（这里^是幂，不是或运算）</li>
+</ol>
+<p><strong>目标：代码完成RSA加密解密流程</strong></p>
+<p>具体细节如下：</p>
+<ul>
+<li>取p = 17, q = 11</li>
+<li>计算e时，选择满足条件的最小的e</li>
+<li>计算d时，选择满足条件的最小的d</li>
+<li>加密m取42</li>
+<li>简化起见，着重RSA流程本身，不需要<code>scanf</code></li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

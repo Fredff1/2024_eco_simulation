@@ -1,20 +1,139 @@
 #include "conway.h"
+#include <SDL2/SDL.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <SDL2/SDL.h>
-
-
-
-
 
 // 其他的代码，包括main()函数等
 
+// 初始化SDL
+Bool initialize_sdl() {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        return False;
+    }
+    return True;
+}
+
+// 生成一个窗口
+SDL_Window *init_window(int length, int width) {
+    SDL_Window *window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, length, width, SDL_WINDOW_SHOWN);
+    if (window == NULL) {
+        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        return NULL;
+    }
+    return window;
+}
+
+// 渲染窗口
+SDL_Renderer *render_window(SDL_Window *window) { // 渲染器
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == NULL) {
+        printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+        return NULL;
+    }
+    return renderer;
+}
+
+void draw_normal_sdlGrids(SDL_Renderer *renderer, Conway *c) {
+    int temp_cell_size = 30;
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            SDL_Rect rect;
+            rect.x = j * temp_cell_size + j * 5;
+            rect.y = i * temp_cell_size + i * 5;
+            rect.w = temp_cell_size;
+            rect.h = temp_cell_size;
+            if (get_state(c, i, j) == Dead) {
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // 白色
+            } else if (get_state(c, i, j) == Alive) {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            }
+            SDL_RenderFillRect(renderer, &rect);
+        }
+    }
+    SDL_RenderPresent(renderer); // 更新屏幕
+}
 
 
-// 其他的代码，包括main()函数等
+
+void show_normal_sdl(Conway *c) {
+    initialize_sdl();
+    SDL_Window *window = init_window(640, 480);
+    SDL_Renderer *renderer = render_window(window);
+    draw_normal_sdlGrids(renderer, c);
+    SDL_Delay(1000);
+    Bool flag=True;
+    while (flag==True) {
+        SDL_Event e;
+        while (SDL_PollEvent(&e) != 0) { //退出事件
+            if (e.type == SDL_QUIT) {
+                flag=False;
+                break;
+            }
+        }
+
+        SDL_RenderClear(renderer); // 清除旧的内容
+
+        next_generation(c); // 更新Conway游戏的状态
+
+        draw_normal_sdlGrids(renderer,c);
+
+        SDL_Delay(1000); // 等待1秒
+    }
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
 
 
+
+
+
+void *sdl_listen_break(void *flag) {
+    char x = 'g';
+    Bool flag_nextGeneration = False;
+    while (x != 'q') {
+        scanf(" %c", &x);
+        scanf("%*[^\n]"); // 清除未读内容
+    }
+    *(Bool *)flag = False;
+    return NULL;
+}
+
+void show_normal_sdlGrids(Conway *c) {
+    int flag = True;
+    pthread_t listener;
+    pthread_create(&listener, NULL, sdl_listen_break, &flag); // 新线程运行sdl_listen_break函数
+    initialize_sdl();
+    SDL_Window *window = init_window(640, 480);
+    SDL_Renderer *renderer = render_window(window);
+    draw_normal_sdlGrids(renderer, c);
+    while (flag == True) {
+        
+        SDL_Event e;
+        while (SDL_PollEvent(&e) != 0) { // 这里添加事件处理
+            if (e.type == SDL_QUIT) {
+                flag = False;
+                break;
+            }
+            // 你也可以添加其他事件的处理代码
+        }
+        
+
+        SDL_RenderClear(renderer); // 清除旧的内容
+
+        next_generation(c); // 更新Conway游戏的状态
+
+        draw_normal_sdlGrids(renderer,c);
+
+        SDL_Delay(1000); // 等待1秒
+    }
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    pthread_join(listener, NULL);
+}
 
 void clear_screen() {
     // Use ANSI escape codes to clear the screen
@@ -97,9 +216,7 @@ void print_game_conway_help_special(Conway *c) {
     print_help();
 }
 
-int SDL_main(int argc, char* argv[]) {
-
-    
+int main(int argc, char *argv[]) {
 
     Conway *c = update_conway(0, 0);
     c->probability = 50;
@@ -223,6 +340,9 @@ int SDL_main(int argc, char* argv[]) {
                 printf("auto mode disabled");
                 break;
             }
+            case 'g': { // 测试绘图功能
+                show_normal_sdl(c);//单线程          
+            }
             default: { // 解析错误输入
                 // clear_input();
                 if (basic_command = '\n') {
@@ -321,6 +441,27 @@ int SDL_main(int argc, char* argv[]) {
                 // DrawGrid(c);
                 break;
             }
+            case 'g': { // 测试绘图功能
+                initialize_sdl();
+                SDL_Window *window = init_window(640, 480);
+                SDL_Renderer *renderer = render_window(window);
+                draw_normal_sdlGrids(renderer, c);
+                SDL_Event e;
+                Bool quit = False;
+
+                while (!quit) {
+                    while (SDL_PollEvent(&e) != 0) {
+                        if (e.type == SDL_QUIT) {
+                            quit = True;
+                        }
+                    }
+                }
+                sleep(5);
+                SDL_DestroyRenderer(renderer);
+                SDL_DestroyWindow(window);
+                SDL_Quit();
+            }
+
             default: {
                 if (basic_command = '\n') {
                     print_game_conway_help_special(c);
@@ -337,4 +478,3 @@ int SDL_main(int argc, char* argv[]) {
     clear_screen();
     return 0;
 }
-

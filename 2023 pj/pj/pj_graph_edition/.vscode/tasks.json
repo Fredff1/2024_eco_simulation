@@ -8,7 +8,6 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-               
                 "${workspaceFolder}/main.c",
                 "${workspaceFolder}/Conway.c",
                 "-fexec-charset=UTF-8",
