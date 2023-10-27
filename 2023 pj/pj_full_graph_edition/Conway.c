@@ -8,28 +8,12 @@
 
 // 环境因子
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 五种温度基因对应的适应性
 float temperature_fac[5][11] = {{1.1, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.3, 0.2, 0.1, 0.05},
                                 {0.7, 0.8, 0.9, 1.1, 0.8, 0.75, 0.6, 0.5, 0.4, 0.3, 0.15},
                                 {0.3, 0.4, 0.5, 0.8, 0.9, 1.0, 0.9, 0.7, 0.6, 0.5, 0.4},
                                 {0.15, 0.3, 0.4, 0.5, 0.6, 0.75, 0.8, 1.1, 0.9, 0.8, 0.7},
                                 {0.05, 0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.1}};
-
 
 float light_fac[5][7] = {
     {1.1, 1.4, 1.0, 0.7, 0.4, 0.15, 0.05}, {0.8, 1.0, 1.1, 0.9, 0.7, 0.5, 0.25},  {0.3, 0.5, 0.7, 1.0, 1.2, 0.7, 0.4},
@@ -72,6 +56,12 @@ Conway *update_conway(uint16_t rows, uint16_t cols) {
     }
     c->rows = rows;
     c->cols = cols;
+    if(c->rows>150){
+        c->rows=150;
+    }
+    if(c->cols>150){
+        c->cols=150;
+    }
     c->normal_grids = (GridState **)malloc(rows * sizeof(GridState *));
     if (c->normal_grids == NULL) {
         free(c);
@@ -136,8 +126,8 @@ void init_random(Conway *c) {
         }
     }
     int change_into_living;
-    if (c->probability <= 0 || c->probability > 100) { // 判断特殊情况
-        c->probability = 50;
+    if (c->probability < 0 || c->probability > 100) { // 判断特殊情况
+        c->probability = 40;
     }
     change_into_living = (c->rows) * (c->cols) * (c->probability) / 100; // 决定需要改变的个数
     for (int i = 0; i < change_into_living; i += 0) {
@@ -306,6 +296,19 @@ Conway *new_conway_from_file(Conway *c, const char *filename) {
     return new_conway;
 }
 
+int count_living_cell_normal(Conway *c) {
+    int count = 0;
+    GridState temp_cell;
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+             temp_cell= get_state(c, i, j);
+            if (temp_cell == Alive) {
+                count += 1;
+            }
+        }
+    }
+    return count;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -351,7 +354,7 @@ food_gridstate get_food_state(const Conway *c, const uint16_t x, const uint16_t 
 }
 
 int set_food_state(Conway *c, const uint16_t x, const uint16_t y, int new_number) {
-    food_gridstate new_food=(food_gridstate)new_number;
+    food_gridstate new_food = (food_gridstate)new_number;
     if (x < c->rows && y < c->cols) {
         c->food_grids[x][y] = new_food;
         return 0;
@@ -368,8 +371,9 @@ cell new_cell_setting() {
     new_cell.reproduction_count = 0;
     new_cell.type = Dead;
     new_cell.gene_setting.temper_preference = 2; // 适应正常温度
-    new_cell.gene_setting.oxy_preference=2;
-    new_cell.gene_setting.light_preference=2;
+    new_cell.gene_setting.oxy_preference = 2;
+    new_cell.gene_setting.light_preference = 2;
+    new_cell.gene_setting.age_length = 20;
     return new_cell;
 }
 
@@ -391,6 +395,12 @@ Conway *new_conway_special(uint16_t rows, uint16_t cols) {
     }
     c->rows = rows;
     c->cols = cols;
+    if(c->rows>150){
+        c->rows=150;
+    }
+    if(c->cols>150){
+        c->cols=150;
+    }
     c->special_grids = (cell **)malloc(rows * sizeof(cell *));
     if (!c->special_grids) {
         free(c);
@@ -447,7 +457,10 @@ Conway *new_conway_special(uint16_t rows, uint16_t cols) {
         }
     }
     c->grid_feature.count_turn = 0;
-
+    c->grid_feature.add_oxygen_count=0;
+    c->grid_feature.light_resource=normal_light;
+    c->grid_feature.oxygen_resource=normal_oxy;
+    c->grid_feature.temperature=normal_tem;
     return c;
 }
 
@@ -534,7 +547,7 @@ void init_random_special(Conway *c) {
     }
     int change_into_living;
     if (c->probability <= 0 || c->probability > 100) { // 判断特殊情况
-        c->probability = 50;
+        c->probability = 20;
     }
     change_into_living = (c->rows) * (c->cols) * (c->probability) / 100; // 决定生产者
     for (int i = 0; i < change_into_living; i += 0) {
@@ -658,6 +671,10 @@ void swap_cell_condition(Conway *c, int x_1, int y_1, int x_2, int y_2) {
     set_state_special(c, x_2, y_2, temp_cell_condition);  // 改变第二个
 }
 
+cell copy_cell_condition(Conway *c, int x, int y) {
+    cell temp_cell = get_state_special(c, x, y);
+    return temp_cell;
+}
 // 用于得到生产着的下一步状态，注意这个函数不会判断非producer
 cell get_next_state_of_producer(Conway *c, int x, int y) {
     // 记录当前格点状态
@@ -666,7 +683,7 @@ cell get_next_state_of_producer(Conway *c, int x, int y) {
     c->grid_feature.producer_capacity = c->rows * c->cols / 5 * 2;
     if (cell_condition.type == living_producer) {
         int neighbor_producer = count_special_mode_neighbors_producer(c, x, y);
-        if (cell_condition.age > 6) { // 一般活不了这么久
+        if (cell_condition.age > cell_condition.gene_setting.age_length / 5) {
             cell_condition.type = Dead;
         }
         if (neighbor_producer < 2) { // 数量过少(小于容纳量三分之一时不会孤独)
@@ -752,7 +769,7 @@ void consumer_action(Conway *c, int x, int y) {
             cell_condition.type = Dead;
         } else if (cell_condition.hunger > 4) {
             cell_condition.type = Dead;
-        } else if (cell_condition.age > 25) {
+        } else if (cell_condition.age > get_state_special(c, x, y).gene_setting.age_length) {
             cell_condition.type = Dead;
         }
         if (cell_condition.type == Dead) {
@@ -773,7 +790,7 @@ void consumer_action(Conway *c, int x, int y) {
 
 // 食物生产（生产者3*3范围）
 void Generate_food(Conway *c, int x, int y) {
-    int gen_proportion = 2 / temperature_fac[c->special_grids[x][y].gene_setting.temper_preference][c->grid_feature.temperature] /
+    int gen_proportion = 5 / temperature_fac[c->special_grids[x][y].gene_setting.temper_preference][c->grid_feature.temperature] /
                          oxygen_fac[c->special_grids[x][y].gene_setting.oxy_preference][c->grid_feature.oxygen_resource] /
                          light_fac[c->special_grids[x][y].gene_setting.light_preference][c->grid_feature.light_resource];
     if (gen_proportion < 1) {
@@ -804,14 +821,13 @@ void propagate_new_consumer(Conway *c, int x, int y, int reproduction_count_1) {
     int rand_choice;
     int available_grid = 0;
     int count = 0;
-    int resource_count = 0;
     // 记录当前格点细胞状态
-    cell temp_cell = get_state_special(c, x, y);
+    cell temp_cell = get_state_special(c, x, y); // 原来的消费者
     if (temp_cell.type == living_consumer && temp_cell.age >= 1 && temp_cell.age < 20 && temp_cell.hunger < 3) {
         // 遍历附近的九格
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                // 用于暂时记录附近格点状态,这个格点可能会生成新的消费者
+                // 用于暂时记录附近格点状态,找到条件合适的格点
                 cell temp_cell_2 = get_state_special(c, i, j);
                 if (i >= 0 && j >= 0 && i < c->rows && j < c->cols && (temp_cell_2.type == Dead || temp_cell_2.type == living_producer)) {
                     if (i >= 0 && j >= 0 && i < c->rows && j < c->cols && (temp_cell_2.type == Dead || temp_cell_2.type == living_producer)) {
@@ -820,33 +836,34 @@ void propagate_new_consumer(Conway *c, int x, int y, int reproduction_count_1) {
                 }
             }
         }
+        // 注意除以0是未定义的行为
         if (available_grid != 0) {
             rand_choice = rand() % available_grid;
         } else {
             rand_choice = 1;
         }
+
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 cell temp_cell_2 = get_state_special(c, i, j);
-                if (i >= 0 && j >= 0 && i < c->rows && j < c->cols && (temp_cell_2.type == Dead || temp_cell_2.type == living_producer)) {
-                    resource_count = count_food_nearby(c, i, j);
-                    if (i >= 0 && j >= 0 && i < c->rows && j < c->cols && (temp_cell_2.type == Dead || temp_cell_2.type == living_producer) &&
-                        count == rand_choice) {
-                        if (temp_cell.reproduction_count >= reproduction_count_1) {
-                            temp_cell_2 = new_cell_setting();
-                            temp_cell_2.type = living_consumer;
-                            temp_cell.hunger += 1; // 繁殖消耗饥饿值
-                            temp_cell.reproduction_count = 0;
-                            set_state_special(c, x, y, temp_cell);
-                            set_state_special(c, i, j, temp_cell_2);
-                            return;
-                        } else {
-                            temp_cell.reproduction_count += 1;
-                            set_state_special(c, x, y, temp_cell);
-                            return;
-                        }
-                        count += 1;
+                if (i >= 0 && j >= 0 && i < c->rows && j < c->cols && (temp_cell_2.type == Dead || temp_cell_2.type == living_producer) &&
+                    count == rand_choice) {
+                    if (temp_cell.reproduction_count >= reproduction_count_1) {
+                        temp_cell_2 = copy_cell_condition(c, x, y);
+                        temp_cell_2.age = 0;
+                        temp_cell_2.reproduction_count = 0;
+                        temp_cell_2.hunger = 0;
+                        temp_cell.hunger += 1; // 繁殖消耗原细胞饥饿值
+                        temp_cell.reproduction_count = 0;
+                        set_state_special(c, x, y, temp_cell);
+                        set_state_special(c, i, j, temp_cell_2);
+                        return;
+                    } else {
+                        temp_cell.reproduction_count += 1;
+                        set_state_special(c, x, y, temp_cell);
+                        return;
                     }
+                    count += 1;
                 }
             }
         }
@@ -855,39 +872,15 @@ void propagate_new_consumer(Conway *c, int x, int y, int reproduction_count_1) {
 
 // 用于繁殖生产者
 void propagate_new_producer(Conway *c, int x, int y) {
-    /*int number_producer=count_living_producer(c);
-    float temp_tem=temperature_factor[c->grid_feature.temperature];
-    float temp_light=light_factor[c->grid_feature.light_resource];
-    float count=(temp_tem*temp_light*number_producer*c->grid_feature.producer_capacity/number_producer/2);
-    //debug使用的语句
-    //printf("Before calculation: number = %d, temp_tem = %f, temp_light = %f\n", number_producer, temp_tem, temp_light);
-    //printf("%f\n",count);
-    int rand_rows,rand_cols;
-    cell temp_cell;
-    for(int i=0;i<(count);i+=0){//修改生成的数量
-        int count_turn;
-        rand_rows=rand()%c->rows;
-        rand_cols=rand()%c->cols;
-        temp_cell=get_state_special(c,rand_rows,rand_cols);
-        if(temp_cell.type==Dead){
-            temp_cell=new_cell_setting();
-            temp_cell.type=living_producer;
-            set_state_special(c,rand_rows,rand_cols,temp_cell);
-            i+=1;//生成新的生产者
-        }
-        count_turn+=1;
-        if(count_turn>=c->rows*c->cols){
-            break;
-        }
-    }*/
     int flag = True;
     int count_turn = 0;
     while (flag == True) {
         int rand_row = rand() % c->rows;
         int rand_col = rand() % c->cols;
         if (c->special_grids[rand_row][rand_col].type == Dead) {
-            cell temp_cell = new_cell_setting();
-            temp_cell.type = living_producer;
+            cell temp_cell = copy_cell_condition(c, x, y);
+            temp_cell.age = 0;
+            temp_cell.reproduction_count = 0;
             set_state_special(c, rand_row, rand_col, temp_cell);
             flag = False;
         }
@@ -926,7 +919,7 @@ void cell_special_move(Conway *c, int x, int y) {
                     return;
                     // 吃消费者和食物
                 }
-                int seed = rand() % 8;
+                int seed = rand() % 4;
                 if (cell_condition.type == living_producer && temp_food <= food_0 && seed == 0) {
                     cell temp_cell = get_state_special(c, x, y);
                     food_gridstate temp_food = get_food_state(c, i, j);
@@ -1091,14 +1084,14 @@ void next_generation_special(Conway *c) {
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
             if (temp_conway->special_grids[i][j].type == living_producer) {
-                int is_reproducing = 2 / temperature_fac[c->special_grids[i][j].gene_setting.temper_preference][c->grid_feature.temperature] /
+                int is_reproducing = 4/ temperature_fac[c->special_grids[i][j].gene_setting.temper_preference][c->grid_feature.temperature] /
                                      oxygen_fac[c->special_grids[i][j].gene_setting.light_preference][c->grid_feature.light_resource] *
                                      number_of_producer / c->grid_feature.producer_capacity;
 
                 if (is_reproducing < 1) {
                     is_reproducing = 1;
                 }
-                int flag_reproduce = rand() % is_reproducing;
+                int flag_reproduce = rand() % (is_reproducing+1);
                 if (flag_reproduce == 0) {
                     propagate_new_producer(temp_conway, i, j);
                 }
@@ -1113,7 +1106,7 @@ void next_generation_special(Conway *c) {
     // 这个循环用于消费者的繁殖(为了简单起见，使用分裂繁殖)
     int number_of_consumer = count_living_consumer(temp_conway);
     int reproduction_need;
-    
+
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
             // 由基因和环境决定繁殖需要
@@ -1138,7 +1131,9 @@ void next_generation_special(Conway *c) {
     int max_food = 0;
     int max_row = -1;
     int max_col = -1;
+    int count_turn=0;
     for (int i = 0; i < generate_number; i++) {
+        
         for (int p = 0; p < c->rows; p++) {
             for (int j = 0; j < c->cols; j++) {
                 if (temp_conway->special_grids[p][j].type != living_consumer) {
@@ -1158,6 +1153,10 @@ void next_generation_special(Conway *c) {
             set_state_special(temp_conway, max_row, max_col, temp_cell);
         }
         max_food = 0;
+        count_turn+=1;
+        if(count_turn>c->rows*c->cols){
+            break;
+        }
     }
 
     // 这个循环用于将temp_conway的变化拷贝至原来的c
@@ -1172,8 +1171,10 @@ void next_generation_special(Conway *c) {
                 }
                 temp_conway->special_grids[i][j].age += 1;
                 temp_conway->special_grids[i][j].hunger += 1; // 更新年龄和饥饿
+                change_gene(c, i, j);
             } else if (temp_conway->special_grids[i][j].type == living_producer) {
                 temp_conway->special_grids[i][j].age += 1; // 更新生产者年龄
+                change_gene(c, i, j);
             } else if (temp_conway->special_grids[i][j].type == Dead) {
                 initialize_cell_condition(temp_conway, i, j);
             }
@@ -1199,11 +1200,11 @@ void next_generation_special(Conway *c) {
     }
     oxygen_level temp_oxy;
     if (c->grid_feature.add_oxygen_count > 5 && c->grid_feature.oxygen_resource < extreme_oxy) {
-        change_oxygen(c,1);
+        change_oxygen(c, 1);
         c->grid_feature.add_oxygen_count = 0;
     } else if (c->grid_feature.add_oxygen_count < -2 && c->grid_feature.oxygen_resource > rare_oxy)
-        change_oxygen(c,-1);
-        c->grid_feature.add_oxygen_count = 0;
+        change_oxygen(c, -1);
+    c->grid_feature.add_oxygen_count = 0;
 
     return;
 }
@@ -1212,35 +1213,35 @@ void next_generation_special(Conway *c) {
 // 1、冰川期
 void event_ice_age(Conway *c) {
     if (c->grid_feature.temperature > cold) {
-        change_temperature(c,-1);
+        change_temperature(c, -1);
     }
     if (c->grid_feature.light_resource > dark) {
-        change_light(c,-1);
+        change_light(c, -1);
     }
     printf("The world is currently going through an ice age!\n");
 }
 
 void end_event_ice_age(Conway *c) {
     if (c->grid_feature.temperature < extreme_hot) {
-        change_temperature(c,1);
+        change_temperature(c, 1);
     }
     if (c->grid_feature.light_resource < extreme_light) {
-        change_light(c,1);
+        change_light(c, 1);
     }
 }
 
-// 2、火山喷发
+// 2、火山喷发 有bug
 void event_volcano_eruption(Conway *c) {
     if (c->grid_feature.temperature < hot) {
-        change_temperature(c,2);
+        change_temperature(c, 2);
     } else if (c->grid_feature.temperature < extreme_hot) {
-        change_temperature(c,1);
+        change_temperature(c, 1);
     }
     if (c->grid_feature.oxygen_resource > rare_oxy) {
-        change_oxygen(c,-1);
+        change_oxygen(c, -1);
     }
     if (c->grid_feature.light_resource > dark) {
-        change_light(c,-1);
+        change_light(c, -1);
     }
     int rand_row = rand() % c->rows;
     int rand_col = rand() % c->cols;
@@ -1258,22 +1259,22 @@ void event_volcano_eruption(Conway *c) {
 
 void end_event_volcano_eruption(Conway *c) {
     if (c->grid_feature.temperature > cold) {
-        change_temperature(c,-2);
+        change_temperature(c, -2);
     } else if (c->grid_feature.temperature > freezing) {
-        change_temperature(c,-1);
+        change_temperature(c, -1);
     }
     if (c->grid_feature.oxygen_resource < extreme_oxy) {
-        change_oxygen(c,1);
+        change_oxygen(c, 1);
     }
     if (c->grid_feature.light_resource < extreme_light) {
-        change_light(c,1);
+        change_light(c, 1);
     }
 }
 
 // 3、干旱
 void event_drought(Conway *c) {
     if (c->grid_feature.temperature < extreme_hot) {
-        change_temperature(c,1);
+        change_temperature(c, 1);
     }
     int delete_food = rand() % (c->rows * c->cols / 3) + (c->rows * c->cols / 10);
     for (int i = 0; i < delete_food; i += 0) {
@@ -1296,33 +1297,33 @@ void event_drought(Conway *c) {
 
 void end_event_drought(Conway *c) {
     if (c->grid_feature.temperature > freezing) {
-        change_temperature(c,-1);
+        change_temperature(c, -1);
     }
 }
 
 // 4、暖期
 void event_warm_period(Conway *c) {
     if (c->grid_feature.temperature < extreme_hot) {
-    change_temperature(c,1);
+        change_temperature(c, 1);
     }
     printf("It is a warm period\n");
 }
 
 void end_event_warm_period(Conway *c) {
     if (c->grid_feature.temperature > freezing) {
-        change_temperature(c,-1);
+        change_temperature(c, -1);
     }
 }
 
 // 5、蓝藻爆发
 void event_blue_algal_bloom(Conway *c) {
     if (c->grid_feature.light_resource > dark) {
-        change_light(c,-1);
+        change_light(c, -1);
     }
     if (c->grid_feature.oxygen_resource > rare_oxy) {
-        change_oxygen(c,-1);
+        change_oxygen(c, -1);
     } else if (c->grid_feature.oxygen_resource > low_oxy) {
-        change_oxygen(c,-2);
+        change_oxygen(c, -2);
     }
     int count = rand() % (c->rows * c->cols / 2);
     int rand_rows, rand_cols;
@@ -1348,30 +1349,30 @@ void event_blue_algal_bloom(Conway *c) {
 
 void end_event_blue_algal_bloom(Conway *c) {
     if (c->grid_feature.light_resource < extreme_light) {
-        change_light(c,1);
+        change_light(c, 1);
     }
     if (c->grid_feature.oxygen_resource < extreme_oxy) {
-        change_oxygen(c,1);
+        change_oxygen(c, 1);
     } else if (c->grid_feature.oxygen_resource < high_oxy) {
-        change_oxygen(c,2);
+        change_oxygen(c, 2);
     }
 }
 
 // 6、热浪
 void event_heat_wave(Conway *c) {
     if (c->grid_feature.temperature < hot) {
-        change_temperature(c,2);
+        change_temperature(c, 2);
     } else if (c->grid_feature.temperature < extreme_hot) {
-        change_temperature(c,1);
+        change_temperature(c, 1);
     }
     printf("A heat wave arrived!\n");
 }
 
 void end_event_heat_wave(Conway *c) {
     if (c->grid_feature.temperature > cold) {
-       change_temperature(c,-2);
+        change_temperature(c, -2);
     } else if (c->grid_feature.temperature > freezing) {
-        change_temperature(c,-1);
+        change_temperature(c, -1);
     }
 }
 
@@ -1421,24 +1422,30 @@ void updateEventState(Conway *c) {
             c->event_remain_turn[i] -= 1;
         } else if (c->event_remain_turn[i] == 0) {
             switch (c->currentEvent[i]) {
-            case ice_age:
+            case ice_age: {
                 end_event_ice_age(c);
                 break;
-            case volcano_eruption:
+            }
+            case volcano_eruption: {
                 end_event_volcano_eruption(c);
                 break;
-            case drought:
+            }
+            case drought: {
                 end_event_drought(c);
                 break;
-            case warm_period:
+            }
+            case warm_period: {
                 end_event_warm_period;
                 break;
-            case blue_algal_bloom:
+            }
+            case blue_algal_bloom: {
                 end_event_blue_algal_bloom(c);
                 break;
-            case heat_wave:
+            }
+            case heat_wave: {
                 end_event_heat_wave(c);
                 break;
+            }
             }
             c->currentEvent[i] = none_event;
         }
@@ -1503,46 +1510,132 @@ void initialize_event(Conway *c) {
 
 // 需要一个日志系统来记录最新发生的事件并打印
 
-void change_temperature(Conway*c,int change_number){
-    int temp_tem=(int)(c->grid_feature.temperature);
-    temp_tem+=change_number;
-    temperature_state set_tem=(temperature_state)(temp_tem);
-    c->grid_feature.temperature=set_tem;
+void change_temperature(Conway *c, int change_number) {
+    int temp_tem = (int)(c->grid_feature.temperature);
+    temp_tem += change_number;
+    temperature_state set_tem = (temperature_state)(temp_tem);
+    c->grid_feature.temperature = set_tem;
 }
 
-void change_oxygen(Conway *c,int change_number){
-    int temp_oxy=(int)(c->grid_feature.oxygen_resource);
-    temp_oxy+=change_number;
-    oxygen_level set_oxy=(oxygen_level)(temp_oxy);
-    c->grid_feature.oxygen_resource=set_oxy;
+void change_oxygen(Conway *c, int change_number) {
+    int temp_oxy = (int)(c->grid_feature.oxygen_resource);
+    temp_oxy += change_number;
+    oxygen_level set_oxy = (oxygen_level)(temp_oxy);
+    c->grid_feature.oxygen_resource = set_oxy;
 }
 
-void change_light(Conway*c,int change_number){
-    int temp_light=(int)(c->grid_feature.light_resource);
-    temp_light+=change_number;
-    light_level set_light=(light_level)(temp_light);
-    c->grid_feature.light_resource=set_light;
+void change_light(Conway *c, int change_number) {
+    int temp_light = (int)(c->grid_feature.light_resource);
+    temp_light += change_number;
+    light_level set_light = (light_level)(temp_light);
+    c->grid_feature.light_resource = set_light;
 }
 
-
-void change_gene(Conway *c){
-    int flag=rand()%200;
-    if(flag!=0){
+void change_gene(Conway *c, const int x, const int y) {
+    if (x < 0 || y < 0 || x >= c->rows || y >= c->cols) {
         return;
     }
-    int choose_gene=rand()%3;
-    switch(choose_gene){
-        case 0:{
-            //温度基因
-            Bool flag_tem=rand()%5;
+    int flag = rand() % 200;
+    if (flag != 0) {
+        return;
+    }
+    int choose_gene = rand() % 3;
+    switch (choose_gene) {
+    case 0: {
+        // 温度基因
+        int flag_temp = rand() % 5;
+        int gene_change[5] = {0, 1, 2, 3, 4};
+        c->special_grids[x][y].gene_setting.temper_preference = gene_change[flag_temp];
+        break;
+    }
+    case 1: {
+        // 氧气基因或光照基因
+        int flag_temp = rand() % 5;
+        int gene_change[5] = {0, 1, 2, 3, 4};
+        if (get_state_special(c, x, y).type == living_producer) {
+            c->special_grids[x][y].gene_setting.light_preference = gene_change[flag_temp];
+        } else if (get_state_special(c, x, y).type == living_consumer) {
+            c->special_grids[x][y].gene_setting.oxy_preference = gene_change[flag_temp];
         }
-        case 1:{
-            //氧气基因或光照基因
+        break;
+    }
+    case 2: {
+        // 年龄基因
+        int flag_temp = rand() % 5;
+        int gene_change[5] = {10, 15, 20, 25, 30};
+        if (get_state_special(c, x, y).type == living_producer) {
+            c->special_grids[x][y].gene_setting.age_length = gene_change[flag_temp] / 5;
+        } else if (get_state_special(c, x, y).type == living_consumer) {
+            c->special_grids[x][y].gene_setting.age_length = gene_change[flag_temp];
         }
-        case 2:{
-            //年龄基因
-        }
+        break;
+    }
     }
 }
+
+
+int save_conway_special(const Conway *c, const char *filename) {
+    FILE *fp = fopen(filename, "w");
+    if (!fp) {
+        return -1; // 返回错误代码
+    }
+    int temp_rows = c->rows;
+    int temp_cols = c->cols;
+    fprintf(fp, "%d,%d\n", temp_rows, temp_cols); // 第一行的数据
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            GridState write_state = get_state_special(c, i, j).type;
+            fprintf(fp, "%d,", write_state);
+        }
+        fprintf(fp, "\n");
+    }
+    fclose(fp);
+    return 0;
+}
+
+// 从文件读取格点
+// 失败则Conway._grids = NULL
+Bool new_conway_from_file_special(Conway *c, const char *filename) {
+    Conway *new_conway = (Conway *)malloc(sizeof(Conway));
+    FILE *fp = fopen(filename, "r");
+    // printf("ok\n");
+    if (fp == NULL) {
+        return False;
+    }
+    if (fscanf(fp, "%d,%d", &c->rows, &c->cols) != 2) {
+        fclose(fp);
+    }
+  
+    new_conway = update_conway(c->rows, c->cols);
+ 
+    fscanf(fp, "\n"); // 跳过第一行
+    char scan_input;
+    cell temp_cell=new_cell_setting();
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            scan_input = fgetc(fp); // 逐个读取
+            if (scan_input == '0') {
+                temp_cell.type=Dead;
+                set_state_special(c,i,j,temp_cell);
+            } else if (scan_input == '2'||scan_input=='1') {
+                temp_cell.type = living_producer;
+                set_state_special(c,i,j,temp_cell);
+            }else if(scan_input == '3'){
+                temp_cell.type = living_consumer;
+                set_state_special(c,i,j,temp_cell);
+            } else if (scan_input == '\n' || scan_input == EOF) {
+                break;
+            } else if (scan_input == ',') {
+                j -= 1; // 跳过","
+            }
+        }
+        fscanf(fp, ",");  // 最后一个逗号
+        fscanf(fp, "\n"); // 跳过换行符
+    }
+    fclose(fp);
+
+    
+    return True;
+}
 //////////////////////////////////////////////////////////////////////
-//以下为测试的图形处理界面
+// 以下为测试的图形处理界面

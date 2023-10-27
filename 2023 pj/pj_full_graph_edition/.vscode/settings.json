@@ -1,12 +1,21 @@
 {
     "cSpell.words": [
+        "BLENDMODE",
         "closegraph",
         "fillrectangle",
         "Gamemode",
         "Gamestate",
         "gridstate",
         "initgraph",
-        "setfillcolor"
+        "keysym",
+        "LALT",
+        "MOUSEBUTTONDOWN",
+        "MOUSEMOTION",
+        "PRESENTVSYNC",
+        "Roboto",
+        "SDLK",
+        "setfillcolor",
+        "WINDOWPOS"
     ],
     "files.associations": {
         "stdint.h": "c"

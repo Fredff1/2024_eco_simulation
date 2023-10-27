@@ -234,6 +234,8 @@ int save_conway(const Conway *c, const char *path);
 // 涉及malloc()
 Conway *new_conway_from_file(Conway *c, const char *filename);
 
+
+int count_living_cell_normal(Conway *c);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 特殊模式函数
 // 同样的封装函数
@@ -284,6 +286,9 @@ int count_living_consumer(Conway *c);
 // 交换两个细胞的状态（用于移动细胞）
 void swap_cell_condition(Conway *c, int x_1, int y_1, int x_2, int y_2);
 
+//复制细胞信息
+cell copy_cell_condition(Conway *c, int x, int y);
+
 // 得到生产者下一步状态
 cell get_next_state_of_producer(Conway *special_grid, int x, int y);
 
@@ -328,6 +333,12 @@ void change_oxygen(Conway *c,int change_number);
 void change_light(Conway*c,int change_number);
 
 void change_temperature(Conway*c,int change_number);
+
+void change_gene(Conway *c,const int x,const int y);
+
+int save_conway_special(const Conway *c, const char *filename);
+
+Bool new_conway_from_file_special(Conway *c, const char *filename);
 #endif
 
 
