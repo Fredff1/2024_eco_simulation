@@ -79,6 +79,8 @@ Conway *update_conway(uint16_t rows, uint16_t cols) {
         }
         memset(c->normal_grids[i], 0, cols * sizeof(GridState));
     }
+    memset(c->currentEvent,none_event,10*sizeof(c->currentEvent[0]));
+    memset(c->event_remain_turn,0,10*sizeof(int));
 
     return c;
 }
@@ -461,6 +463,9 @@ Conway *new_conway_special(uint16_t rows, uint16_t cols) {
     c->grid_feature.light_resource=normal_light;
     c->grid_feature.oxygen_resource=normal_oxy;
     c->grid_feature.temperature=normal_tem;
+
+    memset(c->currentEvent,none_event,10*sizeof(c->currentEvent[0]));
+    memset(c->event_remain_turn,0,10*sizeof(int));
     return c;
 }
 
@@ -675,6 +680,7 @@ cell copy_cell_condition(Conway *c, int x, int y) {
     cell temp_cell = get_state_special(c, x, y);
     return temp_cell;
 }
+
 // 用于得到生产着的下一步状态，注意这个函数不会判断非producer
 cell get_next_state_of_producer(Conway *c, int x, int y) {
     // 记录当前格点状态
@@ -1595,18 +1601,19 @@ int save_conway_special(const Conway *c, const char *filename) {
 
 // 从文件读取格点
 // 失败则Conway._grids = NULL
-Bool new_conway_from_file_special(Conway *c, const char *filename) {
+Conway * new_conway_from_file_special(Conway*c,const char *filename) {
     Conway *new_conway = (Conway *)malloc(sizeof(Conway));
     FILE *fp = fopen(filename, "r");
     // printf("ok\n");
     if (fp == NULL) {
-        return False;
+        return NULL;
     }
     if (fscanf(fp, "%d,%d", &c->rows, &c->cols) != 2) {
         fclose(fp);
+        
     }
   
-    new_conway = update_conway(c->rows, c->cols);
+    new_conway = new_conway_special(c->rows, c->cols);
  
     fscanf(fp, "\n"); // 跳过第一行
     char scan_input;
@@ -1616,13 +1623,13 @@ Bool new_conway_from_file_special(Conway *c, const char *filename) {
             scan_input = fgetc(fp); // 逐个读取
             if (scan_input == '0') {
                 temp_cell.type=Dead;
-                set_state_special(c,i,j,temp_cell);
+                set_state_special(new_conway,i,j,temp_cell);
             } else if (scan_input == '2'||scan_input=='1') {
                 temp_cell.type = living_producer;
-                set_state_special(c,i,j,temp_cell);
+                set_state_special(new_conway,i,j,temp_cell);
             }else if(scan_input == '3'){
                 temp_cell.type = living_consumer;
-                set_state_special(c,i,j,temp_cell);
+                set_state_special(new_conway,i,j,temp_cell);
             } else if (scan_input == '\n' || scan_input == EOF) {
                 break;
             } else if (scan_input == ',') {
@@ -1635,7 +1642,9 @@ Bool new_conway_from_file_special(Conway *c, const char *filename) {
     fclose(fp);
 
     
-    return True;
+    return new_conway;
 }
 //////////////////////////////////////////////////////////////////////
 // 以下为测试的图形处理界面
+
+

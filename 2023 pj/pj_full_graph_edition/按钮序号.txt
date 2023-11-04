@@ -1,0 +1,16 @@
+    backToMenuButton;
+ init_randomButton;
+  init_randomInputBox_rows;
+     init_randomInputBox_cols;
+init_randomButton_pro;
+startAutoModeButton;
+ nextGenerationButton;
+ importChoiceButton;
+importPathButton;
+ saveChoiceButton;
+savePathButton;
+ timeSetButton;
+     resetGridButton;
+    informationBoard;
+     editModeButton;
+   EventList;

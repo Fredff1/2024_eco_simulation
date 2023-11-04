@@ -338,7 +338,7 @@ void change_gene(Conway *c,const int x,const int y);
 
 int save_conway_special(const Conway *c, const char *filename);
 
-Bool new_conway_from_file_special(Conway *c, const char *filename);
+Conway * new_conway_from_file_special(Conway*c, const char *filename);
 #endif
 
 
