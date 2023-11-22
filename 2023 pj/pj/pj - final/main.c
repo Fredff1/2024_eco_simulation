@@ -45,7 +45,8 @@ void automatic_evolve(Conway *c, int time) {
         print_game(c);
         print_conway(c);
         printf("automatically evolving...\n");
-        usleep(time * 1000); // 每秒演化一次
+       // usleep(time * 1000); // 每秒演化一次
+       sleep(1);
     }
 
     pthread_join(listener, NULL);

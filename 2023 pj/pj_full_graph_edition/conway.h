@@ -157,6 +157,8 @@ typedef struct {
     // 列数
     uint16_t cols;
 
+    uint16_t last_rows;
+
     GridState **normal_grids;
 
     cell **special_grids;
@@ -232,7 +234,7 @@ int save_conway(const Conway *c, const char *path);
 // 从文件读取格点
 // 失败则Conway._grids = NULL
 // 涉及malloc()
-Conway *new_conway_from_file(Conway *c, const char *filename);
+Bool new_conway_from_file(Conway *c, const char *filename);
 
 
 int count_living_cell_normal(Conway *c);
@@ -338,7 +340,7 @@ void change_gene(Conway *c,const int x,const int y);
 
 int save_conway_special(const Conway *c, const char *filename);
 
-Conway * new_conway_from_file_special(Conway*c, const char *filename);
+Bool new_conway_from_file_special(Conway*c, const char *filename);
 #endif
 
 

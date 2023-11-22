@@ -56,11 +56,11 @@ Conway *update_conway(uint16_t rows, uint16_t cols) {
     }
     c->rows = rows;
     c->cols = cols;
-    if(c->rows>150){
-        c->rows=150;
+    if (c->rows > 150) {
+        c->rows = 150;
     }
-    if(c->cols>150){
-        c->cols=150;
+    if (c->cols > 150) {
+        c->cols = 150;
     }
     c->normal_grids = (GridState **)malloc(rows * sizeof(GridState *));
     if (c->normal_grids == NULL) {
@@ -79,8 +79,8 @@ Conway *update_conway(uint16_t rows, uint16_t cols) {
         }
         memset(c->normal_grids[i], 0, cols * sizeof(GridState));
     }
-    memset(c->currentEvent,none_event,10*sizeof(c->currentEvent[0]));
-    memset(c->event_remain_turn,0,10*sizeof(int));
+    memset(c->currentEvent, none_event, 10 * sizeof(c->currentEvent[0]));
+    memset(c->event_remain_turn, 0, 10 * sizeof(int));
 
     return c;
 }
@@ -96,7 +96,7 @@ Conway *update_conway(uint16_t rows, uint16_t cols) {
 //
 // }
 GridState get_state(const Conway *c, const uint16_t x, const uint16_t y) {
-    if (c == NULL) {
+    if (c == NULL || c->rows == 0 || c->cols == 0) {
         return None;
     }
     if (x < c->rows && y < c->cols) {
@@ -254,26 +254,30 @@ int save_conway(const Conway *c, const char *filename) {
 
 // 从文件读取格点
 // 失败则Conway._grids = NULL
-Conway *new_conway_from_file(Conway *c, const char *filename) {
-    Conway *new_conway = (Conway *)malloc(sizeof(Conway));
+Bool new_conway_from_file(Conway *c, const char *filename) {
+
     FILE *fp = fopen(filename, "r");
+    int temp_row, temp_col;
     // printf("ok\n");
     if (fp == NULL) {
-        return NULL;
+        return False;
     }
-    if (fscanf(fp, "%d,%d", &c->rows, &c->cols) != 2) {
+    if (fscanf(fp, "%d,%d", &temp_row, &temp_col) != 2) {
         fclose(fp);
+        return False;
     }
     // if(update_conway(c->rows,c->cols)!=NULL){}
     // delete_grids(c);
-    new_conway = update_conway(c->rows, c->cols);
+    delete_grids(c);
+    free(c);
+    c = update_conway(temp_row, temp_col);
     // printf("%d %d\n",c->rows,c->cols);
 
     fscanf(fp, "\n"); // 跳过第一行
     char scan_input;
-    GridState temp_grid[c->rows][c->cols];
-    for (int i = 0; i < c->rows; i++) {
-        for (int j = 0; j < c->cols; j++) {
+    GridState temp_grid[temp_row][temp_col];
+    for (int i = 0; i < temp_row; i++) {
+        for (int j = 0; j < temp_col; j++) {
             scan_input = fgetc(fp); // 逐个读取
             if (scan_input == '0') {
                 temp_grid[i][j] = Dead;
@@ -292,10 +296,12 @@ Conway *new_conway_from_file(Conway *c, const char *filename) {
 
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
-            set_state(new_conway, i, j, temp_grid[i][j]);
+            set_state(c, i, j, temp_grid[i][j]);
         }
     }
-    return new_conway;
+    c->rows = temp_row;
+    c->cols = temp_col;
+    return True;
 }
 
 int count_living_cell_normal(Conway *c) {
@@ -303,7 +309,7 @@ int count_living_cell_normal(Conway *c) {
     GridState temp_cell;
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
-             temp_cell= get_state(c, i, j);
+            temp_cell = get_state(c, i, j);
             if (temp_cell == Alive) {
                 count += 1;
             }
@@ -397,11 +403,11 @@ Conway *new_conway_special(uint16_t rows, uint16_t cols) {
     }
     c->rows = rows;
     c->cols = cols;
-    if(c->rows>150){
-        c->rows=150;
+    if (c->rows > 150) {
+        c->rows = 150;
     }
-    if(c->cols>150){
-        c->cols=150;
+    if (c->cols > 150) {
+        c->cols = 150;
     }
     c->special_grids = (cell **)malloc(rows * sizeof(cell *));
     if (!c->special_grids) {
@@ -459,22 +465,22 @@ Conway *new_conway_special(uint16_t rows, uint16_t cols) {
         }
     }
     c->grid_feature.count_turn = 0;
-    c->grid_feature.add_oxygen_count=0;
-    c->grid_feature.light_resource=normal_light;
-    c->grid_feature.oxygen_resource=normal_oxy;
-    c->grid_feature.temperature=normal_tem;
+    c->grid_feature.add_oxygen_count = 0;
+    c->grid_feature.light_resource = normal_light;
+    c->grid_feature.oxygen_resource = normal_oxy;
+    c->grid_feature.temperature = normal_tem;
 
-    memset(c->currentEvent,none_event,10*sizeof(c->currentEvent[0]));
-    memset(c->event_remain_turn,0,10*sizeof(int));
+    memset(c->currentEvent, none_event, 10 * sizeof(c->currentEvent[0]));
+    memset(c->event_remain_turn, 0, 10 * sizeof(int));
     return c;
 }
 
 // 释放分配的内存
 void delete_special_grids(Conway *c) {
+
     int temp_rows = c->rows;
     if (c->rows != 0 && c->cols != 0 && c->special_grids != NULL && c->food_grids != NULL) {
         for (int i = 0; i < temp_rows; i++) {
-
             free(c->special_grids[i]);
             free(c->food_grids[i]);
         }
@@ -943,53 +949,7 @@ void cell_special_move(Conway *c, int x, int y) {
     // 没有食物就吃生产者
 }
 
-// 更新一个世代
-void next_generation_special(Conway *c) {
-    Conway *temp_conway = new_conway_special(c->rows, c->cols);
-    // 创建temp_conway来进行下一步各种操作
-    for (int i = 0; i < c->rows; i++) {
-        for (int j = 0; j < c->cols; j++) {
-            temp_conway->special_grids[i][j] = get_state_special(c, i, j); // 复制到一个temp用来储存变化
-            temp_conway->food_grids[i][j] = get_food_state(c, i, j);
-        }
-    }
-
-    temp_conway->rows = c->rows;
-    temp_conway->cols = c->cols;
-    temp_conway->grid_feature.consumer_capacity = c->grid_feature.consumer_capacity;
-    temp_conway->grid_feature.producer_capacity = c->grid_feature.producer_capacity;
-    // 容纳量也需要拷贝
-
-    // 先更新生产者的生存情况
-    for (int i = 0; i < c->rows; i++) {
-        for (int j = 0; j < c->cols; j++) {
-            if (temp_conway->special_grids[i][j].type == living_producer || temp_conway->special_grids[i][j].type == Dead) {
-                temp_conway->special_grids[i][j] = get_next_state_of_producer(temp_conway, i, j);
-            }
-        }
-    }
-    // 每个生产者生产食物
-    for (int i = 0; i < c->rows; i++) {
-        for (int j = 0; j < c->cols; j++) {
-            if (temp_conway->special_grids[i][j].type == living_producer) {
-                Generate_food(temp_conway, i, j);
-            }
-        }
-    }
-    // 消费者进食
-    for (int i = 0; i < c->rows; i++) {
-        for (int j = 0; j < c->cols; j++) {
-            if (temp_conway->special_grids[i][j].type == living_consumer) {
-                cell_special_move(temp_conway, i, j);
-                consumer_action(temp_conway, i, j);
-                // 这一步后有消费者死亡
-                if (temp_conway->special_grids[i][j].type == Dead) {
-                    initialize_cell_condition(temp_conway, i, j);
-                }
-            }
-        }
-    }
-    // 消费者按照motion进行移动
+void consumer_move(Conway *c, Conway *temp_conway) {
     next_move decided_next_move; // 上1 下2 左3 右4
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
@@ -1084,32 +1044,67 @@ void next_generation_special(Conway *c) {
             }
         }
     }
+}
 
+void producer_action(Conway *c, Conway *temp_conway) {
+    // 先更新生产者的生存情况
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            if (temp_conway->special_grids[i][j].type == living_producer || temp_conway->special_grids[i][j].type == Dead) {
+                temp_conway->special_grids[i][j] = get_next_state_of_producer(temp_conway, i, j);
+            }
+        }
+    }
+    // 每个生产者生产食物
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            if (temp_conway->special_grids[i][j].type == living_producer) {
+                Generate_food(temp_conway, i, j);
+            }
+        }
+    }
+}
+
+void all_producer_reproduction(Conway *c, Conway *temp_conway) {
     // 计算生产者数量并让它们繁殖
     int number_of_producer = count_living_producer(temp_conway);
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
             if (temp_conway->special_grids[i][j].type == living_producer) {
-                int is_reproducing = 4/ temperature_fac[c->special_grids[i][j].gene_setting.temper_preference][c->grid_feature.temperature] /
+                int is_reproducing = 4 / temperature_fac[c->special_grids[i][j].gene_setting.temper_preference][c->grid_feature.temperature] /
                                      oxygen_fac[c->special_grids[i][j].gene_setting.light_preference][c->grid_feature.light_resource] *
                                      number_of_producer / c->grid_feature.producer_capacity;
 
                 if (is_reproducing < 1) {
                     is_reproducing = 1;
                 }
-                int flag_reproduce = rand() % (is_reproducing+1);
+                int flag_reproduce = rand() % (is_reproducing + 1);
                 if (flag_reproduce == 0) {
                     propagate_new_producer(temp_conway, i, j);
                 }
             }
         }
     }
-    // propagate_new_producer(temp_conway);
-
     // 重新计算环境容纳量
     c->grid_feature.consumer_capacity = number_of_producer / 3;
+}
 
-    // 这个循环用于消费者的繁殖(为了简单起见，使用分裂繁殖)
+void consumer_eat(Conway *c, Conway *temp_conway) {
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            if (temp_conway->special_grids[i][j].type == living_consumer) {
+                cell_special_move(temp_conway, i, j);
+                consumer_action(temp_conway, i, j);
+                // 这一步后有消费者死亡
+                if (temp_conway->special_grids[i][j].type == Dead) {
+                    initialize_cell_condition(temp_conway, i, j);
+                }
+            }
+        }
+    }
+}
+
+void all_consumer_reproduction(Conway *c, Conway *temp_conway) {
     int number_of_consumer = count_living_consumer(temp_conway);
     int reproduction_need;
 
@@ -1125,8 +1120,9 @@ void next_generation_special(Conway *c) {
             propagate_new_consumer(temp_conway, i, j, reproduction_need);
         }
     }
-
-    // 消费者保底机制,优先生成在食物多的地方
+}
+// 消费者保底机制,优先生成在食物多的地方
+void generate_extra_consumer(Conway *c, Conway *temp_conway) {
     int generate_number = 1;
     if ((count_living_consumer(c)) < c->grid_feature.consumer_capacity / 2) {
         generate_number = (c->grid_feature.consumer_capacity / 4);
@@ -1137,9 +1133,9 @@ void next_generation_special(Conway *c) {
     int max_food = 0;
     int max_row = -1;
     int max_col = -1;
-    int count_turn=0;
+    int count_turn = 0;
     for (int i = 0; i < generate_number; i++) {
-        
+
         for (int p = 0; p < c->rows; p++) {
             for (int j = 0; j < c->cols; j++) {
                 if (temp_conway->special_grids[p][j].type != living_consumer) {
@@ -1159,12 +1155,14 @@ void next_generation_special(Conway *c) {
             set_state_special(temp_conway, max_row, max_col, temp_cell);
         }
         max_food = 0;
-        count_turn+=1;
-        if(count_turn>c->rows*c->cols){
+        count_turn += 1;
+        if (count_turn > c->rows * c->cols) {
             break;
         }
     }
+}
 
+void copy_special_conway(Conway *c, Conway *temp_conway) {
     // 这个循环用于将temp_conway的变化拷贝至原来的c
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
@@ -1188,17 +1186,9 @@ void next_generation_special(Conway *c) {
             set_food_state(c, i, j, temp_conway->food_grids[i][j]);
         }
     }
-    // 释放临时的temp_conway
-    delete_special_grids(temp_conway);
+}
 
-    // 随机发生事件，可以调整概率
-    int flag_event = rand() % 5;
-    if (flag_event == 0) {
-        event(c);
-    }
-    // 更改event状态
-    updateEventState(c);
-
+void update_grid_feature(Conway *c) {
     if ((count_living_producer(c) - count_living_consumer(c) >= c->grid_feature.producer_capacity * 3 / 2) && c->grid_feature.oxygen_resource < 4) {
         c->grid_feature.add_oxygen_count += 1;
     } else if (count_living_producer(c) <= count_living_consumer(c) * 5 && c->grid_feature.oxygen_resource > 0) {
@@ -1211,6 +1201,51 @@ void next_generation_special(Conway *c) {
     } else if (c->grid_feature.add_oxygen_count < -2 && c->grid_feature.oxygen_resource > rare_oxy)
         change_oxygen(c, -1);
     c->grid_feature.add_oxygen_count = 0;
+    c->grid_feature.count_turn += 1;
+}
+
+// 更新一个世代
+void next_generation_special(Conway *c) {
+    Conway *temp_conway = new_conway_special(c->rows, c->cols);
+    // 创建temp_conway来进行下一步各种操作
+    for (int i = 0; i < c->rows; i++) {
+        for (int j = 0; j < c->cols; j++) {
+            temp_conway->special_grids[i][j] = get_state_special(c, i, j); // 复制到一个temp用来储存变化
+            temp_conway->food_grids[i][j] = get_food_state(c, i, j);
+        }
+    }
+    temp_conway->rows = c->rows;
+    temp_conway->cols = c->cols;
+    temp_conway->grid_feature.consumer_capacity = c->grid_feature.consumer_capacity;
+    temp_conway->grid_feature.producer_capacity = c->grid_feature.producer_capacity;
+    producer_action(c, temp_conway);
+    // 消费者进食
+    consumer_eat(c, temp_conway);
+    // 消费者按照motion进行移动
+    consumer_move(c, temp_conway);
+    // 生产者繁殖
+    all_producer_reproduction(c, temp_conway);
+    // 这个循环用于消费者的繁殖(为了简单起见，使用分裂繁殖)
+    all_consumer_reproduction(c, temp_conway);
+    generate_extra_consumer(c, temp_conway);
+    copy_special_conway(c, temp_conway);
+
+    // 释放临时的temp_conway
+    delete_special_grids(temp_conway);
+    if(temp_conway!=NULL){
+        free(temp_conway);
+    }
+
+    // 随机发生事件，可以调整概率
+    int flag_event = rand() % 5;
+    if (flag_event == 0) {
+        event(c);
+    }
+    // 更改event状态
+    updateEventState(c);
+
+    // 更改一些格点特征
+    update_grid_feature(c);
 
     return;
 }
@@ -1579,7 +1614,6 @@ void change_gene(Conway *c, const int x, const int y) {
     }
 }
 
-
 int save_conway_special(const Conway *c, const char *filename) {
     FILE *fp = fopen(filename, "w");
     if (!fp) {
@@ -1601,35 +1635,36 @@ int save_conway_special(const Conway *c, const char *filename) {
 
 // 从文件读取格点
 // 失败则Conway._grids = NULL
-Conway * new_conway_from_file_special(Conway*c,const char *filename) {
-    Conway *new_conway = (Conway *)malloc(sizeof(Conway));
+Bool new_conway_from_file_special(Conway *c, const char *filename) {
+    int temp_row, temp_col;
     FILE *fp = fopen(filename, "r");
     // printf("ok\n");
     if (fp == NULL) {
-        return NULL;
+        return False;
     }
-    if (fscanf(fp, "%d,%d", &c->rows, &c->cols) != 2) {
+    if (fscanf(fp, "%d,%d", &temp_row, &temp_col) != 2) {
         fclose(fp);
-        
+        return False;
     }
-  
-    new_conway = new_conway_special(c->rows, c->cols);
- 
+    delete_special_grids(c);
+    free(c);
+    c = new_conway_special(temp_row, temp_col);
+
     fscanf(fp, "\n"); // 跳过第一行
     char scan_input;
-    cell temp_cell=new_cell_setting();
+    cell temp_cell = new_cell_setting();
     for (int i = 0; i < c->rows; i++) {
         for (int j = 0; j < c->cols; j++) {
             scan_input = fgetc(fp); // 逐个读取
             if (scan_input == '0') {
-                temp_cell.type=Dead;
-                set_state_special(new_conway,i,j,temp_cell);
-            } else if (scan_input == '2'||scan_input=='1') {
+                temp_cell.type = Dead;
+                set_state_special(c, i, j, temp_cell);
+            } else if (scan_input == '2' || scan_input == '1') {
                 temp_cell.type = living_producer;
-                set_state_special(new_conway,i,j,temp_cell);
-            }else if(scan_input == '3'){
+                set_state_special(c, i, j, temp_cell);
+            } else if (scan_input == '3') {
                 temp_cell.type = living_consumer;
-                set_state_special(new_conway,i,j,temp_cell);
+                set_state_special(c, i, j, temp_cell);
             } else if (scan_input == '\n' || scan_input == EOF) {
                 break;
             } else if (scan_input == ',') {
@@ -1638,13 +1673,11 @@ Conway * new_conway_from_file_special(Conway*c,const char *filename) {
         }
         fscanf(fp, ",");  // 最后一个逗号
         fscanf(fp, "\n"); // 跳过换行符
+        c->rows = temp_row;
+        c->cols = temp_col;
     }
     fclose(fp);
-
-    
-    return new_conway;
+    return True;
 }
 //////////////////////////////////////////////////////////////////////
 // 以下为测试的图形处理界面
-
-

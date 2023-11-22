@@ -1,0 +1,17 @@
+{
+    "cSpell.words": [
+        "closegraph",
+        "fillrectangle",
+        "Gamemode",
+        "Gamestate",
+        "gridstate",
+        "initgraph",
+        "setfillcolor"
+    ],
+    "files.associations": {
+        "stdint.h": "c"
+    },
+    "C_Cpp.default.includePath": [
+        "D:/C++/EasyX/include"
+    ]
+}

@@ -20,7 +20,7 @@
                 }
             ],
             "preLaunchTask": "build",
-            "miDebuggerPath": "D:\\mingwin64_now\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "D:\\mingw64\\bin\\gdb.exe",
             "logging": { "trace": true, "traceResponse": true, "engineLogging": true }
         }
     ]

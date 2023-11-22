@@ -3,7 +3,6 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <pthread.h>
-#include <stdio.h>
 #include <unistd.h>
 
 typedef struct {
@@ -14,8 +13,6 @@ typedef struct {
     const char *text;
     int x_move;
     int y_move;
-
-    // ...其他属性，例如标签、图标等
 } Button;
 
 typedef enum {
@@ -52,6 +49,7 @@ typedef struct {
     Bool flag_importPath;
     Bool flag_savePath;
     Bool flag_editGrid;
+    Bool flag_Receive_event;
 } flags;
 
 typedef struct {
@@ -69,13 +67,11 @@ typedef struct {
     int autoTime;
     int inputPos;
     char inputBuffer[100];
-    char BasicGridInformation[100];
-    char BasicGridInformation_2[100];
-    char BasicGridInformation_3[100];
-    char commandReport_1[100];
-    char commandReport_2[100];
-    char commandReport_3[100];
-    char commandReport_4[100];
+    char BasicGridInformation[3][100];
+    char commandReport[4][100];
+    int LastPlayedMode;
+    int temp_row;
+    int temp_col;
 
 } SDL_resource;
 
@@ -84,6 +80,10 @@ Button initializeButton() {
     newButton.color = (SDL_Color){0, 0, 0};
     newButton.isClicked = False;
     newButton.rect = (SDL_Rect){0};
+    newButton.font = NULL;
+    newButton.x_move = 0;
+    newButton.y_move = 0;
+    newButton.text = NULL;
     return newButton;
 }
 
@@ -94,8 +94,6 @@ Bool initialize_sdl() {
     }
     return True;
 }
-
-
 
 // 生成一个窗口
 SDL_Window *init_window(int length, int width) {
@@ -146,7 +144,7 @@ Bool isButtonClicked(Button *button, int mouseX, int mouseY) {
 void renderText(SDL_Renderer *renderer, TTF_Font *font, const char *text, SDL_Color color, int x, int y) {
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, color);
     if (textSurface == NULL) {
-        printf("Failed to create surface\n");
+        // printf("Failed to create surface\n");
         return;
     }
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -419,18 +417,17 @@ void changeGridStateONCLick_special(Conway *c, int mouseX, int mouseY) {
     }
 }
 
-void updateCommandReport(char *rep1, char *rep2, char *rep3, char *rep4, const char *reportText) {
-    char *report_char[4] = {rep1, rep2, rep3, rep4};
+void updateCommandReport(char report[4][100], const char *reportText) {
     for (int i = 0; i < 4; i++) {
-        if (strcmp(report_char[i], "") == 0) {
-            strcpy(report_char[i], reportText);
+        if (strcmp(report[i], "") == 0) {
+            strcpy(report[i], reportText);
             return;
         }
     }
-    strcpy(rep1, rep2);
-    strcpy(rep2, rep3);
-    strcpy(rep3, rep4);
-    strcpy(rep4, reportText);
+    strcpy(report[1], report[2]);
+    strcpy(report[2], report[3]);
+    strcpy(report[3], report[4]);
+    strcpy(report[4], reportText);
 }
 
 // 悬浮窗口
@@ -557,7 +554,7 @@ void showMenu(SDL_resource *sdl) {
             } else if (isButtonClicked(&StartSpecialButton, sdl->mouseX, sdl->mouseY)) {
                 sdl->flagList.flag_startSpecial = True;
                 sdl->flagList.flag_menuButton = False;
-                printf("yes");
+                // printf("yes");
             } else if (isButtonClicked(&quitButton, sdl->mouseX, sdl->mouseY)) {
                 sdl->flagList.flag_mainGame = False;
                 break;
@@ -566,462 +563,460 @@ void showMenu(SDL_resource *sdl) {
     }
 }
 
+void init_normal_sdl_conway(SDL_resource *sdl) {
+    // printf("%d\n", sdl->c->probability);
+    // printf("Rows:%d\nCols:%d\n ", sdl->c->rows, sdl->c->cols);
+    if (sdl->c->probability <= 0 || sdl->c->probability > 100) {
+        sdl->c->probability = 40;
+    }
+    int temp_probability = sdl->c->probability;
+    if (sdl->c->rows > 0 && sdl->c->cols > 0) {
+        delete_grids(sdl->c);
+        free(sdl->c);
+        sdl->c = update_conway(sdl->temp_row, sdl->temp_col);
+        sdl->c->probability = temp_probability;
+        printf("%d\n", temp_probability);
+        init_random(sdl->c);
+        print_conway(sdl->c);
+        draw_normal_sdlGrids(sdl->renderer, sdl->c);
+        SDL_RenderPresent(sdl->renderer);
+        sdl->flagList.flag_Receive_event = False;
+    } else if (sdl->c->rows == 0 || sdl->c->cols == 0) {
+        free(sdl->c);
+        sdl->c = update_conway(20, 20);
+        updateCommandReport(sdl->commandReport, "Warning:Invalid Rows/Cols,using default setting!");
+        init_random(sdl->c);
+    }
+    sdl->flagList.flag_Receive_event = False; // 重新绘制
+}
+
+void mouseDown_normal(SDL_resource *sdl) {
+    SDL_GetMouseState(&sdl->mouseX, &sdl->mouseY);
+    sdl->inputPos = 0;
+    memset(sdl->inputBuffer, '\0', sizeof(sdl->inputBuffer));
+    sdl->flagList.input_mode = False;
+    if (isButtonClicked(&sdl->ButtonList[nextGenerationButtonNum], sdl->mouseX, sdl->mouseY)) {
+        if (sdl->c->rows <= 0 || sdl->c->cols <= 0) {
+            updateCommandReport(sdl->commandReport, "Warning:Grids haven't been initialized!");
+            sdl->flagList.flag_Receive_event = False;
+        }
+        next_generation(sdl->c);
+        sdl->flagList.flag_Receive_event = False; // 重新绘制
+    } else if (isButtonClicked(&sdl->ButtonList[init_randomButtonNum], sdl->mouseX, sdl->mouseY)) {
+        init_normal_sdl_conway(sdl);
+    } else if (isButtonClicked(&sdl->ButtonList[init_randomInputBox_rowsNum], sdl->mouseX, sdl->mouseY) ||
+               isButtonClicked(&sdl->ButtonList[init_randomInputBox_colsNum], sdl->mouseX, sdl->mouseY) ||
+               isButtonClicked(&sdl->ButtonList[init_randomButton_proNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.input_mode = True;
+        sdl->flagList.input_rows = isButtonClicked(&sdl->ButtonList[2], sdl->mouseX, sdl->mouseY);
+        sdl->flagList.input_cols = isButtonClicked(&sdl->ButtonList[3], sdl->mouseX, sdl->mouseY);
+        sdl->flagList.input_probability = isButtonClicked(&sdl->ButtonList[4], sdl->mouseX, sdl->mouseY);
+
+    } else if (isButtonClicked(&sdl->ButtonList[startAutoModeButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_autoMode = True;
+        sdl->flagList.flag_Receive_event = False;
+    } else if (isButtonClicked(&sdl->ButtonList[importPathButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_importPath = True;
+    } else if (isButtonClicked(&sdl->ButtonList[savePathButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_savePath = True;
+    } else if (isButtonClicked(&sdl->ButtonList[backToMenuButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_startPlay = False;
+        sdl->flagList.flag_autoMode = False;
+        sdl->flagList.flag_menuButton = True;
+        sdl->c->last_rows = sdl->c->rows;
+        delete_grids(sdl->c);
+        printf("%d %d\n", sdl->c->rows, sdl->c->cols);
+        // sdl->c=new_conway_special(0,0);
+        sdl->flagList.flag_Receive_event = False;
+    } else if (isButtonClicked(&sdl->ButtonList[timeSetButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_setTime = True;
+    } else if (isGridClicked(sdl->c, sdl->mouseX, sdl->mouseY) == True) {
+        changeGridStateOnClick(sdl->c, sdl->mouseX, sdl->mouseY);
+        sdl->flagList.flag_Receive_event = False;
+    } else if (isButtonClicked(&sdl->ButtonList[resetGridButtonNum], sdl->mouseX, sdl->mouseY)) {
+        if (sdl->c->rows > 0 && sdl->c->cols > 0) {
+            for (int i = 0; i < sdl->c->rows; i++) {
+                for (int j = 0; j < sdl->c->cols; j++) {
+                    set_state(sdl->c, i, j, Dead);
+                }
+            }
+            sdl->flagList.flag_Receive_event = False;
+        }
+    }
+}
+
+void input_basic_feature(SDL_resource *sdl) {
+    if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
+        // 检查输入的是数字
+        sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
+        sdl->inputPos++;
+        if (sdl->inputPos >= 99) {
+            return;
+        }
+        sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
+        printf("用户输入了: %s\n", sdl->inputBuffer);
+        if (sdl->flagList.input_rows == True) {
+            sdl->c->last_rows = sdl->c->rows;
+            sscanf(sdl->inputBuffer, "%d", &sdl->temp_row);
+            printf("Current row:%d\n", sdl->temp_col);
+        } else if (sdl->flagList.input_cols == True) {
+            sscanf(sdl->inputBuffer, "%d", &sdl->temp_col);
+            printf("Current Col:%d\n", sdl->temp_col);
+        } else if (sdl->flagList.input_probability == True) {
+            sscanf(sdl->inputBuffer, "%d", &sdl->c->probability);
+            printf("%d", sdl->c->probability);
+        }
+        if (sdl->c->rows > 0 && sdl->c->cols > 0) {
+            int temp_probability = sdl->c->probability;
+        }
+    }
+
+    SDL_Color textColor = {2, 200, 0}; // 设置输入文本颜色
+
+    if (sdl->flagList.input_rows == True) {
+        renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_rowsNum].rect.x + 10,
+                   sdl->ButtonList[init_randomInputBox_rowsNum].rect.y + 15);
+    } else if (sdl->flagList.input_cols == True) {
+        renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_colsNum].rect.x + 10,
+                   sdl->ButtonList[init_randomInputBox_colsNum].rect.y + 15);
+    } else if (sdl->flagList.input_probability == True) {
+        renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomButton_proNum].rect.x + 10,
+                   sdl->ButtonList[init_randomButton_proNum].rect.y + 15);
+    }
+
+    SDL_RenderPresent(sdl->renderer); // 更新显示的内容
+}
+
+void Path_input_normal(SDL_resource *sdl) {
+    SDL_Color textColor = {2, 200, 0}; // 设置输入文本颜色
+    TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 12);
+
+    if (sdl->e.key.keysym.sym != SDLK_LALT) {
+        sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
+        sdl->inputPos++;
+        sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符,按alt输入字母
+    }
+    if (sdl->e.key.keysym.sym == SDLK_0) {
+        sdl->inputBuffer[0] = '\0';
+    } else if (sdl->e.key.keysym.sym == SDLK_RETURN) {
+        if (sdl->flagList.flag_importPath == True) {
+            sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
+            if (new_conway_from_file(sdl->c, sdl->inputBuffer) == False) {
+                updateCommandReport(sdl->commandReport, "Warning:Invalid Path!");
+            }
+            sdl->flagList.flag_importPath = False;
+            sdl->flagList.flag_Receive_event = False;
+        } else if (sdl->flagList.flag_savePath == True) {
+            sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
+            save_conway(sdl->c, sdl->inputBuffer);
+            sdl->flagList.flag_savePath = False;
+            sdl->flagList.flag_Receive_event = False;
+        }
+        memset(sdl->inputBuffer, '\0', sizeof(sdl->inputBuffer));
+    }
+    if (sdl->flagList.flag_importPath == True) {
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
+                   sdl->ButtonList[importPathButtonNum].rect.y + 15);
+        SDL_RenderPresent(sdl->renderer);
+    } else if (sdl->flagList.flag_savePath == True) {
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
+                   sdl->ButtonList[savePathButtonNum].rect.y + 15);
+        SDL_RenderPresent(sdl->renderer);
+    } else {
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
+                   sdl->ButtonList[importPathButtonNum].rect.y + 15);
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
+                   sdl->ButtonList[savePathButtonNum].rect.y + 15);
+        SDL_RenderPresent(sdl->renderer);
+    }
+}
+
+void set_time(SDL_resource *sdl) {
+    if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
+        // 检查输入的是数字
+        sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
+        sdl->inputPos++;
+        if (sdl->inputPos >= 99) {
+            sdl->autoTime = 1000;
+            updateCommandReport(sdl->commandReport, "Warning:Invalid Time input!");
+            return;
+        }
+        sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
+        printf("用户输入了: %s\n", sdl->inputBuffer);
+        sscanf(sdl->inputBuffer, "%d", &sdl->autoTime);
+        if (sdl->autoTime < 80) {
+            sdl->autoTime = 80;
+        }
+    }
+    TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 14);
+    renderText(sdl->renderer, pathFont, sdl->inputBuffer, sdl->colorList[0], sdl->ButtonList[timeSetButtonNum].rect.x + 10,
+               sdl->ButtonList[timeSetButtonNum].rect.y + 15);
+}
 // 处理用户交互功能(普通模式)
 void Normal_mode_choice(SDL_resource *sdl) {
-
-    while (SDL_WaitEvent(&sdl->e) != 0) { // 事件处理
-
+    sdl->c->last_rows = sdl->c->rows;
+    SDL_StopTextInput();
+    sdl->flagList.flag_Receive_event = True;
+    while (SDL_WaitEvent(&sdl->e) != 0 && sdl->flagList.flag_Receive_event) { // 事件处理
         if (sdl->e.type == SDL_QUIT) {
             sdl->flagList.flag_startPlay = False;
             sdl->flagList.flag_mainGame = False;
             break;
             // 处理鼠标点击事件
         } else if (sdl->e.type == SDL_MOUSEBUTTONDOWN) {
-            SDL_GetMouseState(&sdl->mouseX, &sdl->mouseY);
-            sdl->inputPos = 0;
-            memset(sdl->inputBuffer, 0, sizeof(sdl->inputBuffer));
-            sdl->flagList.input_mode = False;
-            if (isButtonClicked(&sdl->ButtonList[nextGenerationButtonNum], sdl->mouseX, sdl->mouseY)) {
-                if (sdl->c->rows <= 0 || sdl->c->cols <= 0) {
-                    updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                        "Warning:Grids haven't been initialized!");
-                    break;
-                }
-                next_generation(sdl->c);
-                break; // 重新绘制
-            } else if (isButtonClicked(&sdl->ButtonList[init_randomButtonNum], sdl->mouseX, sdl->mouseY)) {
-                printf("%d\n", sdl->c->probability);
-                printf("Rows:%d\nCols:%d\n ", sdl->c->rows, sdl->c->cols);
-                if (sdl->c->probability <= 0 || sdl->c->probability > 100) {
-                    sdl->c->probability = 40;
-                }
-                int temp_probability = sdl->c->probability;
-                if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-                    sdl->c = update_conway(sdl->c->rows, sdl->c->cols);
-                    sdl->c->probability = temp_probability;
-                    printf("%d\n", temp_probability);
-
-                    init_random(sdl->c);
-                    print_conway(sdl->c);
-                    draw_normal_sdlGrids(sdl->renderer, sdl->c);
-                    SDL_RenderPresent(sdl->renderer);
-                    return;
-                } else if (sdl->c->rows == 0 || sdl->c->cols == 0) {
-                    sdl->c->rows = 20;
-                    sdl->c->cols = 20;
-                    sdl->c = update_conway(sdl->c->rows, sdl->c->cols);
-                    updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                        "Warning:Invalid Rows/Cols,using default setting!");
-                    init_random(sdl->c);
-                }
-                break; // 重新绘制
-            } else if (isButtonClicked(&sdl->ButtonList[init_randomInputBox_rowsNum], sdl->mouseX, sdl->mouseY) ||
-                       isButtonClicked(&sdl->ButtonList[init_randomInputBox_colsNum], sdl->mouseX, sdl->mouseY) ||
-                       isButtonClicked(&sdl->ButtonList[init_randomButton_proNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.input_mode = True;
-                sdl->flagList.input_rows = isButtonClicked(&sdl->ButtonList[2], sdl->mouseX, sdl->mouseY);
-                sdl->flagList.input_cols = isButtonClicked(&sdl->ButtonList[3], sdl->mouseX, sdl->mouseY);
-                sdl->flagList.input_probability = isButtonClicked(&sdl->ButtonList[4], sdl->mouseX, sdl->mouseY);
-
-            } else if (isButtonClicked(&sdl->ButtonList[5], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_autoMode = True;
-                break; // auto 的循环在下面，所以可以break;
-            } else if (isButtonClicked(&sdl->ButtonList[8], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_importPath = True;
-            } else if (isButtonClicked(&sdl->ButtonList[10], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_savePath = True;
-            } else if (isButtonClicked(&sdl->ButtonList[backToMenuButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_startPlay = False;
-                sdl->flagList.flag_autoMode = False;
-                sdl->flagList.flag_menuButton = True;
-                delete_grids(sdl->c);
-                break;
-            } else if (isButtonClicked(&sdl->ButtonList[timeSetButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_setTime = True;
-            } else if (isGridClicked(sdl->c, sdl->mouseX, sdl->mouseY) == True) {
-                changeGridStateOnClick(sdl->c, sdl->mouseX, sdl->mouseY);
-                break;
-            } else if (isButtonClicked(&sdl->ButtonList[resetGridButtonNum], sdl->mouseX, sdl->mouseY)) {
-                if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-                    for (int i = 0; i < sdl->c->rows; i++) {
-                        for (int j = 0; j < sdl->c->cols; j++) {
-                            set_state(sdl->c, i, j, Dead);
-                        }
-                    }
-                    break;
-                }
-            }
-
+            mouseDown_normal(sdl);
             // 文字输入的处理
         } else if (sdl->flagList.input_mode == True && sdl->e.type == SDL_KEYDOWN) {
-
-            // 处理行 列 概率的输入
-            if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
-                // 检查输入的是数字
-                sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
-                sdl->inputPos++;
-                sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
-                printf("用户输入了: %s\n", sdl->inputBuffer);
-                if (sdl->flagList.input_rows == True) {
-                    sscanf(sdl->inputBuffer, "%d", &sdl->c->rows);
-                    printf("Current row:%d\n", sdl->c->rows);
-                } else if (sdl->flagList.input_cols == True) {
-                    sscanf(sdl->inputBuffer, "%d", &sdl->c->cols);
-                    printf("Current Col:%d\n", sdl->c->cols);
-                } else if (sdl->flagList.input_probability == True) {
-                    sscanf(sdl->inputBuffer, "%d", &sdl->c->probability);
-                    printf("%d", sdl->c->probability);
-                }
-                if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-                    int temp_probability = sdl->c->probability;
-                    sdl->c = update_conway(sdl->c->rows, sdl->c->cols);
-                    sdl->c->probability = temp_probability;
-                    if (sdl->c->probability > 0 && sdl->c->probability <= 100) {
-                        init_random(sdl->c);
-                    }
-                }
-            }
-
-            SDL_Color textColor = {2, 200, 0}; // 设置输入文本颜色
-
-            if (sdl->flagList.input_rows == True) {
-                renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_rowsNum].rect.x + 10,
-                           sdl->ButtonList[init_randomInputBox_rowsNum].rect.y + 15);
-            } else if (sdl->flagList.input_cols == True) {
-                renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_colsNum].rect.x + 10,
-                           sdl->ButtonList[init_randomInputBox_colsNum].rect.y + 15);
-            } else if (sdl->flagList.input_probability == True) {
-                renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomButton_proNum].rect.x + 10,
-                           sdl->ButtonList[init_randomButton_proNum].rect.y + 15);
-            }
-
-            SDL_RenderPresent(sdl->renderer); // 更新显示的内容
-
+            input_basic_feature(sdl);
             // 处理文件名的输入
         } else if ((sdl->flagList.flag_importPath == True || sdl->flagList.flag_savePath == True) && sdl->e.type == SDL_KEYDOWN) {
-            SDL_Color textColor = {2, 200, 0}; // 设置输入文本颜色
-            TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 12);
-
-            if (sdl->e.key.keysym.sym != SDLK_LALT) {
-                sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
-                sdl->inputPos++;
-                sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符,按alt输入字母
-            }
-            if (sdl->e.key.keysym.sym == SDLK_0) {
-                sdl->inputBuffer[0] = '\0';
-            } else if (sdl->e.key.keysym.sym == SDLK_RETURN) {
-                if (sdl->flagList.flag_importPath == True) {
-                    sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
-                    Conway *temp_c;
-                    temp_c = new_conway_from_file(sdl->c, sdl->inputBuffer);
-                    if (temp_c != NULL) {
-                        sdl->c = new_conway_from_file(sdl->c, sdl->inputBuffer);
-                    } else {
-                        updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                            "Warning:Invalid Path!");
-                    }
-                    sdl->flagList.flag_importPath = False;
-                    break;
-                } else if (sdl->flagList.flag_savePath == True) {
-                    sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
-                    save_conway(sdl->c, sdl->inputBuffer);
-                    sdl->flagList.flag_savePath = False;
-                    break;
-                }
-                memset(sdl->inputBuffer, '\0', sizeof(sdl->inputBuffer));
-            }
-            if (sdl->flagList.flag_importPath == True) {
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
-                           sdl->ButtonList[importPathButtonNum].rect.y + 15);
-                SDL_RenderPresent(sdl->renderer);
-            } else if (sdl->flagList.flag_savePath == True) {
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
-                           sdl->ButtonList[savePathButtonNum].rect.y + 15);
-                SDL_RenderPresent(sdl->renderer);
-            } else {
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
-                           sdl->ButtonList[importPathButtonNum].rect.y + 15);
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
-                           sdl->ButtonList[savePathButtonNum].rect.y + 15);
-                SDL_RenderPresent(sdl->renderer);
-            }
-
+            Path_input_normal(sdl);
             // 设置时间
         } else if (sdl->flagList.flag_setTime == True && sdl->e.type == SDL_KEYDOWN) {
-            if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
-                // 检查输入的是数字
-                sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
-                sdl->inputPos++;
-                sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
-                printf("用户输入了: %s\n", sdl->inputBuffer);
-                sscanf(sdl->inputBuffer, "%d", &sdl->autoTime);
-                if (sdl->autoTime < 80) {
-                    sdl->autoTime = 80;
-                }
-            }
-            TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 12);
-            renderText(sdl->renderer, pathFont, sdl->inputBuffer, sdl->colorList[0], sdl->ButtonList[timeSetButtonNum].rect.x + 10,
-                       sdl->ButtonList[timeSetButtonNum].rect.y + 15);
+            set_time(sdl);
         }
-
         SDL_RenderPresent(sdl->renderer);
     }
 }
 
+void mouseDown_special(SDL_resource *sdl) {
+    SDL_GetMouseState(&sdl->mouseX, &sdl->mouseY);
+    sdl->inputPos = 0;
+    memset(sdl->inputBuffer, '\0', sizeof(sdl->inputBuffer));
+    sdl->flagList.input_mode = False;
+    if (isButtonClicked(&sdl->ButtonList[nextGenerationButtonNum], sdl->mouseX, sdl->mouseY)) {
+        next_generation_special(sdl->c);
+        sdl->c->grid_feature.count_turn += 1;
+        if (sdl->c->rows <= 0 || sdl->c->cols <= 0) {
+            updateCommandReport(sdl->commandReport, "Warning:Grids haven't been initialized!");
+            sdl->flagList.flag_Receive_event = False;
+        }
+        sdl->flagList.flag_Receive_event = False; // 重新绘制
+    } else if (isButtonClicked(&sdl->ButtonList[init_randomButtonNum], sdl->mouseX, sdl->mouseY)) {
+        printf("%d\n", sdl->c->probability);
+        int temp_probability = sdl->c->probability;
+        if (sdl->c->rows > 0 && sdl->c->cols > 0) {
+            delete_special_grids(sdl->c);
+            free(sdl->c);
+            sdl->c = new_conway_special(sdl->temp_row, sdl->temp_col);
+            sdl->c->probability = temp_probability;
+            printf("%d\n", temp_probability);
+            init_random_special(sdl->c);
+        } else if (sdl->c->rows == 0 || sdl->c->cols == 0) {
+            free(sdl->c);
+            sdl->c = new_conway_special(20, 20);
+            updateCommandReport(sdl->commandReport, "Warning:Invalid Rows/Cols,using default setting!");
+            init_random_special(sdl->c);
+        }
+        sdl->flagList.flag_Receive_event = False; // 重新绘制
+    } else if (isButtonClicked(&sdl->ButtonList[init_randomInputBox_rowsNum], sdl->mouseX, sdl->mouseY) ||
+               isButtonClicked(&sdl->ButtonList[init_randomInputBox_colsNum], sdl->mouseX, sdl->mouseY) ||
+               isButtonClicked(&sdl->ButtonList[init_randomButton_proNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.input_mode = True;
+        sdl->flagList.input_rows = isButtonClicked(&sdl->ButtonList[init_randomInputBox_rowsNum], sdl->mouseX, sdl->mouseY); // 防止两个一起变成真
+        sdl->flagList.input_cols = isButtonClicked(&sdl->ButtonList[init_randomInputBox_colsNum], sdl->mouseX, sdl->mouseY);
+        sdl->flagList.input_probability = isButtonClicked(&sdl->ButtonList[init_randomButton_proNum], sdl->mouseX, sdl->mouseY);
+    } else if (isButtonClicked(&sdl->ButtonList[startAutoModeButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_autoMode_special = True;
+        sdl->flagList.flag_Receive_event = False;
+    } else if (isButtonClicked(&sdl->ButtonList[backToMenuButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_startSpecial = False;
+        sdl->flagList.flag_autoMode_special = False;
+        sdl->flagList.flag_menuButton = True;
+        delete_special_grids(sdl->c);
+        // sdl->c=update_conway(0,0);
+        sdl->flagList.flag_Receive_event = False;
+    } else if (isButtonClicked(&sdl->ButtonList[timeSetButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_setTime = True;
+
+    } else if (isButtonClicked(&sdl->ButtonList[importPathButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_importPath = True;
+    } else if (isButtonClicked(&sdl->ButtonList[savePathButtonNum], sdl->mouseX, sdl->mouseY)) {
+        sdl->flagList.flag_savePath = True;
+    } else if (isGridClicked(sdl->c, sdl->mouseX, sdl->mouseY) == True && sdl->flagList.flag_editGrid == True) {
+        changeGridStateONCLick_special(sdl->c, sdl->mouseX, sdl->mouseY);
+        draw_special_sdlGrids(sdl->renderer, sdl->c);
+        SDL_RenderPresent(sdl->renderer);
+    } else if (isButtonClicked(&sdl->ButtonList[resetGridButtonNum], sdl->mouseX, sdl->mouseY)) {
+        if (sdl->c->rows > 0 && sdl->c->cols > 0) {
+            for (int i = 0; i < sdl->c->rows; i++) {
+                for (int j = 0; j < sdl->c->cols; j++) {
+                    set_state_special(sdl->c, i, j, new_cell_setting());
+                }
+            }
+            sdl->c->grid_feature.count_turn = 0;
+            sdl->flagList.flag_Receive_event = False;
+        }
+    } else if (isButtonClicked(&sdl->ButtonList[editModeButtonNum], sdl->mouseX, sdl->mouseY)) {
+        if (sdl->flagList.flag_editGrid == False) {
+            sdl->flagList.flag_editGrid = True;
+            renderText(sdl->renderer, sdl->FontList[2], "Disable edit on click", (SDL_Color){255, 0, 0},
+                       sdl->ButtonList[editModeButtonNum].rect.x + 18, sdl->ButtonList[editModeButtonNum].rect.y + 8);
+            updateCommandReport(sdl->commandReport, "Yor are editing grids on click!");
+        } else {
+            sdl->flagList.flag_editGrid = False;
+        }
+        sdl->flagList.flag_Receive_event = False;
+    }
+}
+
+void input_basic_feature_special(SDL_resource *sdl) {
+    if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
+        // 检查输入的是数字
+        sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
+        sdl->inputPos++;
+        sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
+        printf("用户输入了: %s\n", sdl->inputBuffer);
+        if (sdl->flagList.input_rows == True) {
+            sscanf(sdl->inputBuffer, "%d", &sdl->temp_row);
+        } else if (sdl->flagList.input_cols == True) {
+            sscanf(sdl->inputBuffer, "%d", &sdl->temp_col);
+        } else if (sdl->flagList.input_probability == True) {
+            sscanf(sdl->inputBuffer, "%d", &sdl->c->probability);
+            printf("%d", sdl->c->probability);
+        }
+        if (sdl->c->rows > 0 && sdl->c->cols > 0) {
+            int temp_probability = sdl->c->probability;
+            sdl->c = new_conway_special(sdl->c->rows, sdl->c->cols);
+            sdl->c->probability = temp_probability;
+            if (sdl->c->probability > 0 && sdl->c->probability <= 100) {
+                init_random_special(sdl->c);
+            }
+        }
+    }
+    // 使用renderText函数绘制inputBuffer的内容
+    SDL_Color textColor = {2, 200, 0};
+
+    if (sdl->flagList.input_rows == True) {
+        renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_rowsNum].rect.x + 10,
+                   sdl->ButtonList[init_randomInputBox_rowsNum].rect.y + 15);
+    } else if (sdl->flagList.input_cols == True) {
+        renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_colsNum].rect.x + 10,
+                   sdl->ButtonList[init_randomInputBox_colsNum].rect.y + 15);
+    } else if (sdl->flagList.input_probability == True) {
+        renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomButton_proNum].rect.x + 10,
+                   sdl->ButtonList[init_randomButton_proNum].rect.y + 15);
+    } else {
+        renderText(sdl->renderer, sdl->FontList[2], "Enter your path here:", textColor, sdl->ButtonList[init_randomButton_proNum].rect.x + 10,
+                   sdl->ButtonList[init_randomButton_proNum].rect.y + 15);
+    }
+
+    SDL_RenderPresent(sdl->renderer); // 更新显示的内容
+}
+
+void Path_input_special(SDL_resource *sdl) {
+    SDL_Color textColor = {2, 200, 0}; // 设置输入文本颜色
+    TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 12);
+
+    if (sdl->e.key.keysym.sym != SDLK_LALT) {
+        sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
+        sdl->inputPos++;
+        if (sdl->inputPos >= 99) {
+            updateCommandReport(sdl->commandReport, "Path Too Long!");
+            return;
+        }
+        sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符,按alt输入字母
+    }
+    if (sdl->e.key.keysym.sym == SDLK_0) {
+        sdl->inputBuffer[0] = '\0';
+    } else if (sdl->e.key.keysym.sym == SDLK_RETURN) {
+        if (sdl->flagList.flag_importPath == True) {
+            sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
+            if (new_conway_from_file_special(sdl->c, sdl->inputBuffer) == False) {
+                updateCommandReport(sdl->commandReport, "Warning:Invalid Path!");
+            }
+            sdl->flagList.flag_importPath = False;
+            sdl->flagList.flag_Receive_event = False;
+        } else if (sdl->flagList.flag_savePath == True) {
+            sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
+            save_conway_special(sdl->c, sdl->inputBuffer);
+            sdl->flagList.flag_savePath = False;
+            sdl->flagList.flag_Receive_event = False;
+        }
+        memset(sdl->inputBuffer, '\0', sizeof(sdl->inputBuffer));
+    }
+    if (sdl->flagList.flag_importPath == True) {
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
+                   sdl->ButtonList[importPathButtonNum].rect.y + 15);
+        SDL_RenderPresent(sdl->renderer);
+    } else if (sdl->flagList.flag_savePath == True) {
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
+                   sdl->ButtonList[savePathButtonNum].rect.y + 15);
+        SDL_RenderPresent(sdl->renderer);
+    } else {
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
+                   sdl->ButtonList[importPathButtonNum].rect.y + 15);
+        renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
+                   sdl->ButtonList[savePathButtonNum].rect.y + 15);
+        SDL_RenderPresent(sdl->renderer);
+    }
+}
+
+void show_float_window(SDL_resource *sdl, int *lastHoveredRow, int *lastHoveredCol) {
+    static Bool isWindowShown = False;
+    int currentRow = get_row_from_mouse(sdl->c, sdl->mouseX);
+    int currentCol = get_col_from_mouse(sdl->c, sdl->mouseY);
+
+    if (isGridClicked(sdl->c, sdl->mouseX, sdl->mouseY) == True) {
+        if ((currentRow != *lastHoveredRow || currentCol != *lastHoveredCol)) {
+            SDL_Delay(100);
+            showCellInformationSpecial(sdl);
+            isWindowShown = True; // 设置窗口为显示状态
+            *lastHoveredRow = currentRow;
+            *lastHoveredCol = currentCol;
+            while (SDL_WaitEvent(&sdl->e) == 0) {}
+            SDL_Delay(30);
+            sdl->flagList.flag_Receive_event = False;
+        }
+    } else {
+        if (isWindowShown) {
+            // 这里关闭或隐藏信息窗口
+            isWindowShown = False;
+        }
+    }
+}
+
 void Special_mode_choice(SDL_resource *sdl) {
+    SDL_StopTextInput();
+    sdl->flagList.flag_Receive_event = True;
     int lastHoveredRow = -1;
     int lastHoveredCol = -1;
-    while (SDL_WaitEvent(&sdl->e) != 0) {
+    while (SDL_WaitEvent(&sdl->e) != 0 && sdl->flagList.flag_Receive_event) {
         SDL_GetMouseState(&sdl->mouseX, &sdl->mouseY);
-
         if (sdl->e.type == SDL_QUIT) {
             sdl->flagList.flag_startSpecial = False;
             sdl->flagList.flag_mainGame = False;
             break;
-
             // 处理鼠标点击事件
         } else if (sdl->e.type == SDL_MOUSEBUTTONDOWN) {
-            SDL_GetMouseState(&sdl->mouseX, &sdl->mouseY);
-            sdl->inputPos = 0;
-            memset(sdl->inputBuffer, 0, sizeof(sdl->inputBuffer));
-            sdl->flagList.input_mode = False;
-            if (isButtonClicked(&sdl->ButtonList[nextGenerationButtonNum], sdl->mouseX, sdl->mouseY)) {
-                next_generation_special(sdl->c);
-                sdl->c->grid_feature.count_turn += 1;
-                if (sdl->c->rows <= 0 || sdl->c->cols <= 0) {
-                    updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                        "Warning:Grids haven't been initialized!");
-                    break;
-                }
-                break; // 重新绘制
-            } else if (isButtonClicked(&sdl->ButtonList[init_randomButtonNum], sdl->mouseX, sdl->mouseY)) {
-                printf("%d\n", sdl->c->probability);
-                int temp_probability = sdl->c->probability;
-                if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-                    sdl->c = new_conway_special(sdl->c->rows, sdl->c->cols);
-                    sdl->c->probability = temp_probability;
-                    printf("%d\n", temp_probability);
-                    init_random_special(sdl->c);
-                } else if (sdl->c->rows == 0 || sdl->c->cols == 0) {
-                    sdl->c->rows = 20;
-                    sdl->c->cols = 20;
-                    sdl->c = new_conway_special(20, 20);
-                    updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                        "Warning:Invalid Rows/Cols,using default setting!");
-                    init_random_special(sdl->c);
-                }
-                break; // 重新绘制
-            } else if (isButtonClicked(&sdl->ButtonList[init_randomInputBox_rowsNum], sdl->mouseX, sdl->mouseY) ||
-                       isButtonClicked(&sdl->ButtonList[init_randomInputBox_colsNum], sdl->mouseX, sdl->mouseY) ||
-                       isButtonClicked(&sdl->ButtonList[init_randomButton_proNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.input_mode = True;
-                sdl->flagList.input_rows =
-                    isButtonClicked(&sdl->ButtonList[init_randomInputBox_rowsNum], sdl->mouseX, sdl->mouseY); // 防止两个一起变成真
-                sdl->flagList.input_cols = isButtonClicked(&sdl->ButtonList[init_randomInputBox_colsNum], sdl->mouseX, sdl->mouseY);
-                sdl->flagList.input_probability = isButtonClicked(&sdl->ButtonList[init_randomButton_proNum], sdl->mouseX, sdl->mouseY);
-            } else if (isButtonClicked(&sdl->ButtonList[startAutoModeButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_autoMode_special = True;
-                break;
-            } else if (isButtonClicked(&sdl->ButtonList[backToMenuButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_startSpecial = False;
-                sdl->flagList.flag_autoMode_special = False;
-                sdl->flagList.flag_menuButton = True;
-                delete_special_grids(sdl->c);
-                break;
-            } else if (isButtonClicked(&sdl->ButtonList[timeSetButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_setTime = True;
-
-            } else if (isButtonClicked(&sdl->ButtonList[importPathButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_importPath = True;
-            } else if (isButtonClicked(&sdl->ButtonList[savePathButtonNum], sdl->mouseX, sdl->mouseY)) {
-                sdl->flagList.flag_savePath = True;
-            } else if (isGridClicked(sdl->c, sdl->mouseX, sdl->mouseY) == True && sdl->flagList.flag_editGrid == True) {
-                changeGridStateONCLick_special(sdl->c, sdl->mouseX, sdl->mouseY);
-                draw_special_sdlGrids(sdl->renderer, sdl->c);
-                SDL_RenderPresent(sdl->renderer);
-            } else if (isButtonClicked(&sdl->ButtonList[resetGridButtonNum], sdl->mouseX, sdl->mouseY)) {
-                if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-                    for (int i = 0; i < sdl->c->rows; i++) {
-                        for (int j = 0; j < sdl->c->cols; j++) {
-                            set_state_special(sdl->c, i, j, new_cell_setting());
-                        }
-                    }
-                    sdl->c->grid_feature.count_turn = 0;
-                    break;
-                }
-            } else if (isButtonClicked(&sdl->ButtonList[editModeButtonNum], sdl->mouseX, sdl->mouseY)) {
-                if (sdl->flagList.flag_editGrid == False) {
-                    sdl->flagList.flag_editGrid = True;
-                    renderText(sdl->renderer, sdl->FontList[2], "Disable edit on click", (SDL_Color){255, 0, 0},
-                               sdl->ButtonList[editModeButtonNum].rect.x + 18, sdl->ButtonList[editModeButtonNum].rect.y + 8);
-                    updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                        "Yor are editing grids on click!");
-                } else {
-                    sdl->flagList.flag_editGrid = False;
-                }
-                break;
-            }
-
+            mouseDown_special(sdl);
         } else if (sdl->flagList.input_mode == True && sdl->e.type == SDL_KEYDOWN) {
-
-            if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
-                // 检查输入的是数字
-                sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
-                sdl->inputPos++;
-                sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
-                printf("用户输入了: %s\n", sdl->inputBuffer);
-                if (sdl->flagList.input_rows == True) {
-                    sscanf(sdl->inputBuffer, "%d", &sdl->c->rows);
-                } else if (sdl->flagList.input_cols == True) {
-                    sscanf(sdl->inputBuffer, "%d", &sdl->c->cols);
-                } else if (sdl->flagList.input_probability == True) {
-                    sscanf(sdl->inputBuffer, "%d", &sdl->c->probability);
-                    printf("%d", sdl->c->probability);
-                }
-                if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-                    int temp_probability = sdl->c->probability;
-                    sdl->c = new_conway_special(sdl->c->rows, sdl->c->cols);
-                    sdl->c->probability = temp_probability;
-                    if (sdl->c->probability > 0 && sdl->c->probability <= 100) {
-                        init_random_special(sdl->c);
-                    }
-                }
-
-            } else if (sdl->e.key.keysym.sym == SDLK_RETURN) {
-
-                printf("用户输入了: %s\n", sdl->inputBuffer);
-            }
-            // 使用renderText函数绘制inputBuffer的内容
-            SDL_Color textColor = {2, 200, 0};
-
-            if (sdl->flagList.input_rows == True) {
-                renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_rowsNum].rect.x + 10,
-                           sdl->ButtonList[init_randomInputBox_rowsNum].rect.y + 15);
-            } else if (sdl->flagList.input_cols == True) {
-                renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomInputBox_colsNum].rect.x + 10,
-                           sdl->ButtonList[init_randomInputBox_colsNum].rect.y + 15);
-            } else if (sdl->flagList.input_probability == True) {
-                renderText(sdl->renderer, sdl->FontList[2], sdl->inputBuffer, textColor, sdl->ButtonList[init_randomButton_proNum].rect.x + 10,
-                           sdl->ButtonList[init_randomButton_proNum].rect.y + 15);
-            } else {
-                renderText(sdl->renderer, sdl->FontList[2], "Enter your path here:", textColor, sdl->ButtonList[init_randomButton_proNum].rect.x + 10,
-                           sdl->ButtonList[init_randomButton_proNum].rect.y + 15);
-            }
-
-            SDL_RenderPresent(sdl->renderer); // 更新显示的内容
+            input_basic_feature_special(sdl);
         } else if (sdl->flagList.flag_setTime == True && sdl->e.type == SDL_KEYDOWN) {
-            if (sdl->e.key.keysym.sym >= SDLK_0 && sdl->e.key.keysym.sym <= SDLK_9) {
-                // 检查输入的是数字
-                sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
-                sdl->inputPos++;
-                sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符
-                printf("用户输入了: %s\n", sdl->inputBuffer);
-                sscanf(sdl->inputBuffer, "%d I", &sdl->autoTime);
-                if (sdl->autoTime < 80) {
-                    sdl->autoTime = 80;
-                }
-            }
-            TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 12);
-
-            renderText(sdl->renderer, pathFont, sdl->inputBuffer, sdl->colorList[0], sdl->ButtonList[timeSetButtonNum].rect.x + 10,
-                       sdl->ButtonList[timeSetButtonNum].rect.y + 15);
-            SDL_RenderPresent(sdl->renderer);
+            set_time(sdl);
         } else if ((sdl->flagList.flag_importPath == True || sdl->flagList.flag_savePath == True) && sdl->e.type == SDL_KEYDOWN) {
-            SDL_Color textColor = {2, 200, 0}; // 设置输入文本颜色
-            TTF_Font *pathFont = TTF_OpenFont("./Roboto/Roboto-Black.ttf", 12);
-
-            if (sdl->e.key.keysym.sym != SDLK_LALT) {
-                sdl->inputBuffer[sdl->inputPos] = (char)sdl->e.key.keysym.sym;
-                sdl->inputPos++;
-                sdl->inputBuffer[sdl->inputPos] = '\0'; // 添加字符串结束符,按alt输入字母
-            }
-            if (sdl->e.key.keysym.sym == SDLK_0) {
-                sdl->inputBuffer[0] = '\0';
-            } else if (sdl->e.key.keysym.sym == SDLK_RETURN) {
-                if (sdl->flagList.flag_importPath == True) {
-                    sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
-                    Conway *temp_c;
-                    if ((temp_c = new_conway_from_file_special(sdl->c, sdl->inputBuffer)) != NULL) {
-                        sdl->c = new_conway_from_file_special(sdl->c, sdl->inputBuffer);
-                    } else {
-                        updateCommandReport(sdl->commandReport_1, sdl->commandReport_2, sdl->commandReport_3, sdl->commandReport_4,
-                                            "Warning:Invalid Path!");
-                    }
-
-                    sdl->flagList.flag_importPath = False;
-                    // free(temp_c);
-                    break;
-                } else if (sdl->flagList.flag_savePath == True) {
-                    sscanf(sdl->inputBuffer, "%s", &sdl->inputBuffer);
-                    save_conway_special(sdl->c, sdl->inputBuffer);
-                    sdl->flagList.flag_savePath = False;
-                    break;
-                }
-                memset(sdl->inputBuffer, '\0', sizeof(sdl->inputBuffer));
-            }
-            if (sdl->flagList.flag_importPath == True) {
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
-                           sdl->ButtonList[importPathButtonNum].rect.y + 15);
-                SDL_RenderPresent(sdl->renderer);
-            } else if (sdl->flagList.flag_savePath == True) {
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
-                           sdl->ButtonList[savePathButtonNum].rect.y + 15);
-                SDL_RenderPresent(sdl->renderer);
-            } else {
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[importPathButtonNum].rect.x + 10,
-                           sdl->ButtonList[importPathButtonNum].rect.y + 15);
-                renderText(sdl->renderer, pathFont, sdl->inputBuffer, textColor, sdl->ButtonList[savePathButtonNum].rect.x + 10,
-                           sdl->ButtonList[savePathButtonNum].rect.y + 15);
-                SDL_RenderPresent(sdl->renderer);
-            }
-
+            Path_input_special(sdl);
             // 设置时间
         } else if (sdl->e.type != SDL_MOUSEBUTTONDOWN && sdl->flagList.flag_editGrid == False) {
-            static Bool isWindowShown = False;
-            int currentRow = get_row_from_mouse(sdl->c, sdl->mouseX);
-            int currentCol = get_col_from_mouse(sdl->c, sdl->mouseY);
-
-            if (isGridClicked(sdl->c, sdl->mouseX, sdl->mouseY) == True) {
-                if ((currentRow != lastHoveredRow || currentCol != lastHoveredCol)) {
-                    SDL_Delay(100);
-                    showCellInformationSpecial(sdl);
-                    isWindowShown = True; // 设置窗口为显示状态
-                    lastHoveredRow = currentRow;
-                    lastHoveredCol = currentCol;
-                    while (SDL_WaitEvent(&sdl->e) == 0) {}
-                    SDL_Delay(300);
-                    break;
-                }
-            } else {
-                if (isWindowShown) {
-                    // 这里关闭或隐藏信息窗口
-                    isWindowShown = False;
-                }
-            }
+            show_float_window(sdl, &lastHoveredRow, &lastHoveredCol);
         }
+        SDL_RenderPresent(sdl->renderer);
     }
 }
 
 void draw_normal_informationBoard(SDL_resource *sdl) {
     SDL_Color ButtontextColor = {35, 0, 255};
-    sprintf(sdl->BasicGridInformation, "Rows:%d  Cols:%d  livingCells:%d  Auto Mode Pause time:%dms", sdl->c->rows, sdl->c->cols,
+    sprintf(sdl->BasicGridInformation[0], "Rows:%d  Cols:%d  livingCells:%d  Auto Mode Pause time:%dms", sdl->c->rows, sdl->c->cols,
             count_living_cell_normal(sdl->c), sdl->autoTime);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->BasicGridInformation, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
+    renderText(sdl->renderer, sdl->FontList[3], sdl->BasicGridInformation[0], ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
                sdl->ButtonList[informationBoardNum].rect.y + 45);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_1, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 60);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_2, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 75);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_3, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 90);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_4, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 105);
+    for (int i = 0; i < 4; i++) {
+        renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport[i], ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
+                   sdl->ButtonList[informationBoardNum].rect.y + 60 + i * 15);
+        memset(sdl->commandReport[i], '\0', sizeof(sdl->commandReport[i]));
+    }
 
     // 初始化命令
-    memset(sdl->commandReport_1, '\0', sizeof(sdl->commandReport_1));
-    memset(sdl->commandReport_2, '\0', sizeof(sdl->commandReport_2));
-    memset(sdl->commandReport_3, '\0', sizeof(sdl->commandReport_3));
-    memset(sdl->commandReport_4, '\0', sizeof(sdl->commandReport_4));
 }
 
 // 信息和事件列表
@@ -1032,36 +1027,26 @@ void draw_special_informationBoard(SDL_resource *sdl) {
     const char *oxyLevel[] = {"extreme low", "low", "miner low", "normal", "abundant", "high", "extreme high"};
     const char *lightLevel[] = {"dark", "low", "low", "normal", "abundant", "high", "extreme high"};
 
-    sprintf(sdl->BasicGridInformation, "Rows:%d  Cols:%d   Auto Mode Pause time:%dms", sdl->c->rows, sdl->c->cols, sdl->autoTime);
-    sprintf(sdl->BasicGridInformation_2, "Producer number:%d  Consumer number:%d  Current turn:%d", count_living_producer(sdl->c),
+    sprintf(sdl->BasicGridInformation[0], "Rows:%d  Cols:%d   Auto Mode Pause time:%dms", sdl->c->rows, sdl->c->cols, sdl->autoTime);
+    sprintf(sdl->BasicGridInformation[1], "Producer amount:%d  Consumer amount:%d  Current turn:%d", count_living_producer(sdl->c),
             count_living_consumer(sdl->c), sdl->c->grid_feature.count_turn);
     if (sdl->c->rows > 0 && sdl->c->cols > 0) {
-        sprintf(sdl->BasicGridInformation_3, "Temperature:%s  Oxygen:%s  Light:%s", temLevel[sdl->c->grid_feature.temperature],
+        sprintf(sdl->BasicGridInformation[2], "Temperature:%s  Oxygen:%s  Light:%s", temLevel[sdl->c->grid_feature.temperature],
                 oxyLevel[sdl->c->grid_feature.oxygen_resource], lightLevel[sdl->c->grid_feature.light_resource]);
     }
 
-    renderText(sdl->renderer, sdl->FontList[3], sdl->BasicGridInformation, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 45);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->BasicGridInformation_2, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 60);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->BasicGridInformation_3, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 75);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_1, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 100);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_2, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 115);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_3, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 130);
-    renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport_4, ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
-               sdl->ButtonList[informationBoardNum].rect.y + 145);
+    for (int i = 0; i < 3; i++) {
+        renderText(sdl->renderer, sdl->FontList[3], sdl->BasicGridInformation[i], ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
+                   sdl->ButtonList[informationBoardNum].rect.y + 45 + i * 15);
+    }
+
+    for (int i = 0; i < 4; i++) {
+        renderText(sdl->renderer, sdl->FontList[3], sdl->commandReport[i], ButtontextColor, sdl->ButtonList[informationBoardNum].rect.x + 10,
+                   sdl->ButtonList[informationBoardNum].rect.y + 100 + i * 15);
+        memset(sdl->commandReport[i], '\0', sizeof(sdl->commandReport[i]));
+    }
 
     showEventList(sdl->c, sdl->renderer, sdl->ButtonList[EventListNum]);
-
-    // 初始化命令
-    memset(sdl->commandReport_1, '\0', sizeof(sdl->commandReport_1));
-    memset(sdl->commandReport_2, '\0', sizeof(sdl->commandReport_2));
-    memset(sdl->commandReport_3, '\0', sizeof(sdl->commandReport_3));
-    memset(sdl->commandReport_4, '\0', sizeof(sdl->commandReport_4));
 }
 
 void NormalAutoModeChoice(SDL_resource *sdl) {
@@ -1071,6 +1056,7 @@ void NormalAutoModeChoice(SDL_resource *sdl) {
             sdl->flagList.flag_startPlay = False;
             sdl->flagList.flag_mainGame = False;
             sdl->flagList.flag_autoMode = False;
+            // delete_grids(sdl->c);
             break;
             // 处理鼠标点击事件
         } else if (sdl->e.type == SDL_MOUSEBUTTONDOWN) {
@@ -1094,6 +1080,7 @@ void SpecialAutoModeChoice(SDL_resource *sdl) {
             sdl->flagList.flag_autoMode_special = False;
             sdl->flagList.flag_startPlay = False;
             sdl->flagList.flag_mainGame = False;
+            // delete_special_grids(sdl->c);
             break;
             // 处理鼠标点击事件
         } else if (sdl->e.type == SDL_MOUSEBUTTONDOWN) {
@@ -1155,31 +1142,40 @@ void changeButtonTextColor(SDL_resource *sdl) {
 }
 
 // 释放Button中的字体
-void cleanUpButton(Button *button) {
-    if (button->font != NULL) {
-        TTF_CloseFont(button->font);
-        button->font = NULL;
-    }
-}
 
-void free_all_resource(SDL_resource*sdl){
-    SDL_DestroyTexture(sdl->texture);
-    SDL_DestroyRenderer(sdl->renderer);
-    SDL_DestroyWindow(sdl->window);
-    delete_grids(sdl->c);
-    delete_special_grids(sdl->c);
-    for (int i = 0; i < 20; ++i) {
+void free_all_resource(SDL_resource *sdl) {
+    if (sdl->LastPlayedMode == 0) {
+        sdl->c->last_rows = sdl->c->rows;
+        delete_grids(sdl->c);
+    } else if (sdl->LastPlayedMode == 1) {
+        delete_special_grids(sdl->c);
+    }
+    free(sdl->c);
+    if (sdl == NULL)
+        return;
+
+    if (sdl->texture != NULL) {
+        SDL_DestroyTexture(sdl->texture);
+        sdl->texture = NULL;
+    }
+    if (sdl->renderer != NULL) {
+        SDL_DestroyRenderer(sdl->renderer);
+        sdl->renderer = NULL;
+    }
+    if (sdl->window != NULL) {
+        SDL_DestroyWindow(sdl->window);
+        sdl->window = NULL;
+    }
+
+    for (int i = 0; i < 20; i++) {
         if (sdl->FontList[i] != NULL) {
             TTF_CloseFont(sdl->FontList[i]);
             sdl->FontList[i] = NULL;
         }
     }
-    for (int i = 0; i < 40; ++i) {
-        cleanUpButton(&sdl->ButtonList[i]);
-    }
 }
 
-int main(int argc, char *argv[]) {
+SDL_resource *initialize_all() {
     srand(time(NULL));
     SDL_resource *sdl = (SDL_resource *)malloc(sizeof(SDL_resource));
     Conway *c = update_conway(0, 0);
@@ -1191,11 +1187,20 @@ int main(int argc, char *argv[]) {
 
     if (initialize_sdl() == False) {
         delete_grids(c);
+        free(sdl->c);
         free(sdl);
-        return 1;
+        exit(-1);
     }
 
     TTF_Init(); // 初始化SDL以及ttf（文字处理）
+
+    for (int i = 0; i < 20; i++) {
+        sdl->FontList[i] = NULL;
+    }
+    for (int i = 0; i < 40; i++) {
+        sdl->ButtonList[i] = initializeButton();
+    }
+
     SDL_Window *window = init_window(1520, 1080);
     SDL_Renderer *renderer = render_window(window);
     SDL_Texture *background = loadTexture(renderer, "./pic/ocean.jpg");
@@ -1269,70 +1274,81 @@ int main(int argc, char *argv[]) {
     sdl->flagList.input_mode = False;
     sdl->flagList.input_probability = False;
     sdl->flagList.flag_editGrid = False;
-
-    memset(sdl->commandReport_1, '\0', sizeof(sdl->commandReport_1));
-    memset(sdl->commandReport_2, '\0', sizeof(sdl->commandReport_2));
-    memset(sdl->commandReport_3, '\0', sizeof(sdl->commandReport_3));
-    memset(sdl->commandReport_4, '\0', sizeof(sdl->commandReport_4));
-    memset(sdl->BasicGridInformation, '\0', sizeof(sdl->BasicGridInformation));
-    memset(sdl->BasicGridInformation_2, '\0', sizeof(sdl->BasicGridInformation));
-    memset(sdl->BasicGridInformation_3, '\0', sizeof(sdl->BasicGridInformation));
+    for (int i = 0; i < 4; i++) {
+        memset(sdl->commandReport[i], '\0', sizeof(sdl->commandReport[i]));
+    }
+    for (int i = 0; i < 3; i++) {
+        memset(sdl->BasicGridInformation[i], '\0', sizeof(sdl->BasicGridInformation[i]));
+    }
 
     SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+    return sdl;
+}
 
-    // 以上均为初始化各个变量
+void normalGame(SDL_resource *sdl) {
+    sdl->LastPlayedMode = 0;
+    SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+    showButtons(sdl, 14); // 前14个按钮，用于普通模式
+    changeButtonTextColor(sdl);
+    draw_normal_informationBoard(sdl);
+    draw_normal_sdlGrids(sdl->renderer, sdl->c);
+    SDL_RenderPresent(sdl->renderer);
+    Normal_mode_choice(sdl);
 
+    while (sdl->flagList.flag_autoMode == True) {
+
+        SDL_RenderClear(sdl->renderer); // 清除旧的内容
+        SDL_Delay(sdl->autoTime);
+        next_generation(sdl->c); // 更新Conway游戏的状态
+        SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+        showButtons(sdl, 14); // 前14个按钮，用于普通模式
+        changeButtonTextColor(sdl);
+        draw_normal_informationBoard(sdl);
+        draw_normal_sdlGrids(sdl->renderer, sdl->c);
+        SDL_RenderPresent(sdl->renderer);
+        NormalAutoModeChoice(sdl);
+    }
+}
+
+void specialGame(SDL_resource *sdl) {
+    sdl->LastPlayedMode = 1;
+    SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+    showButtons(sdl, 16); // 前15个按钮，用于特殊模式
+    changeButtonTextColor(sdl);
+    draw_special_informationBoard(sdl);
+    draw_special_sdlGrids(sdl->renderer, sdl->c);
+    SDL_RenderPresent(sdl->renderer);
+    Special_mode_choice(sdl);
+
+    while (sdl->flagList.flag_autoMode_special == True) {
+        SDL_RenderClear(sdl->renderer); // 清除旧的内容
+        SDL_Delay(sdl->autoTime);
+        next_generation_special(sdl->c);
+        SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+        showButtons(sdl, 16);
+        changeButtonTextColor(sdl);
+        draw_special_informationBoard(sdl);
+        draw_special_sdlGrids(sdl->renderer, sdl->c);
+        SDL_RenderPresent(sdl->renderer);
+        SpecialAutoModeChoice(sdl);
+    }
+}
+void mainGame(SDL_resource *sdl) {
     while (sdl->flagList.flag_mainGame == True) {
         if (sdl->flagList.flag_menuButton == True) {
             showMenu(sdl);
         }
-
         if (sdl->flagList.flag_startPlay == True) {
-            SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
-            showButtons(sdl, 14); // 前14个按钮，用于普通模式
-            changeButtonTextColor(sdl);
-            draw_normal_informationBoard(sdl);
-            draw_normal_sdlGrids(sdl->renderer, sdl->c);
-            SDL_RenderPresent(sdl->renderer);
-            Normal_mode_choice(sdl);
-
-            while (sdl->flagList.flag_autoMode == True) {
-
-                SDL_RenderClear(sdl->renderer); // 清除旧的内容
-                SDL_Delay(sdl->autoTime);
-                next_generation(c); // 更新Conway游戏的状态
-                SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
-                showButtons(sdl, 14); // 前14个按钮，用于普通模式
-                changeButtonTextColor(sdl);
-                draw_normal_informationBoard(sdl);
-                draw_normal_sdlGrids(sdl->renderer, sdl->c);
-                SDL_RenderPresent(sdl->renderer);
-                NormalAutoModeChoice(sdl);
-            }
-            
+            normalGame(sdl);
         } else if (sdl->flagList.flag_startSpecial == True) {
-            SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
-            showButtons(sdl, 16); // 前15个按钮，用于特殊模式
-            changeButtonTextColor(sdl);
-            draw_special_informationBoard(sdl);
-            draw_special_sdlGrids(sdl->renderer, sdl->c);
-            SDL_RenderPresent(sdl->renderer);
-            Special_mode_choice(sdl);
-
-            while (sdl->flagList.flag_autoMode_special == True) {
-                SDL_RenderClear(sdl->renderer); // 清除旧的内容
-                SDL_Delay(sdl->autoTime);
-                next_generation_special(sdl->c);
-                SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
-                showButtons(sdl, 16);
-                changeButtonTextColor(sdl);
-                draw_special_informationBoard(sdl);
-                draw_special_sdlGrids(sdl->renderer, sdl->c);
-                SDL_RenderPresent(sdl->renderer);
-                SpecialAutoModeChoice(sdl);
-            }
+            specialGame(sdl);
         }
     }
+}
+
+int main(int argc, char *argv[]) {
+    SDL_resource *sdl = initialize_all();
+    mainGame(sdl);
     free_all_resource(sdl);
     free(sdl);
     SDL_Quit();
