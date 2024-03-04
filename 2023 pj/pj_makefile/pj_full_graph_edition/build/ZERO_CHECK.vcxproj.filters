@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\C++\2023 pj\pj_makefile\pj_full_graph_edition\build\CMakeFiles\cad523b0ae5d827487f438f483785590\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8B4DA8B5-DBD8-37AB-A8BC-A27D137353BA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

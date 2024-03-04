@@ -1,0 +1,14 @@
+[
+{
+  "directory": "D:/C++/cmaketest/pj_test_cmake/build",
+  "command": "D:\\mingw64\\bin\\gcc.exe  @CMakeFiles/sort.dir/includes_C.rsp -g -o CMakeFiles\\sort.dir\\main.c.obj -c D:\\C++\\cmaketest\\pj_test_cmake\\main.c",
+  "file": "D:/C++/cmaketest/pj_test_cmake/main.c",
+  "output": "CMakeFiles/sort.dir/main.c.obj"
+},
+{
+  "directory": "D:/C++/cmaketest/pj_test_cmake/build",
+  "command": "D:\\mingw64\\bin\\gcc.exe  @CMakeFiles/sort.dir/includes_C.rsp -g -o CMakeFiles\\sort.dir\\Conway.c.obj -c D:\\C++\\cmaketest\\pj_test_cmake\\Conway.c",
+  "file": "D:/C++/cmaketest/pj_test_cmake/Conway.c",
+  "output": "CMakeFiles/sort.dir/Conway.c.obj"
+}
+]

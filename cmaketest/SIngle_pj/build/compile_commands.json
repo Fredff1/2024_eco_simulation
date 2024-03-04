@@ -1,0 +1,8 @@
+[
+{
+  "directory": "D:/C++/cmaketest/build",
+  "command": "D:\\mingw64\\bin\\gcc.exe   -g -o CMakeFiles\\helloworld_1.dir\\helloworld.c.obj -c D:\\C++\\cmaketest\\helloworld.c",
+  "file": "D:/C++/cmaketest/helloworld.c",
+  "output": "CMakeFiles/helloworld_1.dir/helloworld.c.obj"
+}
+]

@@ -5,10 +5,10 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/program.exe",
+            "program": "${workspaceFolder}/program.exe",//这是目标生成的可执行文件名，要与tasks中对应
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}",//目标工作目录
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -20,7 +20,7 @@
                 }
             ],
             "preLaunchTask": "build",
-            "miDebuggerPath": "D:\\mingwin64_now\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "D:\\mingw64\\bin\\gdb.exe",//gdb路径，需要自己修改
             "logging": { "trace": true, "traceResponse": true, "engineLogging": true }
         }
     ]

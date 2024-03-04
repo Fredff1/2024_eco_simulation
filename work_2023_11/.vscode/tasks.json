@@ -10,11 +10,9 @@
                 "-g",
                 "-static",
                 "${workspaceFolder}/*.c",
-              
                 "-fexec-charset=UTF-8",
                 "-o",
-                "${workspaceFolder}/program.exe",
-                
+                "${workspaceFolder}/program.exe"
             ],
             "problemMatcher": [
                 "$gcc"

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\C++\2023 pj\pj_makefile\pj_full_graph_edition\Conway.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\C++\2023 pj\pj_makefile\pj_full_graph_edition\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\C++\2023 pj\pj_makefile\pj_full_graph_edition\main_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\C++\2023 pj\pj_makefile\pj_full_graph_edition\main_2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\C++\2023 pj\pj_makefile\pj_full_graph_edition\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A9278465-7E37-3CB1-9283-B83A5493D122}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

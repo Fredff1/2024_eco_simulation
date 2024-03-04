@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.14)
+project(SortMake)
+
+# 设置 SDL2 的路径
+set(SDL2_PATH "D:/extra h for c cpp/SDL2-2.28.4/x86_64-w64-mingw32")
+
+# 包含头文件目录
+include_directories(${SDL2_PATH}/include/SDL2)
+
+# 设置链接器目录
+link_directories(${SDL2_PATH}/lib)
+
+# 添加要编译的源文件
+add_executable(sort main.c Conway.c)
+
+# 查找 SDL2 库
+find_library(SDL2_LIB NAME SDL2 PATHS ${SDL2_PATH}/lib NO_DEFAULT_PATH)
+find_library(SDL2_MAIN_LIB NAME SDL2main PATHS ${SDL2_PATH}/lib NO_DEFAULT_PATH)
+find_library(SDL2_IMAGE_LIB NAME SDL2_image PATHS ${SDL2_PATH}/lib NO_DEFAULT_PATH)
+find_library(SDL2_TTF_LIB NAME SDL2_ttf PATHS ${SDL2_PATH}/lib NO_DEFAULT_PATH)
+
+# 链接 SDL2 库
+target_link_libraries(sort ${SDL2_LIB} ${SDL2_MAIN_LIB} ${SDL2_IMAGE_LIB} ${SDL2_TTF_LIB})

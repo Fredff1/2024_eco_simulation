@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "build",
-            "command": "D:\\mingw64\\bin\\g++.exe",
+            "command": "D:\\mingw64\\bin\\gcc.exe",//这里要改成你的gcc编译器所在路径
             "type": "shell",
             "args": [
                 "-fdiagnostics-color=always",
@@ -13,7 +13,7 @@
                 "${workspaceFolder}/Conway.c",
                 "-fexec-charset=UTF-8",
                 "-o",
-                "${workspaceFolder}/program.exe",
+                "${workspaceFolder}/program.exe",//编译出来的exe文件名固定为program.exe
                 
             ],
             "problemMatcher": [
