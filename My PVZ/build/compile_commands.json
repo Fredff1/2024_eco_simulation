@@ -1,0 +1,56 @@
+[
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\GUIRes.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\GUIRes.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/GUIRes.cpp",
+  "output": "CMakeFiles/Game.dir/src/GUIRes.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\Game.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\Game.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/Game.cpp",
+  "output": "CMakeFiles/Game.dir/src/Game.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\PlantBullet.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\PlantBullet.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/PlantBullet.cpp",
+  "output": "CMakeFiles/Game.dir/src/PlantBullet.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\config.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\config.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/config.cpp",
+  "output": "CMakeFiles/Game.dir/src/config.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\main.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\main.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/main.cpp",
+  "output": "CMakeFiles/Game.dir/src/main.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\plants\\Plant.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\plants\\Plant.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/plants/Plant.cpp",
+  "output": "CMakeFiles/Game.dir/src/plants/Plant.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\plants\\Sunflower.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\plants\\Sunflower.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/plants/Sunflower.cpp",
+  "output": "CMakeFiles/Game.dir/src/plants/Sunflower.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\zombies\\ConeheadZombie.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\zombies\\ConeheadZombie.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/zombies/ConeheadZombie.cpp",
+  "output": "CMakeFiles/Game.dir/src/zombies/ConeheadZombie.cpp.obj"
+},
+{
+  "directory": "D:/Cpp/My PVZ/build",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Game.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles\\Game.dir\\src\\zombies\\Zombie.cpp.obj -c \"D:\\Cpp\\My PVZ\\src\\zombies\\Zombie.cpp\"",
+  "file": "D:/Cpp/My PVZ/src/zombies/Zombie.cpp",
+  "output": "CMakeFiles/Game.dir/src/zombies/Zombie.cpp.obj"
+}
+]
