@@ -1,0 +1,2 @@
+D:\gcc\mingw64\bin\ar.exe qc libModel.a CMakeFiles/Model.dir/Consumer.cpp.obj CMakeFiles/Model.dir/Decomposer.cpp.obj CMakeFiles/Model.dir/Entity.cpp.obj CMakeFiles/Model.dir/EntityFactory.cpp.obj CMakeFiles/Model.dir/EnvironmentFac.cpp.obj CMakeFiles/Model.dir/Gene.cpp.obj CMakeFiles/Model.dir/MainModel.cpp.obj CMakeFiles/Model.dir/Producer.cpp.obj CMakeFiles/Model.dir/QuadTreeAtlas.cpp.obj CMakeFiles/Model.dir/Resource.cpp.obj CMakeFiles/Model.dir/WaterFlow.cpp.obj
+D:\gcc\mingw64\bin\ranlib.exe libModel.a
