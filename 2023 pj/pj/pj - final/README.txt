@@ -1,1 +1,0 @@
-编译：gcc main.c conway.c -o main -Wall -Wextra -lpthread

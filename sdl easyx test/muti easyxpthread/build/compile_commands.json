@@ -1,8 +1,0 @@
-[
-{
-  "directory": "D:/C++/muti easyxpthread/build",
-  "command": "D:\\mingwin64_now\\mingw64\\bin\\g++.exe   -g -o CMakeFiles\\main.dir\\main.cpp.obj -c \"D:\\C++\\muti easyxpthread\\main.cpp\"",
-  "file": "D:/C++/muti easyxpthread/main.cpp",
-  "output": "CMakeFiles/main.dir/main.cpp.obj"
-}
-]

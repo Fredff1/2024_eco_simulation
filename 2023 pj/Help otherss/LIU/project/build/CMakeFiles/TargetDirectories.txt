@@ -1,3 +1,0 @@
-D:/C++/2023 pj/Help otherss/LIU/project/build/CMakeFiles/Game.dir
-D:/C++/2023 pj/Help otherss/LIU/project/build/CMakeFiles/edit_cache.dir
-D:/C++/2023 pj/Help otherss/LIU/project/build/CMakeFiles/rebuild_cache.dir

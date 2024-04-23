@@ -1,3 +1,0 @@
-D:\mingw64\bin\cmake.exe -E rm -f CMakeFiles\multi-file.dir/objects.a
-D:\mingw64\bin\ar.exe qc CMakeFiles\multi-file.dir/objects.a @CMakeFiles\multi-file.dir\objects1.rsp
-D:\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\multi-file.dir/objects.a -Wl,--no-whole-archive -o multi-file.exe -Wl,--out-implib,libmulti-file.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\multi-file.dir\linkLibs.rsp

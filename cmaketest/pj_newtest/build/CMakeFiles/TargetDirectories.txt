@@ -1,3 +1,0 @@
-D:/C++/cmaketest/pj_newtest/build/CMakeFiles/Game.dir
-D:/C++/cmaketest/pj_newtest/build/CMakeFiles/edit_cache.dir
-D:/C++/cmaketest/pj_newtest/build/CMakeFiles/rebuild_cache.dir

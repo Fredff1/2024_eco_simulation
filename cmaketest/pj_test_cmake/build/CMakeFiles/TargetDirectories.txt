@@ -1,3 +1,0 @@
-D:/C++/cmaketest/pj_test_cmake/build/CMakeFiles/sort.dir
-D:/C++/cmaketest/pj_test_cmake/build/CMakeFiles/edit_cache.dir
-D:/C++/cmaketest/pj_test_cmake/build/CMakeFiles/rebuild_cache.dir

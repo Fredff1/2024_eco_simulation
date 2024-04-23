@@ -1,3 +1,0 @@
-D:/C++/cmaketest/build/CMakeFiles/helloworld_1.dir
-D:/C++/cmaketest/build/CMakeFiles/edit_cache.dir
-D:/C++/cmaketest/build/CMakeFiles/rebuild_cache.dir
