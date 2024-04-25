@@ -75,7 +75,7 @@ struct EntityFeature{
         }
         currentHuger--;
         if(currentHuger<0){
-            currentHealth+=currentHuger;
+            currentHealth+=currentMaxHealth*0.00005;
         }
     }
 
@@ -107,6 +107,7 @@ struct EntityFeature{
         }
     }
 
+    /* shrink for producer*/
     void changeMaxDate(int rate){
         maxAge/=rate;
         peakAge=maxAge/2;
@@ -115,7 +116,7 @@ struct EntityFeature{
         geneMaxHealth/=rate;
         currentMaxHealth=calculateHealth(currentAge);
         currentHealth=currentMaxHealth;
-        maxReproductionCount=maxAge/5;
+        maxReproductionCount=maxAge/gene.calculateReproductionRate();
     }
 
     EntityFeature(){
@@ -130,7 +131,7 @@ struct EntityFeature{
         currentMaxHealth=calculateHealth(currentAge);
         currentHealth=currentMaxHealth;
 
-        maxReproductionCount=maxAge/2;
+        maxReproductionCount=maxAge/gene.calculateReproductionRate();
 
         update();
 

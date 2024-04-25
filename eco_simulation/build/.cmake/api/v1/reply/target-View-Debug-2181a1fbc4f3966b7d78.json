@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "src/Controller/libController.a"
+			"path" : "src/View/libView.a"
 		}
 	],
 	"backtrace" : 1,
@@ -12,12 +12,13 @@
 		"commands" : 
 		[
 			"add_library",
+			"add_compile_options",
 			"include_directories",
 			"target_include_directories"
 		],
 		"files" : 
 		[
-			"src/Controller/CMakeLists.txt",
+			"src/View/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -37,25 +38,31 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 12,
+				"line" : 10,
 				"parent" : 2
 			},
 			{
-				"command" : 1,
+				"command" : 2,
 				"file" : 1,
 				"line" : 13,
 				"parent" : 2
 			},
 			{
-				"command" : 1,
+				"command" : 2,
 				"file" : 1,
 				"line" : 14,
 				"parent" : 2
 			},
 			{
 				"command" : 2,
+				"file" : 1,
+				"line" : 15,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
 				"file" : 0,
-				"line" : 11,
+				"line" : 10,
 				"parent" : 0
 			}
 		]
@@ -67,25 +74,29 @@
 			[
 				{
 					"fragment" : "-g -std=gnu++17"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-O3"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/Cpp/Eco_simulation/include"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 5,
 					"path" : "D:/Cpp/Eco_simulation/include/Util"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 6,
 					"path" : "D:/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include"
 				},
 				{
-					"backtrace" : 6,
-					"path" : "D:/Cpp/Eco_simulation/include/Controller"
+					"backtrace" : 7,
+					"path" : "D:/Cpp/Eco_simulation/include/View"
 				}
 			],
 			"language" : "CXX",
@@ -99,17 +110,18 @@
 			},
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
-	"id" : "Controller::@11f1bd12b27f4837fc80",
-	"name" : "Controller",
-	"nameOnDisk" : "libController.a",
+	"id" : "View::@dc63d7c8f1e803a3373a",
+	"name" : "View",
+	"nameOnDisk" : "libView.a",
 	"paths" : 
 	{
-		"build" : "src/Controller",
-		"source" : "src/Controller"
+		"build" : "src/View",
+		"source" : "src/View"
 	},
 	"sourceGroups" : 
 	[
@@ -117,7 +129,8 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
@@ -126,7 +139,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/Controller/MainController.cpp",
+			"path" : "src/View/AtlasView.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/View/MainView.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -37,9 +37,10 @@ void Producer::updateHunger(){
 }
 
 void Producer::update(QuadTreeAtlas& quadTreeAtlas) {
-    checkEnvironment();
+    //checkEnvironment();
     updateHunger();
     checkWaterFlow(quadTreeAtlas.getWaterFlowList());
+    feature.currentHealth+=(feature.rectInAtlas.h*feature.rectInAtlas.w);
     if(moveCount>=moveInterval){
         this->move();
         moveCount=0;
@@ -56,18 +57,18 @@ void Producer::update(QuadTreeAtlas& quadTreeAtlas) {
 float Producer::calculateLifeLoss(float fitness) {
 
     // 设定最大生命值损失比例
-    const float maxLossPercentage = 0.05;  // 最大损失为最大生命值的10%
+    const float maxLossPercentage = 0.0008;  // 最大损失为最大生命值的0.1%
     float maxLoss = feature.currentMaxHealth * maxLossPercentage;
-
-    // 生命值损失与适应度成反比
-    
-    if(fitness>0){
-        float lifeAdd = maxLoss * (1 - fitness);
-        return lifeAdd;
+    if(fitness>0.6){
+        return (fitness-0.6)*maxLoss;
+    }else if(fitness>0.4){
+        return 0;
+    }else if(fitness>0){
+        return -(0.6-fitness)*maxLoss;
     }else{
-        float lifeLoss=maxLoss*(1+fitness);
-        return lifeLoss;
+        return maxLoss;
     }
+    
 }
 
 void Producer::checkEnvironment(){
@@ -88,19 +89,20 @@ void Producer::checkEnvironment(){
 
 void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
     if(feature.reproductionCount<feature.maxReproductionCount){
-        feature.reproductionCount++;
+        feature.reproductionCount+=3;
     }else{
         if(currentNode.lock()->entities.size()>MAX_ENTITIES){
             feature.reproductionCount--;
             return;
         }
-        if(feature.currentHealth<feature.currentMaxHealth*2/3){
+        if(feature.currentHealth<feature.currentMaxHealth/6){
             return;
         }
         auto newRect=feature.rectInAtlas;
-        newRect.x=(newRect.x+4096+RandomUtil::getRandomInt(-40,40))%4096;
-        newRect.y=(newRect.y+4096+RandomUtil::getRandomInt(-40,40))%4096;
+        newRect.x=(newRect.x+4096+RandomUtil::getRandomInt(-240,240))%4096;
+        newRect.y=(newRect.y+4096+RandomUtil::getRandomInt(-240,240))%4096;
         auto ent=quadTreeAtlas.getEntityFactory().createEntity(PRODUCER_TYPE,newRect ,quadTreeAtlas.getRoot());
+        this->feature.gene.copyGeneTo(ent->getGene());
         quadTreeAtlas.entityToAdd.push_back(ent);
         feature.reproductionCount=0;
         std::cout<<"Create a producer"<<std::endl;

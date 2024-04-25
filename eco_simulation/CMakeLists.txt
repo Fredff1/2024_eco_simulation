@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 设置 SDL2 的路径（确保这个路径是正确的）
 set(SDL2_PATH "${PROJECT_SOURCE_DIR}/SDL2-2.28.4/x86_64-w64-mingw32")
+add_compile_options(-O3)
 
 # 包含头文件目录
 include_directories(${PROJECT_SOURCE_DIR}/include)

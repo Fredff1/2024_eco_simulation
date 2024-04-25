@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "src/View/libView.a"
+			"path" : "src/Util/libUtil.a"
 		}
 	],
 	"backtrace" : 1,
@@ -12,12 +12,12 @@
 		"commands" : 
 		[
 			"add_library",
-			"include_directories",
-			"target_include_directories"
+			"add_compile_options",
+			"include_directories"
 		],
 		"files" : 
 		[
-			"src/View/CMakeLists.txt",
+			"src/Util/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -37,26 +37,26 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 12,
+				"line" : 10,
 				"parent" : 2
 			},
 			{
-				"command" : 1,
+				"command" : 2,
 				"file" : 1,
 				"line" : 13,
 				"parent" : 2
 			},
 			{
-				"command" : 1,
+				"command" : 2,
 				"file" : 1,
 				"line" : 14,
 				"parent" : 2
 			},
 			{
 				"command" : 2,
-				"file" : 0,
-				"line" : 10,
-				"parent" : 0
+				"file" : 1,
+				"line" : 15,
+				"parent" : 2
 			}
 		]
 	},
@@ -67,25 +67,25 @@
 			[
 				{
 					"fragment" : "-g -std=gnu++17"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-O3"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/Cpp/Eco_simulation/include"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 5,
 					"path" : "D:/Cpp/Eco_simulation/include/Util"
 				},
 				{
-					"backtrace" : 5,
-					"path" : "D:/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include"
-				},
-				{
 					"backtrace" : 6,
-					"path" : "D:/Cpp/Eco_simulation/include/View"
+					"path" : "D:/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include"
 				}
 			],
 			"language" : "CXX",
@@ -100,17 +100,18 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
-	"id" : "View::@dc63d7c8f1e803a3373a",
-	"name" : "View",
-	"nameOnDisk" : "libView.a",
+	"id" : "Util::@a41099a63817c13ea940",
+	"name" : "Util",
+	"nameOnDisk" : "libUtil.a",
 	"paths" : 
 	{
-		"build" : "src/View",
-		"source" : "src/View"
+		"build" : "src/Util",
+		"source" : "src/Util"
 	},
 	"sourceGroups" : 
 	[
@@ -119,7 +120,8 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
@@ -128,13 +130,19 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/View/AtlasView.cpp",
+			"path" : "src/Util/GlobalFunc.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/View/MainView.cpp",
+			"path" : "src/Util/RandomUtil.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Util/ThreadSafeQueue.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -2,14 +2,15 @@
 #define CONSUMER_H
 #include "../Model/Entity.hpp"
 #include "../Util/GlobalStruct.hpp"
+#include <deque>
 #include <SDL2/SDL.h>
 
 
 class Consumer :public Entity{
 private:
     EntityMoveChoice nextMoveChoice=NO_ENTITY_MOVE;
-    
     bool randomMove=true;
+    std::deque<int> moveHistory;
     void updateEntityState(){
         state.rectInAtlas=feature.rectInAtlas;
     }
@@ -54,6 +55,14 @@ public:
     void actReproduction(QuadTreeAtlas& quadTreeAtlas);
 
     int computeDirection();
+
+    float calculateLifeLoss(float fitness);
+
+    void checkEnvironment();
+
+    int determineBestDirection(std::vector<float>& currentDirectionScores);
+
+    void updateMoveHistory(int bestDirection);
     
 };
 

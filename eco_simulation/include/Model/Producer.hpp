@@ -25,7 +25,7 @@ public:
     Producer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode){
        feature.rectInAtlas.x=position.x,feature.rectInAtlas.y=position.y;
        this->id=id;
-       feature.maxSize=12;
+       feature.maxSize=20;
        feature.update();
        feature.changeMaxDate(5);
        feature.isHungerAvailable=true;
