@@ -26,7 +26,8 @@ class Consumer :public Entity{
 private:
     EntityMoveChoice nextMoveChoice=NO_ENTITY_MOVE;
     bool randomMove=true;
-    int randomMoveCooldown=0;
+    int moveCooldown=0;
+    int maxMoveCooldown;
     
     std::deque<int> moveHistory;
     void updateEntityState(){

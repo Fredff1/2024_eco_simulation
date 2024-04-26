@@ -9,17 +9,23 @@ std::weak_ptr<QuadTreeAtlasNode> Consumer::getCurrentNode(){
 }
 
 void Consumer::move(){
-        
-        int index=computeDirection();
-        if(randomMove&&randomMoveCooldown>20){
-            // 生成一个0到7之间的随机索引
-            index =RandomUtil::getRandomInt(0,7);
-            randomMove=false;
-            randomMoveCooldown=0;
-            moveHistory.clear();
+        int index=0;
+        if(moveCooldown<maxMoveCooldown){
+            moveCooldown++;
+            index=moveHistory.back();
         }else{
-            randomMoveCooldown++;
-        }        
+            moveCooldown=0;
+            maxMoveCooldown=RandomUtil::getRandomInt(5,20);
+            index=computeDirection();
+        }
+        
+        if(randomMove){
+            // 生成一个0到7之间的随机索引
+            // index =RandomUtil::getRandomInt(0,7);
+            // randomMove=false;
+
+            // moveHistory.clear();
+        }     
         //index=4;
         // 获取随机方向
         auto [dx, dy] = this->directions[index];
@@ -61,7 +67,7 @@ void Consumer::tryHunt(QuadTreeAtlas& quadTreeAtlas){
                         getFeature().currentHuger=getFeature().maxHunger;
                         getFeature().currentHealth+=hunger_overflow;
                         this->getFeature().isHunting=false;
-                        //return;
+                        return;
                     }
                 }
             }
@@ -73,7 +79,7 @@ void Consumer::update(QuadTreeAtlas& quadTreeAtlas){
     checkHunger(quadTreeAtlas);
     checkEnvironment();
     actReproduction(quadTreeAtlas);
-    feature.currentHealth+=feature.rectInAtlas.w*feature.rectInAtlas.h/5;
+    feature.currentHealth+=feature.rectInAtlas.w/3;
     this->move();
     feature.update();
     this->updateEntityState();
@@ -112,12 +118,12 @@ void Consumer::checkEnvironment(){
 
 void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
     if(feature.reproductionCount<feature.maxReproductionCount){
-        feature.reproductionCount+=2;
+        feature.reproductionCount+=1;
     }else{
         // if(currentNode.lock()->entities.size()>MAX_ENTITIES){
         //     return;
         // }
-        if(feature.currentHuger<feature.maxHunger/3||feature.currentHealth<feature.currentMaxHealth/5){
+        if(feature.currentHuger<feature.maxHunger/2||feature.currentHealth<feature.currentMaxHealth/2){
             return;
         }
         auto newRect=feature.rectInAtlas;
@@ -134,10 +140,10 @@ void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
 int Consumer::computeDirection(){
         auto currentRect=feature.rectInAtlas;
         auto searchRect=currentRect;
-        searchRect.x-=5*currentRect.w;
-        searchRect.y-=5*currentRect.h;
-        searchRect.h*=10;
-        searchRect.w*=10;
+        searchRect.x-=10*currentRect.w;
+        searchRect.y-=10*currentRect.h;
+        searchRect.h*=20;
+        searchRect.w*=20;
         auto tree=currentNode.lock()->quadTree;
         bool isSelectionEnd=false;
         //上 下 左 右
@@ -173,7 +179,7 @@ int Consumer::computeDirection(){
                     break;
                     case CONSUMER_TYPE:
                     //if(this->getFeature().currentHuger>=this->getFeature().maxHunger/2){
-                    type_score=-1*ent->getFeature().rectInAtlas.h;
+                    type_score=0*ent->getFeature().rectInAtlas.h;
                     //}
                     //type_score=0;
                     
@@ -213,34 +219,34 @@ int Consumer::computeDirection(){
                 float y_weight = 100.0f /(0.01+std::exp(0.1*y_distance + 1)); // 防止除以零，y方向的权重
                 float distance = std::sqrt(x_offset * x_offset + y_offset * y_offset);
                 
-                if((distance<currentRect.h*3||(this->lockEntityState.isLocked&&this->lockEntityState.targetID==ent->getID()))&&type_score>0){
-                    this->lockEntityState.lockOn(ent->getID());
-                    isSelectionEnd=true;
-                    if (x_offset > 0&&x_distance>y_distance) {
-                        directionScore[3] += 1000*type_score;  // 极大值向左
-                    } else {
-                        directionScore[2] += 1000*type_score;  // 极大值向右
-                    }
+                // if((distance<currentRect.h*3||(this->lockEntityState.isLocked&&this->lockEntityState.targetID==ent->getID()))&&type_score>0){
+                //     this->lockEntityState.lockOn(ent->getID());
+                //     isSelectionEnd=true;
+                //     if (x_offset > 0&&x_distance>y_distance) {
+                //         directionScore[3] += 1000*type_score;  // 极大值向左
+                //     } else {
+                //         directionScore[2] += 1000*type_score;  // 极大值向右
+                //     }
 
-                    if (y_offset > 0&&x_distance<=y_distance) {
-                        directionScore[1] += 1000*type_score;  // 极大值向下
-                    } else {
-                        directionScore[0] += 1000*type_score;  // 极大值向上
-                    }
-                    break;
-                }
+                //     if (y_offset > 0&&x_distance<=y_distance) {
+                //         directionScore[1] += 1000*type_score;  // 极大值向下
+                //     } else {
+                //         directionScore[0] += 1000*type_score;  // 极大值向上
+                //     }
+                //     break;
+                // }
                 
                 // 水平方向
-                if (x_offset > 0) {
+                if (x_offset > 0&&x_distance>y_distance) {
                     directionScore[3] += type_score * x_weight;  // left
-                } else if (x_offset < 0) {
+                } else if (x_offset < 0&&x_distance>y_distance) {
                     directionScore[2] += type_score * x_weight;  // right
                 }
 
                 // 垂直方向
-                if (y_offset > 0) {
+                if (y_offset > 0&&x_distance<=y_distance) {
                     directionScore[1] += type_score * y_weight;  // up
-                } else if (y_offset < 0) {
+                } else if (y_offset < 0&&x_distance<=y_distance) {
                     directionScore[0] += type_score * y_weight;  // down
                 }
 

@@ -23,11 +23,11 @@ void Producer::move(){
 
 void Producer::updateHunger(){
     auto node=currentNode.lock();
-    int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w*20;
+    int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w*4;
     feature.currentHuger-=lightIn;
     if(node->resource.getLightResource()>lightIn){
         node->resource.minusLightResource(lightIn);
-        feature.currentHuger+=(lightIn/10);
+        feature.currentHuger+=(lightIn/4);
     }else{
         //feature.currentHuger+=node->resource.getLightResource();
         feature.currentHealth-=feature.currentMaxHealth*0.01;

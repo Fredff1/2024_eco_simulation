@@ -108,6 +108,7 @@ void QuadTreeAtlas::subdivide(std::shared_ptr<QuadTreeAtlasNode>& node) {
         for (auto& child : node->children) {
             if (child->intersect(ent->getRectInAtlas())) {
                 child->entities.push_back(ent);
+                ent->setCurrentNode(child);
                 it = node->entities.erase(it);
                 moved = true;
                 break;
@@ -196,14 +197,14 @@ void QuadTreeAtlas::queryUpdateEntitiesInArea(const std::shared_ptr<QuadTreeAtla
 
 void QuadTreeAtlas::initEntities(int consumerNun,int producerNum,int decomposerNum){
     for(int i=0;i<producerNum;i++){
-        int a=RandomUtil::getRandomInt(-100,200);
-        int b=RandomUtil::getRandomInt(-100,200);
+        int a=RandomUtil::getRandomInt(-1000,3000);
+        int b=RandomUtil::getRandomInt(-1000,3000);
         auto entity=entityFactory.createEntity(PRODUCER_TYPE,initRect(1000+a,1000+b,5,5),root);
         insertEntity(root,entity);
     }
     for(int i=0;i<consumerNun;i++){
-        int a=RandomUtil::getRandomInt(-10,20);
-        int b=RandomUtil::getRandomInt(-10,20);
+        int a=RandomUtil::getRandomInt(-1000,3000);
+        int b=RandomUtil::getRandomInt(-1000,3000);
         auto entity=entityFactory.createEntity(CONSUMER_TYPE,initRect(1000+a,1000+b,5,5),root);
         insertEntity(root,entity);
     }

@@ -141,7 +141,7 @@ public:
 
     QuadTreeAtlas(float h,float w):root(std::make_shared<QuadTreeAtlasNode>(0,0,h,w,1,*this)),AtlasSize(h,w){
         //insertEntity(root,entityFactory.createEntity(PRODUCER_TYPE,initRect(600,600,30,30),root));
-        initEntities(4,500,60);
+        initEntities(100,800,60);
         setWaterFlowToArea(initRect(200,200,1200,1200),VORTEX_WATER_FLOW,0,3,600);
     }
 

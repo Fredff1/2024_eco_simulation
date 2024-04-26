@@ -73,9 +73,9 @@ struct EntityFeature{
         if(!isHungerAvailable){
             return;
         }
-        currentHuger--;
+        currentHuger-=3;
         if(currentHuger<0){
-            currentHealth+=currentMaxHealth*0.002;
+            currentHealth-=currentMaxHealth*0.005;
         }
     }
 
