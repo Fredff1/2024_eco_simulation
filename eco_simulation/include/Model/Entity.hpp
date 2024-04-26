@@ -21,7 +21,7 @@ public:
     EntityType type;
     SDL_Rect rectInAtlas;
     SDL_Color color;
-   
+    bool isAlive;
     
     
     //more to add

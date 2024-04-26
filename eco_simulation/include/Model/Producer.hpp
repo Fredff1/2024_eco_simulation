@@ -18,6 +18,7 @@ private:
         //state.color;
         //state.position.x=rectInAtlas.x,state.position.y=rectInAtlas.y;
         state.rectInAtlas=feature.rectInAtlas;
+        state.isAlive=feature.isAlive;
     }
 public:
     ~Producer(){}

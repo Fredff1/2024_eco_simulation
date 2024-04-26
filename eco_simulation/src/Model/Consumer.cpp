@@ -12,7 +12,12 @@ void Consumer::move(){
         int index=0;
         if(moveCooldown<maxMoveCooldown){
             moveCooldown++;
-            index=moveHistory.back();
+            if(!moveHistory.empty()){
+                index=moveHistory.back();
+            }else{
+                index=RandomUtil::getRandomInt(0,7);
+            }
+            
         }else{
             moveCooldown=0;
             maxMoveCooldown=RandomUtil::getRandomInt(5,20);
@@ -49,28 +54,48 @@ void Consumer::checkHunger(QuadTreeAtlas& quadTreeAtlas){
 }
 
 void Consumer::tryHunt(QuadTreeAtlas& quadTreeAtlas){
-    auto searchSize=feature.rectInAtlas.h*3;
     auto searchRect=feature.rectInAtlas;
-    searchRect.x-=searchSize,searchRect.y-=searchSize;
-    searchRect.h+=searchSize,searchRect.w+=searchSize;
+    searchRect.x-=2*feature.rectInAtlas.w;
+    searchRect.y-=2*feature.rectInAtlas.h;
+    searchRect.h*=4;
+    searchRect.w*=4;
     quadTreeAtlas.applyToNode(quadTreeAtlas.getRoot(),searchRect,[searchRect,this](std::shared_ptr<QuadTreeAtlasNode> & node){
-            for(auto& entity:node->entities){
-                if(this->getFeature().isHunting&&intersect_(searchRect,entity->getRectInAtlas())&&entity->getEntityType()==PRODUCER_TYPE){
-                    auto& feature=entity->getFeature();
-                    feature.isAlive=false;
-                    if(entity->getID()==lockEntityState.targetID){
-                        lockEntityState.deleteLock();
-                    }
-                    this->getFeature().currentHuger+=(feature.rectInAtlas.h*feature.rectInAtlas.w*25);
+            auto it=node->entities.begin();
+            while(it!=node->entities.end()){
+                if(this->getFeature().isHunting&&intersect_(searchRect,(*it)->getRectInAtlas())&&(*it)->getEntityType()==PRODUCER_TYPE){
+                    auto& feature=(*it)->getFeature();
+                    this->getFeature().currentHuger+=(feature.rectInAtlas.h*feature.rectInAtlas.w*15);
                     int hunger_overflow=getFeature().currentHuger-getFeature().maxHunger;
+                    (*it)->getFeature().isAlive=false;
+                    it=node->entities.erase(it);
                     if(hunger_overflow>0){
                         getFeature().currentHuger=getFeature().maxHunger;
                         getFeature().currentHealth+=hunger_overflow;
                         this->getFeature().isHunting=false;
                         return;
                     }
+                    
+                }else{
+                    ++it;
                 }
             }
+            // for(auto& entity:node->entities){
+            //     if(this->getFeature().isHunting&&intersect_(searchRect,entity->getRectInAtlas())&&entity->getEntityType()==PRODUCER_TYPE){
+            //         auto& feature=entity->getFeature();
+            //         feature.isAlive=false;
+            //         if(entity->getID()==lockEntityState.targetID){
+            //             lockEntityState.deleteLock();
+            //         }
+            //         this->getFeature().currentHuger+=(feature.rectInAtlas.h*feature.rectInAtlas.w*25);
+            //         int hunger_overflow=getFeature().currentHuger-getFeature().maxHunger;
+            //         if(hunger_overflow>0){
+            //             getFeature().currentHuger=getFeature().maxHunger;
+            //             getFeature().currentHealth+=hunger_overflow;
+            //             this->getFeature().isHunting=false;
+            //             return;
+            //         }
+            //     }
+            // }
     });
 
 }
@@ -80,9 +105,12 @@ void Consumer::update(QuadTreeAtlas& quadTreeAtlas){
     checkEnvironment();
     actReproduction(quadTreeAtlas);
     feature.currentHealth+=feature.rectInAtlas.w/3;
-    this->move();
+    this->move();/* Warning for crash bugs*/
     feature.update();
     this->updateEntityState();
+    if(currentNode.lock()->children[0]){
+        std::cout<<"Error"<<std::endl;
+    }
 }
 
 float Consumer::calculateLifeLoss(float fitness) {
@@ -133,7 +161,7 @@ void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
         this->feature.gene.copyGeneTo(ent->getGene());
         quadTreeAtlas.entityToAdd.push_back(ent);
         feature.reproductionCount=0;
-        std::cout<<"Create a consumer"<<std::endl;
+        //std::cout<<"Create a consumer"<<std::endl;
     }
 }
 

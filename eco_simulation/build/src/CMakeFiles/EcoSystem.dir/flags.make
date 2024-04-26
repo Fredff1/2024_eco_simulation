@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = @CMakeFiles/EcoSystem.dir/includes_CXX.rsp
 
-CXX_FLAGS = -g -std=gnu++17 -O0
+CXX_FLAGS =  -g -g -std=gnu++17 -Og -g
 

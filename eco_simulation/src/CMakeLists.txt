@@ -4,7 +4,7 @@ add_subdirectory(Model)
 add_subdirectory(View)
 add_subdirectory(Controller)
 
-
+add_compile_options(-g)
 # 指定生成的可执行文件和需要编译的源文件
 add_executable(EcoSystem main.cpp)
 

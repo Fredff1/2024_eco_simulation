@@ -32,6 +32,7 @@ private:
     std::deque<int> moveHistory;
     void updateEntityState(){
         state.rectInAtlas=feature.rectInAtlas;
+        state.isAlive=feature.isAlive;
     }
     
 public: 

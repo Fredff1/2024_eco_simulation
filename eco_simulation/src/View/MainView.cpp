@@ -55,6 +55,9 @@ void MainFrame::renderEntities(const std::unique_ptr<FrameData>& frameData){
         if(!intersect_(entData.rectInAtlas,mainModel.getQuadTreeAtlas().getVisibleRect())){
             continue;
         }
+        if(entData.isAlive==false){
+            continue;
+        }
         auto tempRect=atlasView.convertRectToUI(entData.rectInAtlas);
         auto type=entData.type;
         switch(type){
@@ -68,6 +71,9 @@ void MainFrame::renderEntities(const std::unique_ptr<FrameData>& frameData){
             break;
         }
         SDL_IntersectRect(&atlasView.getDestRectInUI(),&tempRect,&tempRect);
+        if(tempRect.h>50||tempRect.w>50){
+            continue;
+        }
         SDL_RenderFillRect(renderer,&tempRect);
     }
 }

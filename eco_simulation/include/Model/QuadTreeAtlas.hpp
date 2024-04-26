@@ -141,8 +141,8 @@ public:
 
     QuadTreeAtlas(float h,float w):root(std::make_shared<QuadTreeAtlasNode>(0,0,h,w,1,*this)),AtlasSize(h,w){
         //insertEntity(root,entityFactory.createEntity(PRODUCER_TYPE,initRect(600,600,30,30),root));
-        initEntities(100,800,60);
-        setWaterFlowToArea(initRect(200,200,1200,1200),VORTEX_WATER_FLOW,0,3,600);
+        initEntities(100,500,60);
+        setWaterFlowToArea(initRect(200,200,1200,1200000),VORTEX_WATER_FLOW,0,3,600);
     }
 
     void setEntityCount(const int a){
@@ -303,8 +303,22 @@ public:
         setEntityCount(0);
         updateUniversal(data);
         updateAtlasNodes(root,data);
-        updateEntities(root);
+        updateEntities(root); /* Warning for this func (cause crash)*/
         queryUpdateEntitiesInArea(root,data);
+        addToFrameData(root,data);
+    }
+
+
+    void addToFrameData(std::shared_ptr<QuadTreeAtlasNode>& node,FrameData& data){
+        if(node->children[0]){
+            for(int i=0;i<4;i++){
+                addToFrameData(node->children[i],data);
+            }
+        }else{
+            for(auto& ent:node->entities){
+                data.entitiesInAtlas.push_back(ent->getEntityState());
+            }
+        }
     }
 };
 

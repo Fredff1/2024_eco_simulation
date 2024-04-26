@@ -7,7 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 设置 SDL2 的路径（确保这个路径是正确的）
 set(SDL2_PATH "${PROJECT_SOURCE_DIR}/SDL2-2.28.4/x86_64-w64-mingw32")
-add_compile_options(-O0)
+# 设置编译器标志
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+set(CMAKE_BUILD_TYPE Debug)  # 确保以 Debug 模式编译
+
+add_compile_options(-Og)
 
 # 包含头文件目录
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -19,3 +24,4 @@ link_directories(${SDL2_PATH}/lib)
 
 # 添加 src 目录
 add_subdirectory(src)
+

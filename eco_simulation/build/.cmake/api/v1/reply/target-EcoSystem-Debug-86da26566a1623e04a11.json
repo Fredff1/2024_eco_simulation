@@ -41,7 +41,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 18,
+				"line" : 23,
 				"parent" : 2
 			},
 			{
@@ -53,25 +53,31 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 10,
-				"parent" : 2
-			},
-			{
-				"command" : 4,
-				"file" : 1,
-				"line" : 13,
-				"parent" : 2
-			},
-			{
-				"command" : 4,
-				"file" : 1,
-				"line" : 14,
-				"parent" : 2
-			},
-			{
-				"command" : 4,
-				"file" : 1,
 				"line" : 15,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 7,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 18,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 19,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 20,
 				"parent" : 2
 			}
 		]
@@ -82,25 +88,29 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17"
+					"fragment" : " -g -g -std=gnu++17"
 				},
 				{
 					"backtrace" : 5,
-					"fragment" : "-O0"
+					"fragment" : "-Og"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-g"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 6,
+					"backtrace" : 7,
 					"path" : "D:/Cpp/Eco_simulation/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "D:/Cpp/Eco_simulation/include/Util"
 				},
 				{
-					"backtrace" : 8,
+					"backtrace" : 9,
 					"path" : "D:/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include"
 				},
 				{
@@ -156,7 +166,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-g",
+				"fragment" : "-g -g",
 				"role" : "flags"
 			},
 			{

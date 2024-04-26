@@ -50,6 +50,9 @@ void Producer::update(QuadTreeAtlas& quadTreeAtlas) {
     feature.update();
     actReproduction(quadTreeAtlas);
     this->updateEntityState();
+    if(currentNode.lock()->children[0]){
+        std::cout<<"Error"<<std::endl;
+    }
 }
 
 /* Return <0 if not fit*/
@@ -104,7 +107,7 @@ void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
         this->feature.gene.copyGeneTo(ent->getGene());
         quadTreeAtlas.entityToAdd.push_back(ent);
         feature.reproductionCount=0;
-        std::cout<<"Create a producer"<<std::endl;
+        //std::cout<<"Create a producer"<<std::endl;
     }
 }
 

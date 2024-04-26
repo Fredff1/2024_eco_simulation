@@ -37,25 +37,25 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 10,
-				"parent" : 2
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 13,
-				"parent" : 2
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 14,
-				"parent" : 2
-			},
-			{
-				"command" : 2,
-				"file" : 1,
 				"line" : 15,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 18,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 19,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 20,
 				"parent" : 2
 			}
 		]
@@ -66,11 +66,11 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17"
+					"fragment" : " -g -g -std=gnu++17"
 				},
 				{
 					"backtrace" : 3,
-					"fragment" : "-O0"
+					"fragment" : "-Og"
 				}
 			],
 			"includes" : 

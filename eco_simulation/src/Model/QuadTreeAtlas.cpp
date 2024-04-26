@@ -164,16 +164,18 @@ void QuadTreeAtlas::queryUpdateEntitiesInArea(const std::shared_ptr<QuadTreeAtla
         auto it = entities.begin();
         while (it != entities.end()) {
             auto ent = *it;
-            if (!node->intersect(ent->getRectInAtlas())) {
+            if (!node->intersect(ent->getRectInAtlas())&&(*it)->getAlive()==true) {
                 // 需要移动的实体添加到临时列表
                 toMove.push_back(ent);
                 it = entities.erase(it); // 安全删除当前实体
+                
             } else if((*it)->getAlive()==false){
                 it=entities.erase(it);
+                
             }else {
                 // 检查实体是否在可见区域内
                 //if (node->isRectVisible(ent->getRectInAtlas(), visibleRect)) {
-                    data.entitiesInAtlas.push_back(ent->getEntityState());
+                //data.entitiesInAtlas.push_back(ent->getEntityState());
                // }
                 ++it;
             }
@@ -181,11 +183,12 @@ void QuadTreeAtlas::queryUpdateEntitiesInArea(const std::shared_ptr<QuadTreeAtla
 
         // 处理需要移动的实体
         for (auto& ent : toMove) {
-            if (node->isRectVisible(ent->getRectInAtlas(), visibleRect)) {
-                data.entitiesInAtlas.push_back(ent->getEntityState());
-            }
+            //if (node->isRectVisible(ent->getRectInAtlas(), visibleRect)) {
+            //data.entitiesInAtlas.push_back(ent->getEntityState());
+            //}
             moveEntity(ent);
         }
+
         auto entIt=entityToAdd.begin();
         while(entIt!=entityToAdd.end()){
             insertEntity(root,(*entIt));
@@ -221,16 +224,18 @@ void QuadTreeAtlas::updateEntities(const std::shared_ptr<QuadTreeAtlasNode>& nod
         for(int i=0;i<4;i++){
             updateEntities(node->children[i]);
         }
-        //return;
+        return;
+    }else{
+        auto& entities=node->getEntities();
+        auto it=node->getEntities().begin();
+        while(it!=node->getEntities().end()){
+            entityCount++;
+            (*it)->update(*this); /* Warning this hs bug*/
+            //(*it)->updateNew();
+            it++;
+        }
     }
-    auto entities=node->getEntities();
-    auto it=node->getEntities().begin();
-    while(it!=node->getEntities().end()){
-        entityCount++;
-        (*it)->update(*this);
-        //(*it)->updateNew();
-        it++;
-    }
+    
 }
 
 void QuadTreeAtlas::applyToNode(std::shared_ptr<QuadTreeAtlasNode>& currentNode, const SDL_Rect& searchRect, std::function<void(std::shared_ptr<QuadTreeAtlasNode>&)> func) {

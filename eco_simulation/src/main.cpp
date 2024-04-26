@@ -9,7 +9,7 @@
 // Model更新线程函数
 void modelThread(MainModel& model) {
     // 设置模型线程为较低优先级
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
+    //SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
     model.startThread();
 }
 
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
     // 在主线程中运行视图渲染逻辑
     // 设置主线程的优先级更高
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL);
+    //SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL);
     mainController.mainThread();
     
 
