@@ -77,7 +77,7 @@
 				},
 				{
 					"backtrace" : 3,
-					"fragment" : "-O3"
+					"fragment" : "-O0"
 				}
 			],
 			"includes" : 

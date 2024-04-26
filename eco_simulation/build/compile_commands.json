@@ -1,109 +1,109 @@
 [
 {
   "directory": "D:/Cpp/Eco_simulation/build/src",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/EcoSystem.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\EcoSystem.dir\\main.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\main.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/EcoSystem.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\EcoSystem.dir\\main.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\main.cpp",
   "file": "D:/Cpp/Eco_simulation/src/main.cpp",
   "output": "src/CMakeFiles/EcoSystem.dir/main.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Util",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Util.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Util.dir\\GlobalFunc.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Util\\GlobalFunc.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Util.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Util.dir\\GlobalFunc.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Util\\GlobalFunc.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Util/GlobalFunc.cpp",
   "output": "src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Util",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Util.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Util.dir\\RandomUtil.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Util\\RandomUtil.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Util.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Util.dir\\RandomUtil.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Util\\RandomUtil.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Util/RandomUtil.cpp",
   "output": "src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Util",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Util.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Util.dir\\ThreadSafeQueue.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Util\\ThreadSafeQueue.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Util.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Util.dir\\ThreadSafeQueue.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Util\\ThreadSafeQueue.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Util/ThreadSafeQueue.cpp",
   "output": "src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\Consumer.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Consumer.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\Consumer.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Consumer.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/Consumer.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/Consumer.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\Decomposer.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Decomposer.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\Decomposer.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Decomposer.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/Decomposer.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/Decomposer.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\Entity.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Entity.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\Entity.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Entity.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/Entity.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/Entity.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\EntityFactory.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\EntityFactory.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\EntityFactory.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\EntityFactory.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/EntityFactory.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/EntityFactory.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\EnvironmentFac.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\EnvironmentFac.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\EnvironmentFac.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\EnvironmentFac.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/EnvironmentFac.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/EnvironmentFac.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\Gene.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Gene.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\Gene.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Gene.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/Gene.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/Gene.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\MainModel.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\MainModel.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\MainModel.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\MainModel.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/MainModel.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/MainModel.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\Producer.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Producer.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\Producer.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Producer.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/Producer.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/Producer.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\QuadTreeAtlas.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\QuadTreeAtlas.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\QuadTreeAtlas.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\QuadTreeAtlas.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/QuadTreeAtlas.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/QuadTreeAtlas.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\Resource.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Resource.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\Resource.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\Resource.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/Resource.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/Resource.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Model",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Model.dir\\WaterFlow.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\WaterFlow.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Model.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Model.dir\\WaterFlow.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Model\\WaterFlow.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Model/WaterFlow.cpp",
   "output": "src/Model/CMakeFiles/Model.dir/WaterFlow.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/View",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/View.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\View.dir\\AtlasView.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\View\\AtlasView.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/View.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\View.dir\\AtlasView.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\View\\AtlasView.cpp",
   "file": "D:/Cpp/Eco_simulation/src/View/AtlasView.cpp",
   "output": "src/View/CMakeFiles/View.dir/AtlasView.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/View",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/View.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\View.dir\\MainView.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\View\\MainView.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/View.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\View.dir\\MainView.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\View\\MainView.cpp",
   "file": "D:/Cpp/Eco_simulation/src/View/MainView.cpp",
   "output": "src/View/CMakeFiles/View.dir/MainView.cpp.obj"
 },
 {
   "directory": "D:/Cpp/Eco_simulation/build/src/Controller",
-  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Controller.dir/includes_CXX.rsp -g -std=gnu++17 -O3 -o CMakeFiles\\Controller.dir\\MainController.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Controller\\MainController.cpp",
+  "command": "D:\\gcc\\mingw64\\bin\\g++.exe  @CMakeFiles/Controller.dir/includes_CXX.rsp -g -std=gnu++17 -O0 -o CMakeFiles\\Controller.dir\\MainController.cpp.obj -c D:\\Cpp\\Eco_simulation\\src\\Controller\\MainController.cpp",
   "file": "D:/Cpp/Eco_simulation/src/Controller/MainController.cpp",
   "output": "src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj"
 }

@@ -196,14 +196,14 @@ void QuadTreeAtlas::queryUpdateEntitiesInArea(const std::shared_ptr<QuadTreeAtla
 
 void QuadTreeAtlas::initEntities(int consumerNun,int producerNum,int decomposerNum){
     for(int i=0;i<producerNum;i++){
-        int a=RandomUtil::getRandomInt(-1000,2000);
-        int b=RandomUtil::getRandomInt(-1000,2000);
+        int a=RandomUtil::getRandomInt(-100,200);
+        int b=RandomUtil::getRandomInt(-100,200);
         auto entity=entityFactory.createEntity(PRODUCER_TYPE,initRect(1000+a,1000+b,5,5),root);
         insertEntity(root,entity);
     }
     for(int i=0;i<consumerNun;i++){
-        int a=RandomUtil::getRandomInt(-1000,2000);
-        int b=RandomUtil::getRandomInt(-1000,2000);
+        int a=RandomUtil::getRandomInt(-10,20);
+        int b=RandomUtil::getRandomInt(-10,20);
         auto entity=entityFactory.createEntity(CONSUMER_TYPE,initRect(1000+a,1000+b,5,5),root);
         insertEntity(root,entity);
     }

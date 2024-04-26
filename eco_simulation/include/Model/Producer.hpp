@@ -27,7 +27,7 @@ public:
        this->id=id;
        feature.maxSize=20;
        feature.update();
-       feature.changeMaxDate(5);
+       feature.changeMaxDate(3);
        feature.isHungerAvailable=true;
     }
 

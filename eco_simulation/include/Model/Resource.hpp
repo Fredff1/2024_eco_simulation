@@ -7,7 +7,7 @@ private:
     int lightResource;
 public:
     ResourceInAtlas(){
-        lightResource=0;
+        lightResource=50;
     }
 
     int getLightResource(){

@@ -5,11 +5,29 @@
 #include <deque>
 #include <SDL2/SDL.h>
 
+struct LockedTargetEnt{
+    bool isLocked=false;
+    bool hasFind=false;
+    int targetID;
+    void lockOn(int id){
+        hasFind=true;
+        targetID=id;
+        isLocked=true;
+    }
+
+    void deleteLock(){
+        hasFind=false;
+        isLocked=false;
+        targetID=-1;
+    }
+};
 
 class Consumer :public Entity{
 private:
     EntityMoveChoice nextMoveChoice=NO_ENTITY_MOVE;
     bool randomMove=true;
+    int randomMoveCooldown=0;
+    
     std::deque<int> moveHistory;
     void updateEntityState(){
         state.rectInAtlas=feature.rectInAtlas;
@@ -17,7 +35,7 @@ private:
     
 public: 
     ~Consumer(){}
-
+    LockedTargetEnt lockEntityState;
     Consumer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode){
         this->id=id;
         feature.rectInAtlas.x=position.x,feature.rectInAtlas.y=position.y;

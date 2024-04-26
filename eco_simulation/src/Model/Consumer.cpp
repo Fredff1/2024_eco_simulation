@@ -2,6 +2,8 @@
 #include <SDL2/SDL.h>
 #include "Model/QuadTreeAtlas.hpp"
 
+
+
 std::weak_ptr<QuadTreeAtlasNode> Consumer::getCurrentNode(){
     return this->currentNode;
 }
@@ -9,14 +11,15 @@ std::weak_ptr<QuadTreeAtlasNode> Consumer::getCurrentNode(){
 void Consumer::move(){
         
         int index=computeDirection();
-        if(randomMove){
+        if(randomMove&&randomMoveCooldown>20){
             // 生成一个0到7之间的随机索引
-            //int index =RandomUtil::getRandomInt(0,7);
-            // int index;
-            // index=RandomUtil::getRandomInt(0,7);
-            
-        }
-        
+            index =RandomUtil::getRandomInt(0,7);
+            randomMove=false;
+            randomMoveCooldown=0;
+            moveHistory.clear();
+        }else{
+            randomMoveCooldown++;
+        }        
         //index=4;
         // 获取随机方向
         auto [dx, dy] = this->directions[index];
@@ -32,7 +35,7 @@ void Consumer::setMoveChoice(){
 }
 
 void Consumer::checkHunger(QuadTreeAtlas& quadTreeAtlas){
-    if(feature.currentHuger<feature.maxHunger*2/3){
+    if(feature.currentHuger<feature.maxHunger){
         feature.isHunting=true;
         tryHunt(quadTreeAtlas);
     }
@@ -40,7 +43,7 @@ void Consumer::checkHunger(QuadTreeAtlas& quadTreeAtlas){
 }
 
 void Consumer::tryHunt(QuadTreeAtlas& quadTreeAtlas){
-    auto searchSize=feature.rectInAtlas.h*2;
+    auto searchSize=feature.rectInAtlas.h*3;
     auto searchRect=feature.rectInAtlas;
     searchRect.x-=searchSize,searchRect.y-=searchSize;
     searchRect.h+=searchSize,searchRect.w+=searchSize;
@@ -49,7 +52,9 @@ void Consumer::tryHunt(QuadTreeAtlas& quadTreeAtlas){
                 if(this->getFeature().isHunting&&intersect_(searchRect,entity->getRectInAtlas())&&entity->getEntityType()==PRODUCER_TYPE){
                     auto& feature=entity->getFeature();
                     feature.isAlive=false;
-
+                    if(entity->getID()==lockEntityState.targetID){
+                        lockEntityState.deleteLock();
+                    }
                     this->getFeature().currentHuger+=(feature.rectInAtlas.h*feature.rectInAtlas.w*25);
                     int hunger_overflow=getFeature().currentHuger-getFeature().maxHunger;
                     if(hunger_overflow>0){
@@ -129,30 +134,46 @@ void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
 int Consumer::computeDirection(){
         auto currentRect=feature.rectInAtlas;
         auto searchRect=currentRect;
-        searchRect.x-=4*currentRect.w;
-        searchRect.y-=4*currentRect.h;
-        searchRect.h*=8;
-        searchRect.w*=8;
+        searchRect.x-=5*currentRect.w;
+        searchRect.y-=5*currentRect.h;
+        searchRect.h*=10;
+        searchRect.w*=10;
         auto tree=currentNode.lock()->quadTree;
+        bool isSelectionEnd=false;
         //上 下 左 右
         std::vector<float> directionScore(8, 0.0f);  // 假设有8个方向
-        tree.applyToNode(tree.getRoot(),searchRect,[&directionScore,currentRect,this,searchRect](std::shared_ptr<QuadTreeAtlasNode>& node){
+        tree.applyToNode(tree.getRoot(),searchRect,[&directionScore,currentRect,this,searchRect,&isSelectionEnd](std::shared_ptr<QuadTreeAtlasNode>& node){
+            if(isSelectionEnd==true){
+                return;
+            }
+            
             for(auto ent:node->entities){
+                //锁定目标时不再
+                if(this->lockEntityState.isLocked==true&&ent->getID()!=this->lockEntityState.targetID){
+                    continue;
+                }else if(this->lockEntityState.isLocked==true&&ent->getID()==this->lockEntityState.targetID){
+                    this->lockEntityState.hasFind=true;
+                }else{
+                    
+                }
                 int type_score=0;
                 if(!intersect_(ent->getRectInAtlas(),searchRect)){
+                    continue;
+                }
+                if(ent->getID()==this->getID()){
                     continue;
                 }
                 switch(ent->getEntityType()){
                     case PRODUCER_TYPE:
                     if(this->getFeature().currentHuger<=this->getFeature().maxHunger/2){
-                        type_score=4;
+                        type_score=2*ent->getFeature().rectInAtlas.h;
                     }else{
-                        type_score=2;
+                        type_score=ent->getFeature().rectInAtlas.h;
                     }
                     break;
                     case CONSUMER_TYPE:
                     //if(this->getFeature().currentHuger>=this->getFeature().maxHunger/2){
-                    type_score=-1;
+                    type_score=-1*ent->getFeature().rectInAtlas.h;
                     //}
                     //type_score=0;
                     
@@ -188,8 +209,26 @@ int Consumer::computeDirection(){
                 int y_offset = currentRect.y - entRect.y;  // y方向的偏移量
                 float x_distance = std::abs(x_offset);  // x方向的绝对距离
                 float y_distance = std::abs(y_offset);  // y方向的绝对距离
-                float x_weight = 100.0f /(1+std::exp(x_distance + 1)); // 防止除以零，x方向的权重
-                float y_weight = 100.0f /(1+std::exp(y_distance + 1)); // 防止除以零，y方向的权重
+                float x_weight = 100.0f /(0.01+std::exp(0.1*x_distance + 1)); // 防止除以零，x方向的权重
+                float y_weight = 100.0f /(0.01+std::exp(0.1*y_distance + 1)); // 防止除以零，y方向的权重
+                float distance = std::sqrt(x_offset * x_offset + y_offset * y_offset);
+                
+                if((distance<currentRect.h*3||(this->lockEntityState.isLocked&&this->lockEntityState.targetID==ent->getID()))&&type_score>0){
+                    this->lockEntityState.lockOn(ent->getID());
+                    isSelectionEnd=true;
+                    if (x_offset > 0&&x_distance>y_distance) {
+                        directionScore[3] += 1000*type_score;  // 极大值向左
+                    } else {
+                        directionScore[2] += 1000*type_score;  // 极大值向右
+                    }
+
+                    if (y_offset > 0&&x_distance<=y_distance) {
+                        directionScore[1] += 1000*type_score;  // 极大值向下
+                    } else {
+                        directionScore[0] += 1000*type_score;  // 极大值向上
+                    }
+                    break;
+                }
                 
                 // 水平方向
                 if (x_offset > 0) {
@@ -216,6 +255,11 @@ int Consumer::computeDirection(){
                 //     directionScore[5] += type_score * (x_weight + y_weight) / 2;  // 左上
                 // }
             }
+            if(this->lockEntityState.hasFind==false&&this->lockEntityState.isLocked==true){
+                this->lockEntityState.deleteLock();
+            }else{
+                this->lockEntityState.hasFind=false;
+            }
         });
         int bestDirection = 0;
         // int maxScore = directionScore[0];
@@ -225,13 +269,20 @@ int Consumer::computeDirection(){
         //         bestDirection = i;
         //     }
         // }
+        
         float total = std::accumulate(directionScore.begin(), directionScore.end(), 0.0f);
+        if(total<0.000001&&total>-0.0000001){
+            randomMove=true;
+            
+            //return 0;
+        }
         for (float& freq : directionScore) {
             freq /= total;
         }
         bestDirection=determineBestDirection(directionScore);
         updateMoveHistory(bestDirection);
-        randomMove=false;
+
+        
         
         return bestDirection;
         
@@ -257,23 +308,28 @@ int Consumer::determineBestDirection(std::vector<float>& currentDirectionScores)
     // std::vector<float> currentDirectionScores(8, 0);  // 当前方向得分，假设已计算填充
 
     // 影响因子设定
-    float historyWeight = 0.2;  // 历史数据的权重
-    float currentWeight = 0.8;  // 当前数据的权重
+    float historyWeight = 0.4;  // 历史数据的权重
+    float currentWeight = 0.6;  // 当前数据的权重
 
     // 结合得分
     std::vector<float> combinedScores(8, 0);
     for (int i = 0; i < 8; i++) {
-        combinedScores[i] = historyWeight * directionFrequency[i] + currentWeight * currentDirectionScores[i];
+        //combinedScores[i] = historyWeight * directionFrequency[i] + currentWeight * currentDirectionScores[i];
+        combinedScores[i] =  currentWeight * currentDirectionScores[i];
     }
 
     // 寻找最佳方向
     int bestDirection = std::distance(combinedScores.begin(), std::max_element(combinedScores.begin(), combinedScores.end()));
+    
+    if(bestDirection==0&&combinedScores[0]<0.0000001){
+        randomMove=true;
+    }
     return bestDirection;
 }
 
 void Consumer::updateMoveHistory(int bestDirection){
     moveHistory.push_back(bestDirection);
-    if (moveHistory.size() > 10) {
+    if (moveHistory.size() > 5) {
         moveHistory.pop_front();  // 从前端移除
     }
 }

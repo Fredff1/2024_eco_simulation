@@ -23,21 +23,20 @@ void Producer::move(){
 
 void Producer::updateHunger(){
     auto node=currentNode.lock();
-    int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w;
+    int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w*20;
     feature.currentHuger-=lightIn;
     if(node->resource.getLightResource()>lightIn){
         node->resource.minusLightResource(lightIn);
-        feature.currentHuger+=lightIn;
+        feature.currentHuger+=(lightIn/10);
     }else{
-        feature.currentHuger+=node->resource.getLightResource();
-        feature.currentHealth+=feature.currentHuger;
+        //feature.currentHuger+=node->resource.getLightResource();
+        feature.currentHealth-=feature.currentMaxHealth*0.01;
         node->resource.setLightResource(0);
-        feature.currentHealth-=SDL_abs(feature.currentHuger);
     }
 }
 
 void Producer::update(QuadTreeAtlas& quadTreeAtlas) {
-    //checkEnvironment();
+    checkEnvironment();
     updateHunger();
     checkWaterFlow(quadTreeAtlas.getWaterFlowList());
     feature.currentHealth+=(feature.rectInAtlas.h*feature.rectInAtlas.w);
