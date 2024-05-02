@@ -1,0 +1,2 @@
+D:\gcc\mingw64\bin\ar.exe qc libController.a CMakeFiles/Controller.dir/CommandShell.cpp.obj CMakeFiles/Controller.dir/MainController.cpp.obj CMakeFiles/Controller.dir/ShellController.cpp.obj
+D:\gcc\mingw64\bin\ranlib.exe libController.a

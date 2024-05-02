@@ -1,0 +1,179 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "src",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5
+					],
+					"jsonFile" : "directory-src-Debug-c94b7c2814d5a21df52c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "src/Util",
+					"jsonFile" : "directory-src.Util-Debug-03b3622a06e47583e5aa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "src/Util",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "src/Model",
+					"jsonFile" : "directory-src.Model-Debug-18a66e70a0452dd8ec5d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "src/Model",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "src/View",
+					"jsonFile" : "directory-src.View-Debug-fa1b7df92b528c2d2e11.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "src/View",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "src/Controller",
+					"jsonFile" : "directory-src.Controller-Debug-2a1fa8d3e0732895d53d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "src/Controller",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"name" : "EcoSystem",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 5,
+					"id" : "Controller::@11f1bd12b27f4837fc80",
+					"jsonFile" : "target-Controller-Debug-2b7a52244298470ca9d0.json",
+					"name" : "Controller",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "EcoSystem::@145eef247bfb46b6828c",
+					"jsonFile" : "target-EcoSystem-Debug-35c659f45fc55a9b0c53.json",
+					"name" : "EcoSystem",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Model::@c31de6ce72a56b005f57",
+					"jsonFile" : "target-Model-Debug-bc054d0f609c49ff6fd3.json",
+					"name" : "Model",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "Util::@a41099a63817c13ea940",
+					"jsonFile" : "target-Util-Debug-bd0a4bc93858c76f6d36.json",
+					"name" : "Util",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "View::@dc63d7c8f1e803a3373a",
+					"jsonFile" : "target-View-Debug-5fff95eb4fc9d7c5d0d5.json",
+					"name" : "View",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Code/Cpp/Eco_simulation/build",
+		"source" : "D:/Code/Cpp/Eco_simulation"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
