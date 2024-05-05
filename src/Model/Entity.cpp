@@ -10,6 +10,6 @@ Entity::Entity(int id,EntityFeature& feature,std::shared_ptr<QuadTreeAtlasNode>&
     feature.id=id;
 }
 
-void Entity::setCurrentNode(std::shared_ptr<QuadTreeAtlasNode>& targetNode){
+void Entity::setCurrentNode(std::shared_ptr<QuadTreeAtlasNode> targetNode){
     currentNode.operator=(targetNode);
 }

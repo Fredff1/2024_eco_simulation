@@ -10,6 +10,7 @@
 #include <memory>
 #include <chrono>
 
+
 struct QuadTreeAtlasNode;
 
 class QuadTreeAtlas;
@@ -67,31 +68,35 @@ struct EntityFeature{
     void update(){
         updateAge();
         updateHunger();
-        if(currentHealth<=0){
+        updateAliveState();
+
+    }
+
+    void updateAliveState(){
+        if(currentHealth<0){
             isAlive=false;
         }
-
     }
 
     void updateColor(){
         color.g=10;
         if(type==CONSUMER_TYPE){
-            color.r=gene.calculateMutateRate()*2/3+70;
+            color.r=gene.calculateMutateRate()*30+70;
             color.b=10;
         }else if(type==PRODUCER_TYPE){
-            color.g=gene.calculateMutateRate()*2/3+70;
+            color.g=gene.calculateMutateRate()*30+70;
             color.b=10;
         }
-        color.a=gene.calculateMutateRate();
+        color.a=240;
     }
 
     void updateHunger(){
         if(!isHungerAvailable){
             return;
         }
-        currentHuger-=3;
+        currentHuger-=2;
         if(currentHuger<0){
-            currentHealth-=currentMaxHealth*0.005;
+            currentHealth-=currentMaxHealth*0.002;
         }
     }
 
@@ -191,7 +196,7 @@ public:
 
     Entity(int id,EntityFeature& feature,std::shared_ptr<QuadTreeAtlasNode>& currentNode);
 
-    void setCurrentNode(std::shared_ptr<QuadTreeAtlasNode>& targetNode);
+    void setCurrentNode(std::shared_ptr<QuadTreeAtlasNode> targetNode);
 
     //update the entity state
     virtual void update(QuadTreeAtlas& quadTreeAtlas) =0;

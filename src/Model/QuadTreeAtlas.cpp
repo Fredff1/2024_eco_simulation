@@ -47,7 +47,7 @@ bool QuadTreeAtlasNode::beSurroundedRect(const SDL_Rect& rect){
 }
 
 
-void QuadTreeAtlas::insertEntity(std::shared_ptr<QuadTreeAtlasNode>& node, std::shared_ptr<Entity>& entity) {
+void QuadTreeAtlas::insertEntity(std::shared_ptr<QuadTreeAtlasNode>& node, std::unique_ptr<Entity>& entity) {
     //std::cout << "Attempting to insert Entity ID: " << entity->getID() << " at Node Depth: " << node->nodeDepth << std::endl;
     if (!node->intersect(entity->getRectInAtlas())) {
         //std::cout << "Entity ID: " << entity->getID() << " does not intersect with Node. Insertion skipped." << std::endl;
@@ -57,7 +57,7 @@ void QuadTreeAtlas::insertEntity(std::shared_ptr<QuadTreeAtlasNode>& node, std::
     if (!node->children[0]) {
         if (node->entities.size() < MAX_ENTITIES || node->nodeDepth >= MAX_TREE_DEPTH) {
             entity->setCurrentNode(node);
-            node->entities.push_back(entity);
+            node->entities.push_back(std::move(entity));
             //std::cout << "Entity ID: " << entity->getID() << " inserted directly into Node." << std::endl;
         } else {
             subdivide(node);
@@ -81,7 +81,7 @@ void QuadTreeAtlas::insertEntity(std::shared_ptr<QuadTreeAtlasNode>& node, std::
                     
             }
             entity->setCurrentNode(node);
-            node->entities.push_back(entity);
+            node->entities.push_back(std::move(entity));
             //std::cout << "Entity ID: " << entity->getID() << " kept at current node as no child node was suitable." << std::endl;
         }
     }
@@ -103,12 +103,12 @@ void QuadTreeAtlas::subdivide(std::shared_ptr<QuadTreeAtlasNode>& node) {
     node->initializeWhenSubDivide();
     auto it = node->entities.begin();
     while (it != node->entities.end()) {
-        auto ent = *it;
+        
         bool moved = false;
         for (auto& child : node->children) {
-            if (child->intersect(ent->getRectInAtlas())) {
-                child->entities.push_back(ent);
-                ent->setCurrentNode(child);
+            if (child->intersect((*it)->getRectInAtlas())) {
+                (*it)->setCurrentNode(child);
+                child->entities.push_back(std::move(*it));
                 it = node->entities.erase(it);
                 moved = true;
                 break;
@@ -170,7 +170,7 @@ std::shared_ptr<QuadTreeAtlasNode>& QuadTreeAtlas::findSmallestNode(std::shared_
 }
 
 
-void QuadTreeAtlas::moveEntity(std::shared_ptr<Entity>& entity) {
+void QuadTreeAtlas::moveEntity(std::unique_ptr<Entity>& entity) {
     auto current = entity->getCurrentNode().lock();
     if (!current) return;
 
@@ -192,14 +192,14 @@ void QuadTreeAtlas::queryUpdateEntitiesInArea(const std::shared_ptr<QuadTreeAtla
         }
     } else {
         // 遍历当前节点的实体
-        std::vector<std::shared_ptr<Entity>> toMove;
+        std::vector<std::unique_ptr<Entity>> toMove;
         auto& entities = node->getEntities();
         auto it = entities.begin();
         while (it != entities.end()) {
-            auto ent = *it;
+            auto& ent = *it;
             if (!node->intersect(ent->getRectInAtlas())&&(*it)->getAlive()==true) {
                 // 需要移动的实体添加到临时列表
-                toMove.push_back(ent);
+                toMove.push_back(std::move(*it));
                 it = entities.erase(it); // 安全删除当前实体
                 
             } else if((*it)->getAlive()==false){
@@ -222,10 +222,10 @@ void QuadTreeAtlas::queryUpdateEntitiesInArea(const std::shared_ptr<QuadTreeAtla
             moveEntity(ent);
         }
 
-        auto entIt=entityToAdd.begin();
-        while(entIt!=entityToAdd.end()){
+        auto entIt=entityFactory.entityToAdd.begin();
+        while(entIt!=entityFactory.entityToAdd.end()){
             insertEntity(root,(*entIt));
-            entIt=entityToAdd.erase(entIt);
+            entIt=entityFactory.entityToAdd.erase(entIt);
         }
     }
 }
@@ -435,7 +435,7 @@ void QuadTreeAtlas::insertWaterFlow(WaterFlow& waterFLow){
     waterFlowList.push_back(newWaterFlow);
 }
 
-std::shared_ptr<Entity> QuadTreeAtlas::findEntity(std::shared_ptr<QuadTreeAtlasNode>& node,int id){
+Entity* QuadTreeAtlas::findEntity(std::shared_ptr<QuadTreeAtlasNode>& node,int id){
     if(!node){
         return nullptr;
     }
@@ -443,7 +443,7 @@ std::shared_ptr<Entity> QuadTreeAtlas::findEntity(std::shared_ptr<QuadTreeAtlasN
     if(!node->children[0]){
         for(auto& ent:node->entities){
             if(ent->getFeature().id==id){
-                return ent;
+                return ent.get();
             }
         }
     }else{

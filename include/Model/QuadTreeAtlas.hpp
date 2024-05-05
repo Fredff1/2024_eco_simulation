@@ -29,7 +29,7 @@ struct QuadTreeAtlasNode{
     /*first x second y in the window 
     The Position in the atlas,not in the GUI*/
     SDL_Rect rectInAtlas;
-    std::list<std::shared_ptr<Entity>> entities;
+    std::list<std::unique_ptr<Entity>> entities;
     std::shared_ptr<QuadTreeAtlasNode> children[4];
     std::shared_ptr<QuadTreeAtlasNode> father;
     EnvironmentFactor environmentFactor;
@@ -79,7 +79,7 @@ struct QuadTreeAtlasNode{
     
 
     /* Return its entity list*/
-     std::list<std::shared_ptr<Entity>>& getEntities(){
+     std::list<std::unique_ptr<Entity>>& getEntities(){
         return entities;
     }
 
@@ -125,9 +125,9 @@ private:
     Parameters:
     entity: the target to be added
     node the target node to add to*/
-    void addEntity(std::shared_ptr<Entity>& entity,std::shared_ptr<QuadTreeAtlasNode>& node){
+    void addEntity(std::unique_ptr<Entity>& entity,std::shared_ptr<QuadTreeAtlasNode>& node){
         entity->setCurrentNode(node);
-        node->getEntities().push_back(entity);
+        node->getEntities().push_back(std::move(entity));
         currentDepth=1;
     }
 
@@ -137,10 +137,10 @@ private:
     Warning:it does not erase the previous entity in the node,so please doit yourself
     Parameters:
     entity : the target entity*/
-    void moveEntity(std::shared_ptr<Entity>& entity);
+    void moveEntity(std::unique_ptr<Entity>& entity);
 
 public:
-    std::vector<std::shared_ptr<Entity>> entityToAdd;
+    
 
     QuadTreeAtlas(float h,float w):root(std::make_shared<QuadTreeAtlasNode>(0,0,h,w,1,*this)),AtlasSize(h,w){
         //insertEntity(root,entityFactory.createEntity(PRODUCER_TYPE,initRect(600,600,30,30),root));
@@ -164,7 +164,7 @@ public:
     Parameters:
     node : the rootNode to begin insert
     entity : the target entity to insert*/
-    void insertEntity(std::shared_ptr<QuadTreeAtlasNode>& node, std::shared_ptr<Entity>& entity);
+    void insertEntity(std::shared_ptr<QuadTreeAtlasNode>& node, std::unique_ptr<Entity>& entity);
 
 
     
@@ -266,7 +266,7 @@ public:
     void insertWaterFlow(WaterFlow& waterFLow);
 
     /* Return the shared_ptr of the entity using the id.If not found,return nullptr*/
-    std::shared_ptr<Entity> findEntity( std::shared_ptr<QuadTreeAtlasNode>& node,int id);
+    Entity* findEntity(std::shared_ptr<QuadTreeAtlasNode>& node,int id);
 
     void removeAllEntities(std::shared_ptr<QuadTreeAtlasNode>& node);
 

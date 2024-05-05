@@ -7,6 +7,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <atomic>   
+#include <SDL2/SDL_image.h>
 #include "Model/MainModel.hpp"
 #include "Model/FrameDateBuffer.hpp"
 #include "GlobalEnum.hpp"

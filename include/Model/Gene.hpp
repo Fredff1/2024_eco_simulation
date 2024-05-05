@@ -203,20 +203,22 @@ public:
         return 1;
     }
 
-    float calculateMutateRate(){
+    int calculateMutateRate(){
         if(geneMap.empty()){
             return 0;
         }
         auto it=geneMap.begin();
-        float rate=0;
+        int rate=125;
         while(it!=geneMap.end()){
             auto targetGene=(*it).second;
-            rate+=(65535-targetGene)*220/65535;
+            int result=(65535-targetGene)*250/65535;
+            if(abs(result-125)>abs(rate-125)){
+                rate=result;
+            }
             ++it;
         }
-        rate/=geneMap.size();
-        rate+=30;
-        return rate;
+        int targetColorRate=rate/40;
+        return targetColorRate;
     }
 
     //  Gene& operator=(const Gene& other) {

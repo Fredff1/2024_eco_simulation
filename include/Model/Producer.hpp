@@ -39,7 +39,7 @@ public:
 
     void initProducerFeature(){
         feature.update();
-        feature.changeMaxDate(3);
+        feature.changeMaxDate(2);
         feature.isHungerAvailable=true;
         updateEntityState();
     }

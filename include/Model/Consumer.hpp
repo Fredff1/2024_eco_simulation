@@ -72,7 +72,17 @@ public:
 
     void update(QuadTreeAtlas& quadTreeAtlas) override;
        
-        
+    void updateFeature(){
+        feature.updateAge();
+        feature.updateAliveState();
+        //feature.updateHunger();
+        feature.currentHuger-=2;
+        if(feature.currentHuger<=0){
+            feature.currentHuger-=feature.currentMaxHealth*0.002;
+        }else{
+            feature.currentHealth+=feature.currentMaxHealth*0.0005;
+        }
+    }
     
 
     void setMoveChoice();

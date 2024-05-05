@@ -77,6 +77,10 @@ void Consumer::tryHunt(QuadTreeAtlas& quadTreeAtlas){
             auto it=node->entities.begin();
             while(it!=node->entities.end()){
                 if(this->getFeature().isHunting&&intersect_(searchRect,(*it)->getRectInAtlas())&&(*it)->getEntityType()==PRODUCER_TYPE){
+                    if((*it)->getFeature().rectInAtlas.h>this->getFeature().rectInAtlas.h){
+                        ++it;
+                        continue;
+                    }
                     auto& feature=(*it)->getFeature();
                     this->getFeature().currentHuger+=(feature.rectInAtlas.h*feature.rectInAtlas.w*15);
                     int hunger_overflow=getFeature().currentHuger-getFeature().maxHunger;
@@ -120,7 +124,7 @@ void Consumer::update(QuadTreeAtlas& quadTreeAtlas){
     actReproduction(quadTreeAtlas);
     feature.currentHealth+=feature.rectInAtlas.w/3;
     this->move();/* Warning for crash bugs*/
-    feature.update();
+    updateFeature();
     if(currentNode.lock()->children[0]){
         std::cout<<"Error"<<std::endl;
     }
@@ -173,7 +177,7 @@ void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
         auto ent=quadTreeAtlas.getEntityFactory().createEntity(CONSUMER_TYPE,newRect ,quadTreeAtlas.getRoot());
         this->feature.gene.copyGeneTo(ent->getGene());
         ent->getFeature().updateColor();
-        quadTreeAtlas.entityToAdd.push_back(ent);
+        quadTreeAtlas.getEntityFactory().entityToAdd.push_back(std::move(ent));
         feature.reproductionCount=0;
         //std::cout<<"Create a consumer"<<std::endl;
     }
@@ -186,7 +190,7 @@ int Consumer::computeDirection(){
         searchRect.y-=10*currentRect.h;
         searchRect.h*=20;
         searchRect.w*=20;
-        auto tree=currentNode.lock()->quadTree;
+        auto& tree=currentNode.lock()->quadTree;
         bool isSelectionEnd=false;
         //上 下 左 右
         std::vector<float> directionScore(8, 0.0f);  // 假设有8个方向
@@ -194,9 +198,10 @@ int Consumer::computeDirection(){
             if(isSelectionEnd==true){
                 return;
             }
-            
-            for(auto ent:node->entities){
+            auto& thisFeature=this->getFeature();
+            for(auto& ent:node->entities){
                 //锁定目标时不再
+                
                 if(this->lockEntityState.isLocked==true&&ent->getID()!=this->lockEntityState.targetID){
                     continue;
                 }else if(this->lockEntityState.isLocked==true&&ent->getID()==this->lockEntityState.targetID){
@@ -205,23 +210,30 @@ int Consumer::computeDirection(){
                     
                 }
                 int type_score=0;
-                if(!intersect_(ent->getRectInAtlas(),searchRect)){
+                const auto& entRect=ent->getRectInAtlas();
+                if(!intersect_(entRect,searchRect)){
                     continue;
                 }
                 if(ent->getID()==this->getID()){
                     continue;
                 }
                 switch(ent->getEntityType()){
+                    
                     case PRODUCER_TYPE:
-                    if(this->getFeature().currentHuger<=this->getFeature().maxHunger/2){
-                        type_score=2*ent->getFeature().rectInAtlas.h;
+                    if(thisFeature.currentHuger<=thisFeature.maxHunger/2){
+                        type_score=2*entRect.h;
                     }else{
-                        type_score=ent->getFeature().rectInAtlas.h;
+                        type_score=entRect.h;
                     }
+                    if(entRect.h>thisFeature.rectInAtlas.h){
+                        type_score=0;
+                    }
+                    
+                    
                     break;
                     case CONSUMER_TYPE:
                     //if(this->getFeature().currentHuger>=this->getFeature().maxHunger/2){
-                    type_score=0*ent->getFeature().rectInAtlas.h;
+                    type_score=0;
                     //}
                     //type_score=0;
                     
@@ -252,7 +264,6 @@ int Consumer::computeDirection(){
                 // } else if(entRect.x < currentRect.x && entRect.y > currentRect.y){
                 //     directionScore[7]+=type_score;  // 左下
                 // }
-                auto entRect = ent->getFeature().rectInAtlas;
                 int x_offset = currentRect.x - entRect.x;  // x方向的偏移量
                 int y_offset = currentRect.y - entRect.y;  // y方向的偏移量
                 float x_distance = std::abs(x_offset);  // x方向的绝对距离

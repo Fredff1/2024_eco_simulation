@@ -94,10 +94,10 @@ void Producer::checkEnvironment(){
 
 void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
     if(feature.reproductionCount<feature.maxReproductionCount){
-        feature.reproductionCount+=3;
+        feature.reproductionCount+=2;
     }else{
         if(currentNode.lock()->entities.size()>MAX_ENTITIES){
-            feature.reproductionCount--;
+            feature.reproductionCount/=3;
             return;
         }
         if(feature.currentHealth<feature.currentMaxHealth/6){
@@ -109,7 +109,7 @@ void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
         auto ent=quadTreeAtlas.getEntityFactory().createEntity(PRODUCER_TYPE,newRect ,quadTreeAtlas.getRoot());
         this->feature.gene.copyGeneTo(ent->getGene());
         ent->getFeature().updateColor();
-        quadTreeAtlas.entityToAdd.push_back(ent);
+        quadTreeAtlas.getEntityFactory().entityToAdd.push_back(std::move(ent));
         feature.reproductionCount=0;
         //std::cout<<"Create a producer"<<std::endl;
     }
