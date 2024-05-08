@@ -27,13 +27,12 @@ void Producer::move(){
 void Producer::updateHunger(){
     auto node=currentNode.lock();
     int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w*4;
-    feature.currentHuger-=lightIn;
+    feature.hungerFeature.addHunger(-lightIn/4);
     if(node->resource.getLightResource()>lightIn){
         node->resource.minusLightResource(lightIn);
-        feature.currentHuger+=(lightIn/4);
+        feature.hungerFeature.addHunger(lightIn/4);
     }else{
-        //feature.currentHuger+=node->resource.getLightResource();
-        feature.currentHealth-=feature.currentMaxHealth*0.01;
+        feature.hungerFeature.addHunger(node->resource.getLightResource());
         node->resource.setLightResource(0);
     }
 }
@@ -41,8 +40,7 @@ void Producer::updateHunger(){
 void Producer::update(QuadTreeAtlas& quadTreeAtlas) {
     checkEnvironment();
     updateHunger();
-    
-    feature.currentHealth+=(feature.rectInAtlas.h*feature.rectInAtlas.w);
+    feature.healthFeature.addCurrentHealth(feature.rectInAtlas.h);
     if(moveCount>=moveInterval){
         this->move();
         moveCount=0;
@@ -63,7 +61,7 @@ float Producer::calculateLifeLoss(float fitness) {
 
     // 设定最大生命值损失比例
     const float maxLossPercentage = 0.0008;  // 最大损失为最大生命值的0.1%
-    float maxLoss = feature.currentMaxHealth * maxLossPercentage;
+    float maxLoss = feature.healthFeature.currentMaxHealth * maxLossPercentage;
     if(fitness>0.6){
         return (fitness-0.6)*maxLoss;
     }else if(fitness>0.4){
@@ -86,23 +84,17 @@ void Producer::checkEnvironment(){
     auto oxy_fac=feature.gene.calculateActualOxygen(act_ocy);
     auto tem_fac=feature.gene.calculateActualTemperature(act_tem);
     auto ph_fac=feature.gene.calculateActualPH(act_ph);
-    feature.currentHealth=feature.currentHealth+calculateLifeLoss(oxy_fac)+calculateLifeLoss(tem_fac)+calculateLifeLoss(ph_fac);
-    if(feature.currentHealth>feature.currentMaxHealth){
-        feature.currentHealth=feature.currentMaxHealth;
-    }
+    feature.healthFeature.addCurrentHealth(calculateLifeLoss(oxy_fac)+calculateLifeLoss(tem_fac)+calculateLifeLoss(ph_fac));
 }
 
 void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
-    if(feature.reproductionCount<feature.maxReproductionCount){
-        feature.reproductionCount+=2;
+    if(feature.reproductionFeature.getIfReproReady()==false){
+        feature.reproductionFeature.addRate(1);
     }else{
         if(currentNode.lock()->entities.size()>MAX_ENTITIES){
-            feature.reproductionCount/=3;
             return;
         }
-        if(feature.currentHealth<feature.currentMaxHealth/6){
-            return;
-        }
+        
         auto newRect=feature.rectInAtlas;
         newRect.x=(newRect.x+4096+RandomUtil::getRandomInt(-240,240))%4096;
         newRect.y=(newRect.y+4096+RandomUtil::getRandomInt(-240,240))%4096;
@@ -110,7 +102,7 @@ void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
         this->feature.gene.copyGeneTo(ent->getGene());
         ent->getFeature().updateColor();
         quadTreeAtlas.getEntityFactory().entityToAdd.push_back(std::move(ent));
-        feature.reproductionCount=0;
+        feature.reproductionFeature.initRate();
         //std::cout<<"Create a producer"<<std::endl;
     }
 }

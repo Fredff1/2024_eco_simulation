@@ -15,6 +15,134 @@ struct QuadTreeAtlasNode;
 
 class QuadTreeAtlas;
 
+struct EntityAgeFeature;
+
+enum EntityDirection{
+    ENTITY_SOUTH_DIR=0,
+    ENTITY_NORTH_DIR,
+    ENTITY_EAST_DIR,
+    ENTITY_WEST_DIR,
+    ENTITY_SOUTHEAST_DIR,
+    ENTITY_NORTHWEST_DIR,
+    ENTITY_NORTHEAST_DIR,
+    ENTITY_SOUTHWEST_DIR,
+};
+
+enum EntityMovingState{
+    ENTITY_STABLE,
+    ENTITY_MOVING,
+    ENTITY_ROTATING,
+
+};
+
+struct EntityMovingFeature{
+    EntityDirection currentDirection;
+    EntityMovingState movingState;
+};
+
+
+
+struct EntityHungerFeature{
+    int currentHuger;
+    int maxHunger;
+    bool isHungerAvailable=false;
+    void addHunger(int hunger){
+        currentHuger+=hunger;
+        if(currentHuger>maxHunger){
+            currentHuger=maxHunger;
+        }
+    }
+    EntityHungerFeature(Gene& gene,bool flag,float shrinkRate){
+        isHungerAvailable=flag;
+        maxHunger=gene.calculateActualMaxHunger()/shrinkRate;
+        maxHunger/=shrinkRate;
+        currentHuger=maxHunger;
+    }
+
+    bool ifHungerLessThanHalf(){
+        return currentHuger<maxHunger/2;
+    }
+
+    bool isFull(){
+        return currentHuger>=maxHunger;
+    }
+
+
+
+    void setFull(){
+        currentHuger=maxHunger;
+    }
+};
+
+struct EntityAgeFeature{
+    bool isAgeAvailable=true;
+    int currentAge;
+    int peakAge;
+    int maxAge;
+    int agePhase=0;
+    int updateCooldown=0;
+    int updateMaxCooldown=10;
+    void addAge(int ageI){
+        currentAge+=ageI;
+    }
+    EntityAgeFeature(Gene& gene,bool flag,float shrinkRate){
+        isAgeAvailable=flag;
+        currentAge=0;
+        maxAge=gene.calculateActualMaxAge()/shrinkRate;
+        peakAge=maxAge/2;
+    }
+};
+
+struct EntityHealthFeature{
+    int currentHealth;
+    int geneMaxHealth;
+    int currentMaxHealth;
+    void addCurrentHealth(int health){
+        currentHealth+=health;
+        if(currentHealth>currentMaxHealth){
+            currentHealth=currentMaxHealth;
+        }
+    }
+    void addCurrentHealth(float rate){
+        currentHealth+=static_cast<int>(rate*currentMaxHealth);
+    }
+    void changeMaxHealth(EntityAgeFeature& ageFeature){
+        if(ageFeature.currentAge<=ageFeature.peakAge){
+            currentMaxHealth=0.5*geneMaxHealth * (float(ageFeature.currentAge) / ageFeature.peakAge)+0.5*geneMaxHealth;
+        }else{
+            float ageDecline = float(ageFeature.currentAge - ageFeature.peakAge)*0.9 / (ageFeature.maxAge - ageFeature.peakAge);
+        }
+    }
+
+    EntityHealthFeature(Gene& gene,EntityAgeFeature& ageFe,float shrinkRate){
+        geneMaxHealth=gene.calculateActualMaxHealth()/shrinkRate;
+        changeMaxHealth(ageFe);
+        currentHealth=currentMaxHealth;
+    } 
+};
+
+struct EntityReproductionFeature{
+    int reproductionCount=0;
+    int maxReproductionCount;
+
+    EntityReproductionFeature(Gene& gene,float shrinkRate){
+        maxReproductionCount=1500/gene.calculateReproductionRate()/shrinkRate;
+    }
+
+    void addRate(int count){
+        reproductionCount+=count;
+    }
+
+    /*Set reproduction count 0*/
+    void initRate(){
+        reproductionCount=0;
+    }
+
+    bool getIfReproReady(){
+        return reproductionCount>maxReproductionCount;
+    }
+};
+
 class EntityState{
 public:
     int id;
@@ -35,29 +163,37 @@ public:
 
 };
 
+struct EntityFeatureInitMsg{
+    bool isHungerAvailable;
+    bool isAgeAvailable;
+    float shrinkRate;
+
+    EntityFeatureInitMsg(bool hungerFLag,bool ageFlag,float shrink_rate):isHungerAvailable(hungerFLag),
+    isAgeAvailable(ageFlag),shrinkRate(shrink_rate){
+
+    }
+};
+
 
 struct EntityFeature{
     int id;
     EntityType type;
-
-    int currentHealth;
-    int geneMaxHealth;
-    int currentMaxHealth;
-
-    int currentHuger;
-    int maxHunger;
-    bool isHungerAvailable=false;
+    Gene gene;
+    EntityAgeFeature ageFeature;
+    EntityHealthFeature healthFeature;
+    EntityHungerFeature hungerFeature;
+    EntityReproductionFeature reproductionFeature;
+    
+    EntityMovingFeature movingFeature;
     bool isHunting=false;
 
-    int currentAge;
-    int peakAge;
-    int maxAge;
-    int agePhase;
+   
 
-    int reproductionCount=0;
-    int maxReproductionCount;
+    
 
-    Gene gene;
+    
+    
+    
 
     SDL_Rect rectInAtlas;
     SDL_Color color={128,128,128,128};
@@ -65,98 +201,77 @@ struct EntityFeature{
 
     bool isAlive=true;
 
+    
+    EntityFeature(EntityFeatureInitMsg msg):gene(),ageFeature(gene,msg.isAgeAvailable,msg.shrinkRate),
+    healthFeature(gene,ageFeature,msg.shrinkRate),hungerFeature(gene,msg.isHungerAvailable,msg.shrinkRate),
+    reproductionFeature(gene,msg.shrinkRate){
+        update();
+    }
+
+    EntityFeature():gene(),ageFeature(gene,true,1),
+    healthFeature(gene,ageFeature,1),hungerFeature(gene,true,1),
+    reproductionFeature(gene,1){
+        update();
+    }
+
     void update(){
         updateAge();
         updateHunger();
         updateAliveState();
-
+        calculateSize(ageFeature.currentAge);
     }
 
     void updateAliveState(){
-        if(currentHealth<0){
+        if(healthFeature.currentHealth<0){
             isAlive=false;
         }
     }
 
     void updateColor(){
         color.g=10;
+        color.r=10;
+        color.b=10;
         if(type==CONSUMER_TYPE){
             color.r=gene.calculateMutateRate()*30+70;
-            color.b=10;
         }else if(type==PRODUCER_TYPE){
             color.g=gene.calculateMutateRate()*30+70;
-            color.b=10;
         }
         color.a=240;
     }
 
     void updateHunger(){
-        if(!isHungerAvailable){
+        if(!hungerFeature.isHungerAvailable){
             return;
         }
-        currentHuger-=2;
-        if(currentHuger<0){
-            currentHealth-=currentMaxHealth*0.002;
+        if(hungerFeature.currentHuger<0){
+            healthFeature.addCurrentHealth((float)-0.008);
         }
     }
 
-    float calculateHealth(int age) {
-        if (age <= peakAge) {
-            return 0.5*geneMaxHealth * (float(age) / peakAge)+0.5*geneMaxHealth;  // 线性增长至最大健康
-        } else {
-            // 假设健康值从峰值线性下降至0
-            float ageDecline = float(age - peakAge)*0.9 / (maxAge - peakAge);
-            return geneMaxHealth * (1 - ageDecline);
-        }
-    }
+    
 
     void calculateSize(int age){
-        float rate=0.2+0.8*((float)currentAge/maxAge);
+        float rate=0.3+0.7*((float)ageFeature.currentAge/ageFeature.maxAge);
         rectInAtlas.h=maxSize*rate;
         rectInAtlas.w=maxSize*rate;
         
     }
 
     void updateAge(){
-        currentAge++;
-        if(currentAge>maxAge){
+        if(ageFeature.currentAge>ageFeature.maxAge){
             isAlive=false;
         }else{
-            currentMaxHealth=calculateHealth(currentAge);
-            calculateSize(currentAge);
-
+            if(ageFeature.updateCooldown<ageFeature.updateMaxCooldown){
+                ageFeature.updateCooldown++;
+            }else{
+                ageFeature.updateCooldown=0;
+                healthFeature.changeMaxHealth(this->ageFeature);
+            }
         }
     }
 
-    /* shrink for producer*/
-    void changeMaxDate(int rate){
-        maxAge/=rate;
-        peakAge=maxAge/2;
-        maxHunger/=rate;
-        currentHuger=maxHunger;
-        geneMaxHealth/=rate;
-        currentMaxHealth=calculateHealth(currentAge);
-        currentHealth=currentMaxHealth;
-        maxReproductionCount=maxAge/gene.calculateReproductionRate();
-    }
-
-    EntityFeature(){
-        maxAge=gene.calculateActualMaxAge();
-        peakAge=maxAge/2;
-        currentAge=0;
-
-        maxHunger=gene.calculateActualMaxHunger();
-        currentHuger=maxHunger;
-
-        geneMaxHealth=gene.calculateActualMaxHealth();
-        currentMaxHealth=calculateHealth(currentAge);
-        currentHealth=currentMaxHealth;
-
-        maxReproductionCount=maxAge/gene.calculateReproductionRate();
-        updateColor();
-        update();
-
-    }
+   
+   
 
     void readPosData(int x,int y,int mSize){
         rectInAtlas.x=x,rectInAtlas.y=y;
@@ -164,6 +279,8 @@ struct EntityFeature{
         update();
     }
 };
+
+
 
 class Entity{ 
 protected:
@@ -192,7 +309,7 @@ protected:
    
 public:
     virtual ~Entity(){}
-    Entity(int id,EntityType type,Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode);
+    Entity(int id,EntityType type,Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode,EntityFeatureInitMsg msg);
 
     Entity(int id,EntityFeature& feature,std::shared_ptr<QuadTreeAtlasNode>& currentNode);
 

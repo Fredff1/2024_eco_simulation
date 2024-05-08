@@ -38,27 +38,24 @@ public:
 
     ~Consumer(){}
     LockedTargetEnt lockEntityState;
-    Consumer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode){
+    Consumer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode,
+    EntityFeatureInitMsg(true,true,1)){
         this->feature.id=id;
         feature.rectInAtlas.x=position.x,feature.rectInAtlas.y=position.y;
         feature.maxSize=35;
         initConsumerFeature();
-        feature.currentHuger=feature.maxHunger;
         feature.updateColor();
     }
 
     Consumer(int id,EntityFeature& feature,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,feature,currentNode){
-        //
-        this->feature.currentHuger=this->feature.maxHunger;
         this->feature.id=id;
         initConsumerFeature();
         feature.updateColor();
     }
 
     void initConsumerFeature(){
+        feature.type=CONSUMER_TYPE;
         feature.update();
-        feature.isHungerAvailable=true;
-        feature.maxReproductionCount/=3;
         moveCooldown=0,maxMoveCooldown=0;
     }
 
@@ -68,7 +65,10 @@ public:
         SDL_SetRenderDrawColor(renderer,0,0,0,255);
     }
 
-    
+    EntityDirection getCurrentDirection(){
+        auto dir=moveHistory.back();
+        return static_cast<EntityDirection>(dir);
+    }
 
     void update(QuadTreeAtlas& quadTreeAtlas) override;
        
@@ -76,12 +76,12 @@ public:
         feature.updateAge();
         feature.updateAliveState();
         //feature.updateHunger();
-        feature.currentHuger-=2;
-        if(feature.currentHuger<=0){
-            feature.currentHuger-=feature.currentMaxHealth*0.002;
-        }else{
-            feature.currentHealth+=feature.currentMaxHealth*0.0005;
-        }
+        // feature.currentHuger-=2;
+        // if(feature.currentHuger<=0){
+        //     feature.currentHuger-=feature.currentMaxHealth*0.002;
+        // }else{
+        //     feature.currentHealth+=feature.currentMaxHealth*0.0005;
+        // }
     }
     
 

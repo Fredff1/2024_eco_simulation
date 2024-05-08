@@ -179,7 +179,13 @@ private:
         }else{
             h=35;
         }
-        auto newFeature=EntityFeature();
+        EntityFeatureInitMsg newMsg(false,false,1);
+        if(type==CONSUMER_TYPE){
+            newMsg=EntityFeatureInitMsg(true,true,1);
+        }else if (type==PRODUCER_TYPE){
+            newMsg=EntityFeatureInitMsg(true,true,2.5);
+        }
+        auto newFeature=EntityFeature(newMsg);
         newFeature.readPosData(x,y,h);
         newFeature.type=type;
         data.getData<cmdInsertData>()->feature=newFeature;

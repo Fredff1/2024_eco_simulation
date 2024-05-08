@@ -21,26 +21,26 @@ private:
 public:
     ~Producer(){}
 
-    Producer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode){
+    Producer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode,
+    EntityFeatureInitMsg(true,true,2.5)){
        feature.rectInAtlas.x=position.x,feature.rectInAtlas.y=position.y;
        feature.maxSize=20;
        initProducerFeature();
-       feature.currentHuger=feature.maxHunger;
+       feature.hungerFeature.setFull();
        /* color is fixed when initializing*/
        feature.updateColor();
     }
 
     Producer(int id,EntityFeature& feature,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,feature,currentNode){
-        this->feature.id=id;
-        this->feature.currentHuger=this->feature.maxHunger;
+        feature.id=id;
+        feature.hungerFeature.setFull();
         initProducerFeature();
         feature.updateColor();
     }
 
     void initProducerFeature(){
+        feature.type=PRODUCER_TYPE;
         feature.update();
-        feature.changeMaxDate(2);
-        feature.isHungerAvailable=true;
         updateEntityState();
     }
 
