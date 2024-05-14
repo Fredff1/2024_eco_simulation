@@ -65,6 +65,9 @@ void Consumer::checkHunger(QuadTreeAtlas& quadTreeAtlas){
         tryHunt(quadTreeAtlas);
     }
     feature.hungerFeature.addHunger(-(feature.rectInAtlas.h/2));
+    if(feature.hungerFeature.currentHuger<0){
+        feature.healthFeature.addCurrentHealth(-0.01f);
+    }
     
 }
 
@@ -163,6 +166,9 @@ void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
         // if(currentNode.lock()->entities.size()>MAX_ENTITIES){
         //     return;
         // }
+        if(feature.hungerFeature.ifHungerLessThanHalf()){
+            return;
+        }
         auto newRect=feature.rectInAtlas;
         newRect.x=(newRect.x+4096+RandomUtil::getRandomInt(-140,140))%4096;
         newRect.y=(newRect.y+4096+RandomUtil::getRandomInt(-140,140))%4096;

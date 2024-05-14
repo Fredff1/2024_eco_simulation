@@ -47,10 +47,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = D:\gcc\mingw64\bin\cmake.exe
+CMAKE_COMMAND = D:\mingw64\bin\cmake.exe
 
 # The command to remove a file.
-RM = D:\gcc\mingw64\bin\cmake.exe -E rm -f
+RM = D:\mingw64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -67,7 +67,7 @@ CMAKE_BINARY_DIR = D:\Code\Cpp\Eco_simulation\build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
-	D:\gcc\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available."
+	D:\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -77,7 +77,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake to regenerate build system..."
-	D:\gcc\mingw64\bin\cmake.exe --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	D:\mingw64\bin\cmake.exe --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -177,6 +177,30 @@ MainController.cpp.s:
 	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/MainController.cpp.s
 .PHONY : MainController.cpp.s
 
+ModelToControllerData.obj: ModelToControllerData.cpp.obj
+.PHONY : ModelToControllerData.obj
+
+# target to build an object file
+ModelToControllerData.cpp.obj:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj
+.PHONY : ModelToControllerData.cpp.obj
+
+ModelToControllerData.i: ModelToControllerData.cpp.i
+.PHONY : ModelToControllerData.i
+
+# target to preprocess a source file
+ModelToControllerData.cpp.i:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.i
+.PHONY : ModelToControllerData.cpp.i
+
+ModelToControllerData.s: ModelToControllerData.cpp.s
+.PHONY : ModelToControllerData.s
+
+# target to generate assembly for a file
+ModelToControllerData.cpp.s:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.s
+.PHONY : ModelToControllerData.cpp.s
+
 ShellController.obj: ShellController.cpp.obj
 .PHONY : ShellController.obj
 
@@ -201,6 +225,30 @@ ShellController.cpp.s:
 	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.s
 .PHONY : ShellController.cpp.s
 
+ViewToControllerData.obj: ViewToControllerData.cpp.obj
+.PHONY : ViewToControllerData.obj
+
+# target to build an object file
+ViewToControllerData.cpp.obj:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj
+.PHONY : ViewToControllerData.cpp.obj
+
+ViewToControllerData.i: ViewToControllerData.cpp.i
+.PHONY : ViewToControllerData.i
+
+# target to preprocess a source file
+ViewToControllerData.cpp.i:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.i
+.PHONY : ViewToControllerData.cpp.i
+
+ViewToControllerData.s: ViewToControllerData.cpp.s
+.PHONY : ViewToControllerData.s
+
+# target to generate assembly for a file
+ViewToControllerData.cpp.s:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\Controller\CMakeFiles\Controller.dir\build.make src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.s
+.PHONY : ViewToControllerData.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -216,9 +264,15 @@ help:
 	@echo ... MainController.obj
 	@echo ... MainController.i
 	@echo ... MainController.s
+	@echo ... ModelToControllerData.obj
+	@echo ... ModelToControllerData.i
+	@echo ... ModelToControllerData.s
 	@echo ... ShellController.obj
 	@echo ... ShellController.i
 	@echo ... ShellController.s
+	@echo ... ViewToControllerData.obj
+	@echo ... ViewToControllerData.i
+	@echo ... ViewToControllerData.s
 .PHONY : help
 
 

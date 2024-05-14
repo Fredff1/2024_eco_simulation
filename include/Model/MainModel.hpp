@@ -12,6 +12,7 @@
 #include "Util/ThreadSafeQueue.hpp"
 #include "Controller/ControllerData.hpp"
 #include "Controller/ShellControllerData.hpp"
+#include "Controller/ModelToControllerData.hpp"
 
 
 class MainModel:public Subject<FrameData>{
@@ -20,6 +21,7 @@ private:
     ThreadSafeQueue<std::unique_ptr<FrameData>> dataQueue;
     ThreadSafeQueue<std::unique_ptr<ControllerData>> ControllerDataQueue;
     ThreadSafeQueue<std::unique_ptr<shellControllerData>> shellDataQueue;
+    ThreadSafeQueue<std::unique_ptr<ModelToControllerData>> modelToCOntrollerDataQueue;
     //std::queue<std::unique_ptr<FrameData>> dataQueue;
     FrameData newData;
     std::mutex queueMutex;  // Mutex to protect access to the queue
@@ -46,6 +48,10 @@ private:
             shellDataQueue.poll(data);
             actShellControllerData(data);
         }
+    }
+
+    void addModelToControllerData(const ModelToControllerData& data){
+        modelToCOntrollerDataQueue.push(std::make_unique<ModelToControllerData>(data));
     }
 
     /* change model state according to controller event 进行对应操作*/
@@ -194,6 +200,10 @@ public:
         for (Observer<FrameData>* observer : this->getObservers()) {
             observer->update(nullptr);
         }
+    }
+
+    ThreadSafeQueue<std::unique_ptr<ModelToControllerData>>& getModelToControllerDataQueu(){
+        return this->modelToCOntrollerDataQueue;
     }
 
     

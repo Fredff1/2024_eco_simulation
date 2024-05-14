@@ -58,6 +58,7 @@ private:
             std::unique_ptr<shellControllerData> data;
             shellDataQueue.poll(data);
             actShellControllerData(data);
+            SDL_Delay(10);
         }
     }
 

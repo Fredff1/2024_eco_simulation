@@ -1,2 +1,2 @@
-D:\gcc\mingw64\bin\ar.exe qc libUtil.a CMakeFiles/Util.dir/GlobalFunc.cpp.obj CMakeFiles/Util.dir/RandomUtil.cpp.obj CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj
-D:\gcc\mingw64\bin\ranlib.exe libUtil.a
+D:\mingw64\bin\ar.exe qc libUtil.a CMakeFiles/Util.dir/GlobalFunc.cpp.obj CMakeFiles/Util.dir/RandomUtil.cpp.obj CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj
+D:\mingw64\bin\ranlib.exe libUtil.a

@@ -395,12 +395,22 @@ void QuadTreeAtlas::updateUniversal(FrameData& data){
 }
 
 void QuadTreeAtlas::update(FrameData& data){
+    Uint64 start = SDL_GetPerformanceCounter();
     setEntityCount(0);
     updateUniversal(data);
     updateAtlasNodes(root,data);
     updateEntities(root); /* Warning for this func (cause crash)*/
     queryUpdateEntitiesInArea(root,data);
     addToFrameData(root,data);
+    Uint64 end = SDL_GetPerformanceCounter();
+
+    double duration = (end - start) / (double)SDL_GetPerformanceFrequency(); // 计算运行时间（秒）
+
+    // 打印运行时间
+    if(duration>0.00001){
+        std::cout << "Duration: " << duration << " seconds" << std::endl;
+    }
+    
 }
 
 void QuadTreeAtlas::addToFrameData(std::shared_ptr<QuadTreeAtlasNode>& node,FrameData& data){

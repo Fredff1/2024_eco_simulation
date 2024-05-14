@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = D:\gcc\mingw64\bin\cmake.exe
+CMAKE_COMMAND = D:\mingw64\bin\cmake.exe
 
 # The command to remove a file.
-RM = D:\gcc\mingw64\bin\cmake.exe -E rm -f
+RM = D:\mingw64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -73,61 +73,95 @@ src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj: src/Controller/CM
 src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Controller/CommandShell.cpp
 src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj: src/Controller/CMakeFiles/Controller.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj -MF CMakeFiles\Controller.dir\CommandShell.cpp.obj.d -o CMakeFiles\Controller.dir\CommandShell.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\CommandShell.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj -MF CMakeFiles\Controller.dir\CommandShell.cpp.obj.d -o CMakeFiles\Controller.dir\CommandShell.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\CommandShell.cpp
 
 src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Controller.dir/CommandShell.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\CommandShell.cpp > CMakeFiles\Controller.dir\CommandShell.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\CommandShell.cpp > CMakeFiles\Controller.dir\CommandShell.cpp.i
 
 src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Controller.dir/CommandShell.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\CommandShell.cpp -o CMakeFiles\Controller.dir\CommandShell.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\CommandShell.cpp -o CMakeFiles\Controller.dir\CommandShell.cpp.s
 
 src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj: src/Controller/CMakeFiles/Controller.dir/flags.make
 src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj: src/Controller/CMakeFiles/Controller.dir/includes_CXX.rsp
 src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Controller/MainController.cpp
 src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj: src/Controller/CMakeFiles/Controller.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj -MF CMakeFiles\Controller.dir\MainController.cpp.obj.d -o CMakeFiles\Controller.dir\MainController.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\MainController.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj -MF CMakeFiles\Controller.dir\MainController.cpp.obj.d -o CMakeFiles\Controller.dir\MainController.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\MainController.cpp
 
 src/Controller/CMakeFiles/Controller.dir/MainController.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Controller.dir/MainController.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\MainController.cpp > CMakeFiles\Controller.dir\MainController.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\MainController.cpp > CMakeFiles\Controller.dir\MainController.cpp.i
 
 src/Controller/CMakeFiles/Controller.dir/MainController.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Controller.dir/MainController.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\MainController.cpp -o CMakeFiles\Controller.dir\MainController.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\MainController.cpp -o CMakeFiles\Controller.dir\MainController.cpp.s
+
+src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj: src/Controller/CMakeFiles/Controller.dir/flags.make
+src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj: src/Controller/CMakeFiles/Controller.dir/includes_CXX.rsp
+src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Controller/ModelToControllerData.cpp
+src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj: src/Controller/CMakeFiles/Controller.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj -MF CMakeFiles\Controller.dir\ModelToControllerData.cpp.obj.d -o CMakeFiles\Controller.dir\ModelToControllerData.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\ModelToControllerData.cpp
+
+src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Controller.dir/ModelToControllerData.cpp.i"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\ModelToControllerData.cpp > CMakeFiles\Controller.dir\ModelToControllerData.cpp.i
+
+src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Controller.dir/ModelToControllerData.cpp.s"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\ModelToControllerData.cpp -o CMakeFiles\Controller.dir\ModelToControllerData.cpp.s
 
 src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj: src/Controller/CMakeFiles/Controller.dir/flags.make
 src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj: src/Controller/CMakeFiles/Controller.dir/includes_CXX.rsp
 src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Controller/ShellController.cpp
 src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj: src/Controller/CMakeFiles/Controller.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj -MF CMakeFiles\Controller.dir\ShellController.cpp.obj.d -o CMakeFiles\Controller.dir\ShellController.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\ShellController.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj -MF CMakeFiles\Controller.dir\ShellController.cpp.obj.d -o CMakeFiles\Controller.dir\ShellController.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\ShellController.cpp
 
 src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Controller.dir/ShellController.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\ShellController.cpp > CMakeFiles\Controller.dir\ShellController.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\ShellController.cpp > CMakeFiles\Controller.dir\ShellController.cpp.i
 
 src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Controller.dir/ShellController.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\ShellController.cpp -o CMakeFiles\Controller.dir\ShellController.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\ShellController.cpp -o CMakeFiles\Controller.dir\ShellController.cpp.s
+
+src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj: src/Controller/CMakeFiles/Controller.dir/flags.make
+src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj: src/Controller/CMakeFiles/Controller.dir/includes_CXX.rsp
+src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Controller/ViewToControllerData.cpp
+src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj: src/Controller/CMakeFiles/Controller.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj -MF CMakeFiles\Controller.dir\ViewToControllerData.cpp.obj.d -o CMakeFiles\Controller.dir\ViewToControllerData.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Controller\ViewToControllerData.cpp
+
+src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Controller.dir/ViewToControllerData.cpp.i"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Controller\ViewToControllerData.cpp > CMakeFiles\Controller.dir\ViewToControllerData.cpp.i
+
+src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Controller.dir/ViewToControllerData.cpp.s"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Controller\ViewToControllerData.cpp -o CMakeFiles\Controller.dir\ViewToControllerData.cpp.s
 
 # Object files for target Controller
 Controller_OBJECTS = \
 "CMakeFiles/Controller.dir/CommandShell.cpp.obj" \
 "CMakeFiles/Controller.dir/MainController.cpp.obj" \
-"CMakeFiles/Controller.dir/ShellController.cpp.obj"
+"CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj" \
+"CMakeFiles/Controller.dir/ShellController.cpp.obj" \
+"CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj"
 
 # External object files for target Controller
 Controller_EXTERNAL_OBJECTS =
 
 src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj
 src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj
+src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/ModelToControllerData.cpp.obj
 src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/ShellController.cpp.obj
+src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/ViewToControllerData.cpp.obj
 src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/build.make
 src/Controller/libController.a: src/Controller/CMakeFiles/Controller.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libController.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libController.a"
 	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && $(CMAKE_COMMAND) -P CMakeFiles\Controller.dir\cmake_clean_target.cmake
 	cd /d D:\Code\Cpp\Eco_simulation\build\src\Controller && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Controller.dir\link.txt --verbose=$(VERBOSE)
 

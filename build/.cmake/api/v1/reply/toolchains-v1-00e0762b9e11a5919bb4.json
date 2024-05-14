@@ -10,17 +10,17 @@
 				{
 					"includeDirectories" : 
 					[
-						"D:/gcc/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include",
-						"D:/gcc/mingw64/include",
-						"D:/gcc/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed",
-						"D:/gcc/mingw64/x86_64-w64-mingw32/include"
+						"D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include",
+						"D:/mingw64/include",
+						"D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed",
+						"D:/mingw64/x86_64-w64-mingw32/include"
 					],
 					"linkDirectories" : 
 					[
-						"D:/gcc/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0",
-						"D:/gcc/mingw64/lib/gcc",
-						"D:/gcc/mingw64/x86_64-w64-mingw32/lib",
-						"D:/gcc/mingw64/lib"
+						"D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0",
+						"D:/mingw64/lib/gcc",
+						"D:/mingw64/x86_64-w64-mingw32/lib",
+						"D:/mingw64/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
@@ -47,7 +47,7 @@
 						"ntdll"
 					]
 				},
-				"path" : "D:/gcc/mingw64/bin/gcc.exe",
+				"path" : "D:/mingw64/bin/gcc.exe",
 				"version" : "13.2.0"
 			},
 			"language" : "C",
@@ -65,20 +65,20 @@
 				{
 					"includeDirectories" : 
 					[
-						"D:/gcc/mingw64/include/c++/13.2.0",
-						"D:/gcc/mingw64/include/c++/13.2.0/x86_64-w64-mingw32",
-						"D:/gcc/mingw64/include/c++/13.2.0/backward",
-						"D:/gcc/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include",
-						"D:/gcc/mingw64/include",
-						"D:/gcc/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed",
-						"D:/gcc/mingw64/x86_64-w64-mingw32/include"
+						"D:/mingw64/include/c++/13.2.0",
+						"D:/mingw64/include/c++/13.2.0/x86_64-w64-mingw32",
+						"D:/mingw64/include/c++/13.2.0/backward",
+						"D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include",
+						"D:/mingw64/include",
+						"D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed",
+						"D:/mingw64/x86_64-w64-mingw32/include"
 					],
 					"linkDirectories" : 
 					[
-						"D:/gcc/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0",
-						"D:/gcc/mingw64/lib/gcc",
-						"D:/gcc/mingw64/x86_64-w64-mingw32/lib",
-						"D:/gcc/mingw64/lib"
+						"D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0",
+						"D:/mingw64/lib/gcc",
+						"D:/mingw64/x86_64-w64-mingw32/lib",
+						"D:/mingw64/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
@@ -108,7 +108,7 @@
 						"ntdll"
 					]
 				},
-				"path" : "D:/gcc/mingw64/bin/g++.exe",
+				"path" : "D:/mingw64/bin/g++.exe",
 				"version" : "13.2.0"
 			},
 			"language" : "CXX",
@@ -134,7 +134,7 @@
 			"compiler" : 
 			{
 				"implicit" : {},
-				"path" : "D:/gcc/mingw64/bin/windres.exe"
+				"path" : "D:/mingw64/bin/windres.exe"
 			},
 			"language" : "RC",
 			"sourceFileExtensions" : 

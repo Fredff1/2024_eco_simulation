@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = D:\gcc\mingw64\bin\cmake.exe
+CMAKE_COMMAND = D:\mingw64\bin\cmake.exe
 
 # The command to remove a file.
-RM = D:\gcc\mingw64\bin\cmake.exe -E rm -f
+RM = D:\mingw64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -73,15 +73,15 @@ src/CMakeFiles/EcoSystem.dir/main.cpp.obj: src/CMakeFiles/EcoSystem.dir/includes
 src/CMakeFiles/EcoSystem.dir/main.cpp.obj: D:/Code/Cpp/Eco_simulation/src/main.cpp
 src/CMakeFiles/EcoSystem.dir/main.cpp.obj: src/CMakeFiles/EcoSystem.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/EcoSystem.dir/main.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/EcoSystem.dir/main.cpp.obj -MF CMakeFiles\EcoSystem.dir\main.cpp.obj.d -o CMakeFiles\EcoSystem.dir\main.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\main.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/EcoSystem.dir/main.cpp.obj -MF CMakeFiles\EcoSystem.dir\main.cpp.obj.d -o CMakeFiles\EcoSystem.dir\main.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\main.cpp
 
 src/CMakeFiles/EcoSystem.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/EcoSystem.dir/main.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\main.cpp > CMakeFiles\EcoSystem.dir\main.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\main.cpp > CMakeFiles\EcoSystem.dir\main.cpp.i
 
 src/CMakeFiles/EcoSystem.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/EcoSystem.dir/main.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\main.cpp -o CMakeFiles\EcoSystem.dir\main.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\main.cpp -o CMakeFiles\EcoSystem.dir\main.cpp.s
 
 # Object files for target EcoSystem
 EcoSystem_OBJECTS = \

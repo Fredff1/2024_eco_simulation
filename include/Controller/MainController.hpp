@@ -9,8 +9,9 @@
 #include "GlobalEnum.hpp"
 #include "GlobalStruct.hpp"
 #include "Controller/CommandShell.hpp"
+#include "Controller/ModelToControllerData.hpp"
 
-
+#define DEBUG_MODE
 class MainController{
 private:
     MainFrame& frame;  // 控制的视图
@@ -19,7 +20,11 @@ private:
     bool is_Running;
     SDL_Event event;
     ControllerData data;
-    int currentFrameTime=60;
+    #ifdef DEBUG_MODE
+    int currentFrameTime=200;
+    #else 
+    int currentFrameTime=60
+    #endif
 
     void shellControllerThread(ShellCommand& shellCommand){
         shellCommand.startThread();
@@ -91,7 +96,7 @@ public:
         while(is_Running){
             handleEvents();
             auto frameStartTime = SDL_GetTicks();
-
+            readModelToControllerData();
             data.visibleRect=frame.getAtlasView().getVisibleRect();
             model.addControllerData(data);
             is_Running=model.getRunning();
@@ -123,6 +128,20 @@ public:
 
     void setFPS(int targetFPS){
         currentFrameTime=1000/targetFPS;
+    }
+
+    void readModelToControllerData(){
+        auto& queue=model.getModelToControllerDataQueu();
+        while(queue.empty()==false){
+            std::unique_ptr<ModelToControllerData> data;
+            queue.poll(data);
+            actModelToControllerData(data);
+            SDL_Delay(5);
+        }
+    }
+
+    void actModelToControllerData(std::unique_ptr<ModelToControllerData>& data){
+
     }
 
 };

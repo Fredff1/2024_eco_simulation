@@ -1,2 +1,2 @@
-D:\gcc\mingw64\bin\ar.exe qc libView.a CMakeFiles/View.dir/AtlasView.cpp.obj CMakeFiles/View.dir/MainView.cpp.obj
-D:\gcc\mingw64\bin\ranlib.exe libView.a
+D:\mingw64\bin\ar.exe qc libView.a CMakeFiles/View.dir/AtlasView.cpp.obj CMakeFiles/View.dir/MainView.cpp.obj
+D:\mingw64\bin\ranlib.exe libView.a

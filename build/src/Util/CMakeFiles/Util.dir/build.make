@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = D:\gcc\mingw64\bin\cmake.exe
+CMAKE_COMMAND = D:\mingw64\bin\cmake.exe
 
 # The command to remove a file.
-RM = D:\gcc\mingw64\bin\cmake.exe -E rm -f
+RM = D:\mingw64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -73,60 +73,60 @@ src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj: src/Util/CMakeFiles/Util.dir/in
 src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Util/GlobalFunc.cpp
 src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj: src/Util/CMakeFiles/Util.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj -MF CMakeFiles\Util.dir\GlobalFunc.cpp.obj.d -o CMakeFiles\Util.dir\GlobalFunc.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\GlobalFunc.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.obj -MF CMakeFiles\Util.dir\GlobalFunc.cpp.obj.d -o CMakeFiles\Util.dir\GlobalFunc.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\GlobalFunc.cpp
 
 src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Util.dir/GlobalFunc.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\GlobalFunc.cpp > CMakeFiles\Util.dir\GlobalFunc.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\GlobalFunc.cpp > CMakeFiles\Util.dir\GlobalFunc.cpp.i
 
 src/Util/CMakeFiles/Util.dir/GlobalFunc.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Util.dir/GlobalFunc.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\GlobalFunc.cpp -o CMakeFiles\Util.dir\GlobalFunc.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\GlobalFunc.cpp -o CMakeFiles\Util.dir\GlobalFunc.cpp.s
 
 src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj: src/Util/CMakeFiles/Util.dir/flags.make
 src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj: src/Util/CMakeFiles/Util.dir/includes_CXX.rsp
 src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Util/RandomUtil.cpp
 src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj: src/Util/CMakeFiles/Util.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj -MF CMakeFiles\Util.dir\RandomUtil.cpp.obj.d -o CMakeFiles\Util.dir\RandomUtil.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\RandomUtil.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.obj -MF CMakeFiles\Util.dir\RandomUtil.cpp.obj.d -o CMakeFiles\Util.dir\RandomUtil.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\RandomUtil.cpp
 
 src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Util.dir/RandomUtil.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\RandomUtil.cpp > CMakeFiles\Util.dir\RandomUtil.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\RandomUtil.cpp > CMakeFiles\Util.dir\RandomUtil.cpp.i
 
 src/Util/CMakeFiles/Util.dir/RandomUtil.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Util.dir/RandomUtil.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\RandomUtil.cpp -o CMakeFiles\Util.dir\RandomUtil.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\RandomUtil.cpp -o CMakeFiles\Util.dir\RandomUtil.cpp.s
 
 src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj: src/Util/CMakeFiles/Util.dir/flags.make
 src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj: src/Util/CMakeFiles/Util.dir/includes_CXX.rsp
 src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Util/ThreadSafeCout.cpp
 src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj: src/Util/CMakeFiles/Util.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj -MF CMakeFiles\Util.dir\ThreadSafeCout.cpp.obj.d -o CMakeFiles\Util.dir\ThreadSafeCout.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeCout.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.obj -MF CMakeFiles\Util.dir\ThreadSafeCout.cpp.obj.d -o CMakeFiles\Util.dir\ThreadSafeCout.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeCout.cpp
 
 src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Util.dir/ThreadSafeCout.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeCout.cpp > CMakeFiles\Util.dir\ThreadSafeCout.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeCout.cpp > CMakeFiles\Util.dir\ThreadSafeCout.cpp.i
 
 src/Util/CMakeFiles/Util.dir/ThreadSafeCout.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Util.dir/ThreadSafeCout.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeCout.cpp -o CMakeFiles\Util.dir\ThreadSafeCout.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeCout.cpp -o CMakeFiles\Util.dir\ThreadSafeCout.cpp.s
 
 src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj: src/Util/CMakeFiles/Util.dir/flags.make
 src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj: src/Util/CMakeFiles/Util.dir/includes_CXX.rsp
 src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj: D:/Code/Cpp/Eco_simulation/src/Util/ThreadSafeQueue.cpp
 src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj: src/Util/CMakeFiles/Util.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj -MF CMakeFiles\Util.dir\ThreadSafeQueue.cpp.obj.d -o CMakeFiles\Util.dir\ThreadSafeQueue.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeQueue.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.obj -MF CMakeFiles\Util.dir\ThreadSafeQueue.cpp.obj.d -o CMakeFiles\Util.dir\ThreadSafeQueue.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeQueue.cpp
 
 src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Util.dir/ThreadSafeQueue.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeQueue.cpp > CMakeFiles\Util.dir\ThreadSafeQueue.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeQueue.cpp > CMakeFiles\Util.dir\ThreadSafeQueue.cpp.i
 
 src/Util/CMakeFiles/Util.dir/ThreadSafeQueue.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Util.dir/ThreadSafeQueue.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeQueue.cpp -o CMakeFiles\Util.dir\ThreadSafeQueue.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\Util && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\Util\ThreadSafeQueue.cpp -o CMakeFiles\Util.dir\ThreadSafeQueue.cpp.s
 
 # Object files for target Util
 Util_OBJECTS = \

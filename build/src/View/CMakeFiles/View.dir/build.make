@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = D:\gcc\mingw64\bin\cmake.exe
+CMAKE_COMMAND = D:\mingw64\bin\cmake.exe
 
 # The command to remove a file.
-RM = D:\gcc\mingw64\bin\cmake.exe -E rm -f
+RM = D:\mingw64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -73,30 +73,30 @@ src/View/CMakeFiles/View.dir/AtlasView.cpp.obj: src/View/CMakeFiles/View.dir/inc
 src/View/CMakeFiles/View.dir/AtlasView.cpp.obj: D:/Code/Cpp/Eco_simulation/src/View/AtlasView.cpp
 src/View/CMakeFiles/View.dir/AtlasView.cpp.obj: src/View/CMakeFiles/View.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/View/CMakeFiles/View.dir/AtlasView.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/View/CMakeFiles/View.dir/AtlasView.cpp.obj -MF CMakeFiles\View.dir\AtlasView.cpp.obj.d -o CMakeFiles\View.dir\AtlasView.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\View\AtlasView.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/View/CMakeFiles/View.dir/AtlasView.cpp.obj -MF CMakeFiles\View.dir\AtlasView.cpp.obj.d -o CMakeFiles\View.dir\AtlasView.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\View\AtlasView.cpp
 
 src/View/CMakeFiles/View.dir/AtlasView.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/View.dir/AtlasView.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\View\AtlasView.cpp > CMakeFiles\View.dir\AtlasView.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\View\AtlasView.cpp > CMakeFiles\View.dir\AtlasView.cpp.i
 
 src/View/CMakeFiles/View.dir/AtlasView.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/View.dir/AtlasView.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\View\AtlasView.cpp -o CMakeFiles\View.dir\AtlasView.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\View\AtlasView.cpp -o CMakeFiles\View.dir\AtlasView.cpp.s
 
 src/View/CMakeFiles/View.dir/MainView.cpp.obj: src/View/CMakeFiles/View.dir/flags.make
 src/View/CMakeFiles/View.dir/MainView.cpp.obj: src/View/CMakeFiles/View.dir/includes_CXX.rsp
 src/View/CMakeFiles/View.dir/MainView.cpp.obj: D:/Code/Cpp/Eco_simulation/src/View/MainView.cpp
 src/View/CMakeFiles/View.dir/MainView.cpp.obj: src/View/CMakeFiles/View.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/View/CMakeFiles/View.dir/MainView.cpp.obj"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/View/CMakeFiles/View.dir/MainView.cpp.obj -MF CMakeFiles\View.dir\MainView.cpp.obj.d -o CMakeFiles\View.dir\MainView.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/View/CMakeFiles/View.dir/MainView.cpp.obj -MF CMakeFiles\View.dir\MainView.cpp.obj.d -o CMakeFiles\View.dir\MainView.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp
 
 src/View/CMakeFiles/View.dir/MainView.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/View.dir/MainView.cpp.i"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp > CMakeFiles\View.dir\MainView.cpp.i
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp > CMakeFiles\View.dir\MainView.cpp.i
 
 src/View/CMakeFiles/View.dir/MainView.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/View.dir/MainView.cpp.s"
-	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\gcc\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp -o CMakeFiles\View.dir\MainView.cpp.s
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp -o CMakeFiles\View.dir\MainView.cpp.s
 
 # Object files for target View
 View_OBJECTS = \

@@ -28,7 +28,7 @@ private:
         shellControllerData pauseData;
         pauseData.event=PAUSE_MAIN_MODEL;
         frame.addShellData(pauseData);
-        SDL_Delay(2000);
+        SDL_Delay(20);
         shellControllerData continueData;
         continueData.event=CONTINUE_MAIN_MODEL;
         frame.addShellData(continueData);

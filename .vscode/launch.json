@@ -20,7 +20,7 @@
                 }
             ],
             "preLaunchTask": "CMake Build",
-            "miDebuggerPath": "D:\\gcc\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "D:\\mingw64\\bin\\gdb.exe",
             "logging": { "trace": true, "traceResponse": true, "engineLogging": true }
         }
     ]
