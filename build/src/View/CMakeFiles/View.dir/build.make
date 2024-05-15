@@ -98,19 +98,36 @@ src/View/CMakeFiles/View.dir/MainView.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/View.dir/MainView.cpp.s"
 	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\View\MainView.cpp -o CMakeFiles\View.dir\MainView.cpp.s
 
+src/View/CMakeFiles/View.dir/TextureManager.cpp.obj: src/View/CMakeFiles/View.dir/flags.make
+src/View/CMakeFiles/View.dir/TextureManager.cpp.obj: src/View/CMakeFiles/View.dir/includes_CXX.rsp
+src/View/CMakeFiles/View.dir/TextureManager.cpp.obj: D:/Code/Cpp/Eco_simulation/src/View/TextureManager.cpp
+src/View/CMakeFiles/View.dir/TextureManager.cpp.obj: src/View/CMakeFiles/View.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/View/CMakeFiles/View.dir/TextureManager.cpp.obj"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/View/CMakeFiles/View.dir/TextureManager.cpp.obj -MF CMakeFiles\View.dir\TextureManager.cpp.obj.d -o CMakeFiles\View.dir\TextureManager.cpp.obj -c D:\Code\Cpp\Eco_simulation\src\View\TextureManager.cpp
+
+src/View/CMakeFiles/View.dir/TextureManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/View.dir/TextureManager.cpp.i"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Code\Cpp\Eco_simulation\src\View\TextureManager.cpp > CMakeFiles\View.dir\TextureManager.cpp.i
+
+src/View/CMakeFiles/View.dir/TextureManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/View.dir/TextureManager.cpp.s"
+	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Code\Cpp\Eco_simulation\src\View\TextureManager.cpp -o CMakeFiles\View.dir\TextureManager.cpp.s
+
 # Object files for target View
 View_OBJECTS = \
 "CMakeFiles/View.dir/AtlasView.cpp.obj" \
-"CMakeFiles/View.dir/MainView.cpp.obj"
+"CMakeFiles/View.dir/MainView.cpp.obj" \
+"CMakeFiles/View.dir/TextureManager.cpp.obj"
 
 # External object files for target View
 View_EXTERNAL_OBJECTS =
 
 src/View/libView.a: src/View/CMakeFiles/View.dir/AtlasView.cpp.obj
 src/View/libView.a: src/View/CMakeFiles/View.dir/MainView.cpp.obj
+src/View/libView.a: src/View/CMakeFiles/View.dir/TextureManager.cpp.obj
 src/View/libView.a: src/View/CMakeFiles/View.dir/build.make
 src/View/libView.a: src/View/CMakeFiles/View.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libView.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libView.a"
 	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && $(CMAKE_COMMAND) -P CMakeFiles\View.dir\cmake_clean_target.cmake
 	cd /d D:\Code\Cpp\Eco_simulation\build\src\View && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\View.dir\link.txt --verbose=$(VERBOSE)
 

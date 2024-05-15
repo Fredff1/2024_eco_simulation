@@ -9,8 +9,12 @@ std::weak_ptr<QuadTreeAtlasNode> Consumer::getCurrentNode(){
 }
 
 void Consumer::move(){
-        int index=0;
-        
+    int index=0;
+    switch(feature.movingFeature.movingState){
+        case ENTITY_STABLE:
+
+        break;
+        case ENTITY_MOVING:
         if(moveCooldown<maxMoveCooldown){
             moveCooldown++;
             if(!moveHistory.empty()){
@@ -41,18 +45,35 @@ void Consumer::move(){
                 index =RandomUtil::getRandomInt(0,7);
                 maxMoveCooldown=200000;
             }     
+            feature.movingFeature.currentDirection=convertDirectionIndex(index);
+            feature.movingFeature.movingState=ENTITY_ROTATING;
+        }
+        {
+            updateMoveHistory(index);
+            //index=4;
+            // 获取随机方向
+            auto [dx, dy] = this->directions[index];
+            feature.rectInAtlas.x = (feature.rectInAtlas.x + dx * 3 + 4096) % 4096;  // 使用取模操作实现环绕
+            feature.rectInAtlas.y = (feature.rectInAtlas.y + dy * 3 + 4096) % 4096;
+            // 更新位置
         }
         
-        
-        updateMoveHistory(index);
-        //index=4;
-        // 获取随机方向
-        auto [dx, dy] = this->directions[index];
-        feature.rectInAtlas.x = (feature.rectInAtlas.x + dx * 3 + 4096) % 4096;  // 使用取模操作实现环绕
-        feature.rectInAtlas.y = (feature.rectInAtlas.y + dy * 3 + 4096) % 4096;
-        // 更新位置
-        
-        //randomMove=true;
+        break;
+        case ENTITY_ROTATING:
+        auto targetAngle=feature.movingFeature.convertDirToAngle();
+        if(targetAngle<feature.movingFeature.movingAngle){
+            feature.movingFeature.addMovingAngle(-5);
+        }else if(targetAngle>feature.movingFeature.movingAngle){
+            feature.movingFeature.addMovingAngle(5);
+        }else{
+            feature.movingFeature.movingState=ENTITY_MOVING;
+        }
+
+        break;
+    }
+    
+    
+    //randomMove=true;
 }
 
 void Consumer::setMoveChoice(){

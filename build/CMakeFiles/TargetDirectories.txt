@@ -1,3 +1,4 @@
+D:/Code/Cpp/Eco_simulation/build/CMakeFiles/copy_assets.dir
 D:/Code/Cpp/Eco_simulation/build/CMakeFiles/edit_cache.dir
 D:/Code/Cpp/Eco_simulation/build/CMakeFiles/rebuild_cache.dir
 D:/Code/Cpp/Eco_simulation/build/src/CMakeFiles/EcoSystem.dir

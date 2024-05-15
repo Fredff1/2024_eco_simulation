@@ -78,6 +78,7 @@ src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj: D:/Code/Cpp/Eco_s
   D:/Code/Cpp/Eco_simulation/include/Util/ThreadSafeQueue.hpp \
   D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp \
   D:/Code/Cpp/Eco_simulation/include/View/MainView.hpp \
+  D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp \
   D:/Code/Cpp/Eco_simulation/include/Model/Resource.hpp \
   D:/mingw64/include/c++/13.2.0/algorithm \
   D:/mingw64/include/c++/13.2.0/array \
@@ -647,6 +648,7 @@ src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj: D:/Code/Cpp/Eco
   D:/Code/Cpp/Eco_simulation/include/Util/ThreadSafeQueue.hpp \
   D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp \
   D:/Code/Cpp/Eco_simulation/include/View/MainView.hpp \
+  D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp \
   D:/Code/Cpp/Eco_simulation/include/Model/Resource.hpp \
   D:/mingw64/include/c++/13.2.0/algorithm \
   D:/mingw64/include/c++/13.2.0/array \
@@ -1681,10 +1683,6 @@ D:/mingw64/include/c++/13.2.0/tr1/poly_laguerre.tcc:
 
 D:/mingw64/include/c++/13.2.0/ostream:
 
-D:/mingw64/x86_64-w64-mingw32/include/winnls.h:
-
-D:/mingw64/include/c++/13.2.0/bits/allocator.h:
-
 D:/mingw64/x86_64-w64-mingw32/include/timeapi.h:
 
 D:/mingw64/include/c++/13.2.0/new:
@@ -1837,9 +1835,11 @@ D:/mingw64/include/c++/13.2.0/bits/range_access.h:
 
 D:/mingw64/include/c++/13.2.0/bits/ostream_insert.h:
 
-D:/mingw64/include/c++/13.2.0/variant:
+D:/mingw64/include/c++/13.2.0/string:
 
-D:/mingw64/x86_64-w64-mingw32/include/apisetcconv.h:
+D:/mingw64/include/c++/13.2.0/bits/nested_exception.h:
+
+D:/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h:
 
 D:/mingw64/include/c++/13.2.0/memory:
 
@@ -1916,12 +1916,6 @@ D:/mingw64/include/c++/13.2.0/stdlib.h:
 D:/mingw64/x86_64-w64-mingw32/include/process.h:
 
 D:/mingw64/include/c++/13.2.0/bits/char_traits.h:
-
-D:/mingw64/include/c++/13.2.0/string:
-
-D:/mingw64/include/c++/13.2.0/bits/nested_exception.h:
-
-D:/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h:
 
 D:/Code/Cpp/Eco_simulation/src/Controller/ShellController.cpp:
 
@@ -2069,6 +2063,10 @@ D:/mingw64/include/c++/13.2.0/ext/numeric_traits.h:
 
 D:/mingw64/include/c++/13.2.0/bits/streambuf_iterator.h:
 
+D:/mingw64/x86_64-w64-mingw32/include/winapifamily.h:
+
+D:/mingw64/include/c++/13.2.0/bits/cxxabi_forced.h:
+
 D:/Code/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include/SDL2/SDL_gamecontroller.h:
 
 D:/mingw64/include/c++/13.2.0/bits/charconv.h:
@@ -2138,6 +2136,12 @@ D:/Code/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include/SDL2/SDL_files
 D:/mingw64/include/c++/13.2.0/bits/unique_lock.h:
 
 D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp:
+
+D:/mingw64/x86_64-w64-mingw32/include/winnls.h:
+
+D:/mingw64/include/c++/13.2.0/bits/allocator.h:
+
+D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp:
 
 D:/mingw64/include/c++/13.2.0/algorithm:
 
@@ -2238,6 +2242,10 @@ D:/mingw64/include/c++/13.2.0/bits/memory_resource.h:
 D:/mingw64/include/c++/13.2.0/bits/memoryfwd.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/malloc.h:
+
+D:/mingw64/include/c++/13.2.0/variant:
+
+D:/mingw64/x86_64-w64-mingw32/include/apisetcconv.h:
 
 D:/mingw64/include/c++/13.2.0/x86_64-w64-mingw32/bits/atomic_word.h:
 
@@ -2380,10 +2388,6 @@ D:/mingw64/x86_64-w64-mingw32/include/playsoundapi.h:
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/bmi2intrin.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/mcfgthread/tls.h:
-
-D:/mingw64/include/c++/13.2.0/bits/cxxabi_forced.h:
-
-D:/mingw64/x86_64-w64-mingw32/include/winapifamily.h:
 
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/bmiintrin.h:
 

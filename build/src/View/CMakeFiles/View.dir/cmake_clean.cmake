@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/View.dir/AtlasView.cpp.obj.d"
   "CMakeFiles/View.dir/MainView.cpp.obj"
   "CMakeFiles/View.dir/MainView.cpp.obj.d"
+  "CMakeFiles/View.dir/TextureManager.cpp.obj"
+  "CMakeFiles/View.dir/TextureManager.cpp.obj.d"
   "libView.a"
   "libView.pdb"
 )

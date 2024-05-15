@@ -42,7 +42,7 @@ public:
     EntityFeatureInitMsg(true,true,1)){
         this->feature.id=id;
         feature.rectInAtlas.x=position.x,feature.rectInAtlas.y=position.y;
-        feature.maxSize=35;
+        feature.maxSize=75;
         initConsumerFeature();
         feature.updateColor();
     }

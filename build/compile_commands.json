@@ -108,6 +108,12 @@
   "output": "src/View/CMakeFiles/View.dir/MainView.cpp.obj"
 },
 {
+  "directory": "D:/Code/Cpp/Eco_simulation/build/src/View",
+  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/View.dir/includes_CXX.rsp  -g -g -std=gnu++17 -O0 -o CMakeFiles\\View.dir\\TextureManager.cpp.obj -c D:\\Code\\Cpp\\Eco_simulation\\src\\View\\TextureManager.cpp",
+  "file": "D:/Code/Cpp/Eco_simulation/src/View/TextureManager.cpp",
+  "output": "src/View/CMakeFiles/View.dir/TextureManager.cpp.obj"
+},
+{
   "directory": "D:/Code/Cpp/Eco_simulation/build/src/Controller",
   "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/Controller.dir/includes_CXX.rsp  -g -g -std=gnu++17 -O0 -o CMakeFiles\\Controller.dir\\CommandShell.cpp.obj -c D:\\Code\\Cpp\\Eco_simulation\\src\\Controller\\CommandShell.cpp",
   "file": "D:/Code/Cpp/Eco_simulation/src/Controller/CommandShell.cpp",

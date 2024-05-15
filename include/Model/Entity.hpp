@@ -18,14 +18,14 @@ class QuadTreeAtlas;
 struct EntityAgeFeature;
 
 enum EntityDirection{
-    ENTITY_SOUTH_DIR=0,
     ENTITY_NORTH_DIR,
-    ENTITY_EAST_DIR,
-    ENTITY_WEST_DIR,
-    ENTITY_SOUTHEAST_DIR,
-    ENTITY_NORTHWEST_DIR,
     ENTITY_NORTHEAST_DIR,
+    ENTITY_EAST_DIR,
+    ENTITY_SOUTHEAST_DIR,
+    ENTITY_SOUTH_DIR,
     ENTITY_SOUTHWEST_DIR,
+    ENTITY_WEST_DIR,
+    ENTITY_NORTHWEST_DIR,
 };
 
 enum EntityMovingState{
@@ -36,8 +36,22 @@ enum EntityMovingState{
 };
 
 struct EntityMovingFeature{
-    EntityDirection currentDirection;
-    EntityMovingState movingState;
+    EntityDirection currentDirection=ENTITY_NORTH_DIR;
+    EntityMovingState movingState=ENTITY_MOVING;
+    int movingAngle=0;
+
+    int convertDirToAngle(){
+        return (45*static_cast<int>(currentDirection));
+    }
+
+    void addMovingAngle(int ang){
+        movingAngle+=ang;
+        if(movingAngle>=360){
+            movingAngle=0;
+        }else if(movingAngle<0){
+            movingAngle=0;
+        }
+    }
 };
 
 
@@ -186,15 +200,6 @@ struct EntityFeature{
     
     EntityMovingFeature movingFeature;
     bool isHunting=false;
-
-   
-
-    
-
-    
-    
-    
-
     SDL_Rect rectInAtlas;
     SDL_Color color={128,128,128,128};
     int maxSize;
@@ -290,11 +295,6 @@ protected:
     
     /* Health of the entity*/
     EntityFeature feature;
-    
-    
-
-
-
     std::weak_ptr<QuadTreeAtlasNode> currentNode;
     std::pair<int, int> directions[8] = {
             {0, 1},   // 下
@@ -306,6 +306,29 @@ protected:
             {1, -1},  // 右上
             {-1, 1}   // 左下
         };
+    
+    EntityDirection convertDirectionIndex(int index){
+        switch(index){
+            case 0:
+            return ENTITY_SOUTH_DIR;
+            case 1:
+            return ENTITY_NORTH_DIR;
+            case 2:
+            return ENTITY_EAST_DIR;
+            case 3:
+            return ENTITY_WEST_DIR;
+            case 4:
+            return ENTITY_SOUTHEAST_DIR;
+            case 5:
+            return ENTITY_NORTHWEST_DIR;
+            case 6:
+            return ENTITY_NORTHEAST_DIR;
+            case 7:
+            return ENTITY_SOUTHWEST_DIR;
+            default:
+            return ENTITY_SOUTH_DIR;
+        }
+    }
    
 public:
     virtual ~Entity(){}

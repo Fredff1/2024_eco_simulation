@@ -79,6 +79,7 @@ src/CMakeFiles/EcoSystem.dir/main.cpp.obj: D:/Code/Cpp/Eco_simulation/src/main.c
   D:/Code/Cpp/Eco_simulation/include/Util/ThreadSafeQueue.hpp \
   D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp \
   D:/Code/Cpp/Eco_simulation/include/View/MainView.hpp \
+  D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp \
   D:/Code/Cpp/Eco_simulation/include/Model/Resource.hpp \
   D:/mingw64/include/c++/13.2.0/algorithm \
   D:/mingw64/include/c++/13.2.0/array \
@@ -615,6 +616,8 @@ D:/mingw64/x86_64-w64-mingw32/include/wctype.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/wchar.h:
 
+D:/mingw64/x86_64-w64-mingw32/include/virtdisk.h:
+
 D:/mingw64/include/c++/13.2.0/type_traits:
 
 D:/mingw64/include/c++/13.2.0/deque:
@@ -652,10 +655,6 @@ D:/mingw64/include/c++/13.2.0/pstl/execution_defs.h:
 D:/mingw64/include/c++/13.2.0/tr1/poly_laguerre.tcc:
 
 D:/mingw64/include/c++/13.2.0/ostream:
-
-D:/mingw64/x86_64-w64-mingw32/include/winnls.h:
-
-D:/mingw64/include/c++/13.2.0/bits/allocator.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/timeapi.h:
 
@@ -1108,6 +1107,12 @@ D:/Code/Cpp/Eco_simulation/SDL2-2.28.4/x86_64-w64-mingw32/include/SDL2/SDL_files
 D:/mingw64/include/c++/13.2.0/bits/unique_lock.h:
 
 D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp:
+
+D:/mingw64/x86_64-w64-mingw32/include/winnls.h:
+
+D:/mingw64/include/c++/13.2.0/bits/allocator.h:
+
+D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp:
 
 D:/mingw64/include/c++/13.2.0/algorithm:
 
@@ -1710,5 +1715,3 @@ D:/mingw64/x86_64-w64-mingw32/include/urlmon.h:
 D:/Code/Cpp/Eco_simulation/include/Util/Observers.hpp:
 
 D:/mingw64/x86_64-w64-mingw32/include/utilapiset.h:
-
-D:/mingw64/x86_64-w64-mingw32/include/virtdisk.h:

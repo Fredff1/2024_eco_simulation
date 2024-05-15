@@ -24,7 +24,7 @@ public:
     Producer(int id, EntityType type, Point position,std::shared_ptr<QuadTreeAtlasNode>& currentNode):Entity(id,type,position,currentNode,
     EntityFeatureInitMsg(true,true,2.5)){
        feature.rectInAtlas.x=position.x,feature.rectInAtlas.y=position.y;
-       feature.maxSize=20;
+       feature.maxSize=40;
        initProducerFeature();
        feature.hungerFeature.setFull();
        /* color is fixed when initializing*/

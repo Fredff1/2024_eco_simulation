@@ -177,6 +177,30 @@ MainView.cpp.s:
 	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\View\CMakeFiles\View.dir\build.make src/View/CMakeFiles/View.dir/MainView.cpp.s
 .PHONY : MainView.cpp.s
 
+TextureManager.obj: TextureManager.cpp.obj
+.PHONY : TextureManager.obj
+
+# target to build an object file
+TextureManager.cpp.obj:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\View\CMakeFiles\View.dir\build.make src/View/CMakeFiles/View.dir/TextureManager.cpp.obj
+.PHONY : TextureManager.cpp.obj
+
+TextureManager.i: TextureManager.cpp.i
+.PHONY : TextureManager.i
+
+# target to preprocess a source file
+TextureManager.cpp.i:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\View\CMakeFiles\View.dir\build.make src/View/CMakeFiles/View.dir/TextureManager.cpp.i
+.PHONY : TextureManager.cpp.i
+
+TextureManager.s: TextureManager.cpp.s
+.PHONY : TextureManager.s
+
+# target to generate assembly for a file
+TextureManager.cpp.s:
+	cd /d D:\Code\Cpp\Eco_simulation\build && $(MAKE) $(MAKESILENT) -f src\View\CMakeFiles\View.dir\build.make src/View/CMakeFiles/View.dir/TextureManager.cpp.s
+.PHONY : TextureManager.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -192,6 +216,9 @@ help:
 	@echo ... MainView.obj
 	@echo ... MainView.i
 	@echo ... MainView.s
+	@echo ... TextureManager.obj
+	@echo ... TextureManager.i
+	@echo ... TextureManager.s
 .PHONY : help
 
 

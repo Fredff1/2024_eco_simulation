@@ -11,7 +11,7 @@
 #include "Controller/CommandShell.hpp"
 #include "Controller/ModelToControllerData.hpp"
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 class MainController{
 private:
     MainFrame& frame;  // 控制的视图
@@ -23,7 +23,7 @@ private:
     #ifdef DEBUG_MODE
     int currentFrameTime=200;
     #else 
-    int currentFrameTime=60
+    int currentFrameTime=60;
     #endif
 
     void shellControllerThread(ShellCommand& shellCommand){

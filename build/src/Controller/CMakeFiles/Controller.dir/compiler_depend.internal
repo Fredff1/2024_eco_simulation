@@ -79,6 +79,7 @@ src/Controller/CMakeFiles/Controller.dir/CommandShell.cpp.obj
  D:/Code/Cpp/Eco_simulation/include/Util/ThreadSafeQueue.hpp
  D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp
  D:/Code/Cpp/Eco_simulation/include/View/MainView.hpp
+ D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp
  D:/Code/Cpp/Eco_simulation/include/Model/Resource.hpp
  D:/mingw64/include/c++/13.2.0/algorithm
  D:/mingw64/include/c++/13.2.0/array
@@ -649,6 +650,7 @@ src/Controller/CMakeFiles/Controller.dir/MainController.cpp.obj
  D:/Code/Cpp/Eco_simulation/include/Util/ThreadSafeQueue.hpp
  D:/Code/Cpp/Eco_simulation/include/View/AtlasView.hpp
  D:/Code/Cpp/Eco_simulation/include/View/MainView.hpp
+ D:/Code/Cpp/Eco_simulation/include/View/TextureManager.hpp
  D:/Code/Cpp/Eco_simulation/include/Model/Resource.hpp
  D:/mingw64/include/c++/13.2.0/algorithm
  D:/mingw64/include/c++/13.2.0/array

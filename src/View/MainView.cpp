@@ -31,7 +31,7 @@ void MainFrame::initializeSDL(){
         //SDL_Quit();
         //exit(1);
     }
-
+    this->textureManager.setRenderer(this->renderer);
     
 
     
@@ -80,20 +80,11 @@ void MainFrame::renderEntities(const std::unique_ptr<FrameData>& frameData){
         }
         auto tempRect=atlasView.convertRectToUI(entData.rectInAtlas);
         auto type=entData.type;
-        auto entColor=entData.color;
+        //auto entColor=entData.color;
+        auto angle=entData.movingFeature.movingAngle;
+        //SDL_SetRenderDrawColor(renderer,entColor.r,entColor.g,entColor.b,entColor.a);
         
-        SDL_SetRenderDrawColor(renderer,entColor.r,entColor.g,entColor.b,entColor.a);
         
-        // switch(type){
-        //     case PRODUCER_TYPE:
-            
-        //     break;
-        //     case CONSUMER_TYPE:
-        //     SDL_SetRenderDrawColor(renderer,190,10,10,255);
-        //     break;
-        //     default:
-        //     break;
-        // }
         SDL_IntersectRect(&atlasView.getDestRectInUI(),&tempRect,&tempRect);
         if(tempRect.y<atlasView.getDestRectInUI().y){
             ThreadSafeCout()<<"error for render position\n";
@@ -102,6 +93,17 @@ void MainFrame::renderEntities(const std::unique_ptr<FrameData>& frameData){
             ThreadSafeCout()<<"Error target for entity id"<<entData.id<<"entity type"<<entData.type<<std::endl;
             continue;
         }
-        SDL_RenderFillRect(renderer,&tempRect);
+        //SDL_RenderFillRect(renderer,&tempRect);
+        switch(type){
+            case PRODUCER_TYPE:
+            textureManager.drawTexture("Producer_Normal.png",nullptr,&tempRect);
+            break;
+            case CONSUMER_TYPE:
+            textureManager.drawTexture("Consumer_Normal.png",nullptr,&tempRect,angle);
+            break;
+            default:
+            break;
+        }
+        
     }
 }

@@ -62,6 +62,7 @@ CMAKE_BINARY_DIR = D:\Code\Cpp\Eco_simulation\build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/copy_assets.dir/all
 all: src/all
 .PHONY : all
 
@@ -70,6 +71,7 @@ preinstall: src/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/copy_assets.dir/clean
 clean: src/clean
 .PHONY : clean
 
@@ -160,9 +162,36 @@ src/View/clean: src/View/CMakeFiles/View.dir/clean
 .PHONY : src/View/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/copy_assets.dir
+
+# All Build rule for target.
+CMakeFiles/copy_assets.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\copy_assets.dir\build.make CMakeFiles/copy_assets.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\copy_assets.dir\build.make CMakeFiles/copy_assets.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=30,31 "Built target copy_assets"
+.PHONY : CMakeFiles/copy_assets.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/copy_assets.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/copy_assets.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 0
+.PHONY : CMakeFiles/copy_assets.dir/rule
+
+# Convenience name for target.
+copy_assets: CMakeFiles/copy_assets.dir/rule
+.PHONY : copy_assets
+
+# clean rule for target.
+CMakeFiles/copy_assets.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\copy_assets.dir\build.make CMakeFiles/copy_assets.dir/clean
+.PHONY : CMakeFiles/copy_assets.dir/clean
+
+#=============================================================================
 # Target rules for target src/CMakeFiles/EcoSystem.dir
 
 # All Build rule for target.
+src/CMakeFiles/EcoSystem.dir/all: CMakeFiles/copy_assets.dir/all
 src/CMakeFiles/EcoSystem.dir/all: src/Util/CMakeFiles/Util.dir/all
 src/CMakeFiles/EcoSystem.dir/all: src/Model/CMakeFiles/Model.dir/all
 src/CMakeFiles/EcoSystem.dir/all: src/View/CMakeFiles/View.dir/all
@@ -174,7 +203,7 @@ src/CMakeFiles/EcoSystem.dir/all: src/Controller/CMakeFiles/Controller.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/EcoSystem.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 28
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 31
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/CMakeFiles/EcoSystem.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 0
 .PHONY : src/CMakeFiles/EcoSystem.dir/rule
@@ -247,12 +276,12 @@ src/Model/CMakeFiles/Model.dir/clean:
 src/View/CMakeFiles/View.dir/all:
 	$(MAKE) $(MAKESILENT) -f src\View\CMakeFiles\View.dir\build.make src/View/CMakeFiles/View.dir/depend
 	$(MAKE) $(MAKESILENT) -f src\View\CMakeFiles\View.dir\build.make src/View/CMakeFiles/View.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=26,27,28 "Built target View"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=D:\Code\Cpp\Eco_simulation\build\CMakeFiles --progress-num=26,27,28,29 "Built target View"
 .PHONY : src/View/CMakeFiles/View.dir/all
 
 # Build rule for subdir invocation for target.
 src/View/CMakeFiles/View.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/View/CMakeFiles/View.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start D:\Code\Cpp\Eco_simulation\build\CMakeFiles 0
 .PHONY : src/View/CMakeFiles/View.dir/rule

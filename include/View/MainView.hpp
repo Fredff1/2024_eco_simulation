@@ -15,6 +15,7 @@
 #include "AtlasView.hpp"
 #include <windows.h>
 #include "Controller/ShellControllerData.hpp"
+#include "View/TextureManager.hpp"
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 960
@@ -31,12 +32,14 @@ private:
     //FrameData nextDataToRender;
     MainModel& mainModel;
 
+    
+
     AtlasView atlasView;
     int pre_size=10;
     SDL_Renderer* renderer;
     SDL_Window* window;
     SDL_Surface* screenSurface;
-
+    TextureManager textureManager;
     bool isRenderPaused=false;
 
     std::unique_ptr<FrameData> lastData;
@@ -81,7 +84,7 @@ private:
 
    
 public:
-    MainFrame(MainModel& m):mainModel(m),atlasView(m.getQuadTreeAtlas()){
+    MainFrame(MainModel& m):mainModel(m),atlasView(m.getQuadTreeAtlas()),textureManager(renderer){
         mainModel.attach(this);
         initializeSDL();
         /* 地图的位置*/
@@ -120,6 +123,8 @@ public:
 
     /* start the render thread*/
     void RunOneFrame(){  
+        textureManager.loadTexture("Consumer_Normal.png");
+        textureManager.loadTexture("Producer_Normal.png");
         readShellControllerData();
         if (isNextFrameReady.load(std::memory_order_acquire)) {
             //auto data = mainModel.getFrameData();  // 从模型获取帧数据

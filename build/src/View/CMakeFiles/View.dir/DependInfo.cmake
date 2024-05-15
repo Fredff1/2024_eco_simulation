@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Code/Cpp/Eco_simulation/src/View/AtlasView.cpp" "src/View/CMakeFiles/View.dir/AtlasView.cpp.obj" "gcc" "src/View/CMakeFiles/View.dir/AtlasView.cpp.obj.d"
   "D:/Code/Cpp/Eco_simulation/src/View/MainView.cpp" "src/View/CMakeFiles/View.dir/MainView.cpp.obj" "gcc" "src/View/CMakeFiles/View.dir/MainView.cpp.obj.d"
+  "D:/Code/Cpp/Eco_simulation/src/View/TextureManager.cpp" "src/View/CMakeFiles/View.dir/TextureManager.cpp.obj" "gcc" "src/View/CMakeFiles/View.dir/TextureManager.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
