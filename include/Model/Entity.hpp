@@ -17,6 +17,8 @@ class QuadTreeAtlas;
 
 struct EntityAgeFeature;
 
+struct EntityFeature;
+
 enum EntityDirection{
     ENTITY_NORTH_DIR,
     ENTITY_NORTHEAST_DIR,
@@ -140,7 +142,7 @@ struct EntityReproductionFeature{
     int maxReproductionCount;
 
     EntityReproductionFeature(Gene& gene,float shrinkRate){
-        maxReproductionCount=1500/gene.calculateReproductionRate()/shrinkRate;
+        maxReproductionCount=gene.calculateReproductionRate()/shrinkRate;
     }
 
     void addRate(int count){
@@ -157,25 +159,20 @@ struct EntityReproductionFeature{
     }
 };
 
-class EntityState{
-public:
+struct EntityRenderData{
     int id;
-    Point position;
-    EntityType type;
     SDL_Rect rectInAtlas;
-    SDL_Color color;
+    int movingAngle;
+    GeneMutateRate geneMutateRate;
+    EntityType type;
     bool isAlive;
-    
-    
-    //more to add
-
-    EntityState(int id_,Point position_,EntityType type_):id(id){
-        type=type_;
-        position=position_;
-        
-    }
-
+    EntityRenderData(){}
+    EntityRenderData(EntityFeature& feature);
 };
+    
+
+
+
 
 struct EntityFeatureInitMsg{
     bool isHungerAvailable;
@@ -386,6 +383,10 @@ public:
 
     Gene& getGene(){
         return this->feature.gene;
+    }
+
+    EntityRenderData generateEntityRenderData(){
+        return EntityRenderData(this->feature);
     }
 
 };

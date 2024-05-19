@@ -25,8 +25,8 @@
 #define MIN_HEALTH_RANGE 0
 #define HEALTH_RANGE 100000
 
-#define MIN_REPRODUCTION_RATE 1
-#define REPRODUCTION_RANGE 30
+#define MIN_REPRODUCTION_RATE 100
+#define REPRODUCTION_RANGE 10000
 
 enum GeneType{
     TEMPERATURE_GENE,
@@ -36,6 +36,16 @@ enum GeneType{
     REPRODUCTION_GENE,
     HUNGER_GENE,
     HEALTH_GENE,
+};
+
+enum GeneMutateRate{
+    NORMAL_MUTATE,
+    MUTATE_RATE_1,
+    MUTATE_RATE_2,
+    MUTATE_RATE_3,
+    MUTATE_RATE_4,
+    MUTATE_RATE_5,
+    MUTATE_RATE_6,
 };
 
 class Gene{
@@ -48,6 +58,7 @@ private:
     unsigned short hungerGene;
     unsigned short healthGene;
     std::map<GeneType,unsigned short> geneMap;
+    GeneMutateRate mutateRate;
    
 
     // 转换基因值到实际环境适应值
@@ -121,8 +132,9 @@ public:
         );
         geneMap[HEALTH_GENE]=healthGene;
         float midReproductionRate=3;
-        reproductionGene=mapRangeToGene(midReproductionRate,MIN_REPRODUCTION_RATE,REPRODUCTION_RANGE);
+        reproductionGene=RandomUtil::getRandomInt(mapRangeToGene(100,MIN_REPRODUCTION_RATE,REPRODUCTION_RANGE),mapRangeToGene(2000,MIN_REPRODUCTION_RATE,REPRODUCTION_RANGE));
         geneMap[REPRODUCTION_GENE]=reproductionGene;
+        mutateRate=calculateMutateRate();
     }
 
     Gene(int flag){
@@ -160,7 +172,12 @@ public:
         for (const auto& pair : geneMap) {
             targetMap[pair.first] = pair.second;
             randomMutate(targetMap[pair.first]);
+            mutateRate=calculateMutateRate();
         }
+    }
+
+    GeneMutateRate getMutateRate(){
+        return this->mutateRate;
     }
 
      
@@ -203,22 +220,28 @@ public:
         return 1;
     }
 
-    int calculateMutateRate(){
+    GeneMutateRate calculateMutateRate(){
         if(geneMap.empty()){
-            return 0;
+            return NORMAL_MUTATE;
         }
         auto it=geneMap.begin();
         int rate=125;
         while(it!=geneMap.end()){
             auto targetGene=(*it).second;
-            int result=(65535-targetGene)*250/65535;
+            int result=(65535-targetGene)*240/65535;
             if(abs(result-125)>abs(rate-125)){
                 rate=result;
             }
             ++it;
         }
         int targetColorRate=rate/40;
-        return targetColorRate;
+        if(targetColorRate>5){
+            targetColorRate=5;
+        }else if(targetColorRate<0){
+            targetColorRate=0;
+        }
+        return static_cast<GeneMutateRate>(targetColorRate);
+        
     }
 
     //  Gene& operator=(const Gene& other) {

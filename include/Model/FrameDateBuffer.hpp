@@ -10,11 +10,11 @@ public:
     float h;
     float w;
 
-    std::vector<EntityFeature> entitiesInAtlas;
+    std::vector<EntityRenderData> entitiesInAtlas;
     
     //insert an entity state foe ui to read
     void insertEntities(Entity &ent){
-        entitiesInAtlas.push_back(ent.getFeature());
+        entitiesInAtlas.push_back(ent.generateEntityRenderData());
     }
 };
 

@@ -41,7 +41,6 @@ private:
     SDL_Surface* screenSurface;
     TextureManager textureManager;
     bool isRenderPaused=false;
-
     std::unique_ptr<FrameData> lastData;
 
     SDL_Rect initRect(int x,int y,int height,int width){

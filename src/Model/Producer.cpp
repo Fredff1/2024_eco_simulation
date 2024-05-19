@@ -63,7 +63,7 @@ float Producer::calculateLifeLoss(float fitness) {
     const float maxLossPercentage = 0.0008;  // 最大损失为最大生命值的0.1%
     float maxLoss = feature.healthFeature.currentMaxHealth * maxLossPercentage;
     if(fitness>0.6){
-        return (fitness-0.6)*maxLoss;
+        return (0.1)*maxLoss;
     }else if(fitness>0.4){
         return 0;
     }else if(fitness>0){
@@ -89,7 +89,10 @@ void Producer::checkEnvironment(){
 
 void Producer::actReproduction(QuadTreeAtlas& quadTreeAtlas){
     if(feature.reproductionFeature.getIfReproReady()==false){
+       
         feature.reproductionFeature.addRate(1);
+        
+        
     }else{
         if(currentNode.lock()->entities.size()>MAX_ENTITIES){
             return;

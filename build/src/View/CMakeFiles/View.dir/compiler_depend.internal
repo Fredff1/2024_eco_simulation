@@ -1064,6 +1064,7 @@ src/View/CMakeFiles/View.dir/TextureManager.cpp.obj
  D:/mingw64/include/c++/13.2.0/bits/range_access.h
  D:/mingw64/include/c++/13.2.0/bits/refwrap.h
  D:/mingw64/include/c++/13.2.0/bits/requires_hosted.h
+ D:/mingw64/include/c++/13.2.0/bits/specfun.h
  D:/mingw64/include/c++/13.2.0/bits/std_abs.h
  D:/mingw64/include/c++/13.2.0/bits/stl_algobase.h
  D:/mingw64/include/c++/13.2.0/bits/stl_construct.h
@@ -1081,6 +1082,7 @@ src/View/CMakeFiles/View.dir/TextureManager.cpp.obj
  D:/mingw64/include/c++/13.2.0/cctype
  D:/mingw64/include/c++/13.2.0/cerrno
  D:/mingw64/include/c++/13.2.0/clocale
+ D:/mingw64/include/c++/13.2.0/cmath
  D:/mingw64/include/c++/13.2.0/cstddef
  D:/mingw64/include/c++/13.2.0/cstdio
  D:/mingw64/include/c++/13.2.0/cstdlib
@@ -1094,11 +1096,25 @@ src/View/CMakeFiles/View.dir/TextureManager.cpp.obj
  D:/mingw64/include/c++/13.2.0/ext/type_traits.h
  D:/mingw64/include/c++/13.2.0/initializer_list
  D:/mingw64/include/c++/13.2.0/iosfwd
+ D:/mingw64/include/c++/13.2.0/limits
+ D:/mingw64/include/c++/13.2.0/math.h
  D:/mingw64/include/c++/13.2.0/new
  D:/mingw64/include/c++/13.2.0/pstl/pstl_config.h
  D:/mingw64/include/c++/13.2.0/stdlib.h
  D:/mingw64/include/c++/13.2.0/string
  D:/mingw64/include/c++/13.2.0/string_view
+ D:/mingw64/include/c++/13.2.0/tr1/bessel_function.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/beta_function.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/ell_integral.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/exp_integral.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/gamma.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/hypergeometric.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/legendre_function.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/modified_bessel_func.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/poly_hermite.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/poly_laguerre.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/riemann_zeta.tcc
+ D:/mingw64/include/c++/13.2.0/tr1/special_function_util.h
  D:/mingw64/include/c++/13.2.0/tuple
  D:/mingw64/include/c++/13.2.0/type_traits
  D:/mingw64/include/c++/13.2.0/unordered_map
@@ -1229,6 +1245,7 @@ src/View/CMakeFiles/View.dir/TextureManager.cpp.obj
  D:/mingw64/x86_64-w64-mingw32/include/limits.h
  D:/mingw64/x86_64-w64-mingw32/include/locale.h
  D:/mingw64/x86_64-w64-mingw32/include/malloc.h
+ D:/mingw64/x86_64-w64-mingw32/include/math.h
  D:/mingw64/x86_64-w64-mingw32/include/process.h
  D:/mingw64/x86_64-w64-mingw32/include/psdk_inc/intrin-impl.h
  D:/mingw64/x86_64-w64-mingw32/include/sdkddkver.h

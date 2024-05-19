@@ -14,3 +14,12 @@ Entity::Entity(int id,EntityFeature& feature,std::shared_ptr<QuadTreeAtlasNode>&
 void Entity::setCurrentNode(std::shared_ptr<QuadTreeAtlasNode> targetNode){
     currentNode.operator=(targetNode);
 }
+
+EntityRenderData::EntityRenderData(EntityFeature& feature){
+    this->id=feature.id;
+    this->rectInAtlas=feature.rectInAtlas;
+    this->movingAngle=feature.movingFeature.movingAngle;
+    this->geneMutateRate=feature.gene.getMutateRate();
+    this->isAlive=feature.isAlive;
+    this->type=feature.type;
+}

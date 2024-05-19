@@ -12,7 +12,7 @@ void Consumer::move(){
     int index=0;
     switch(feature.movingFeature.movingState){
         case ENTITY_STABLE:
-
+        feature.movingFeature.movingState=ENTITY_MOVING;
         break;
         case ENTITY_MOVING:
         if(moveCooldown<maxMoveCooldown){
@@ -62,9 +62,9 @@ void Consumer::move(){
         case ENTITY_ROTATING:
         auto targetAngle=feature.movingFeature.convertDirToAngle();
         if(targetAngle<feature.movingFeature.movingAngle){
-            feature.movingFeature.addMovingAngle(-5);
+            feature.movingFeature.addMovingAngle(-45);
         }else if(targetAngle>feature.movingFeature.movingAngle){
-            feature.movingFeature.addMovingAngle(5);
+            feature.movingFeature.addMovingAngle(45);
         }else{
             feature.movingFeature.movingState=ENTITY_MOVING;
         }
@@ -85,7 +85,15 @@ void Consumer::checkHunger(QuadTreeAtlas& quadTreeAtlas){
         feature.isHunting=true;
         tryHunt(quadTreeAtlas);
     }
-    feature.hungerFeature.addHunger(-(feature.rectInAtlas.h/2));
+    switch(feature.movingFeature.movingState){
+        case ENTITY_MOVING:
+        feature.hungerFeature.addHunger(-(1+feature.rectInAtlas.h/10));
+        break;
+        default:
+        feature.hungerFeature.addHunger(-1);
+        break;
+    }
+    
     if(feature.hungerFeature.currentHuger<0){
         feature.healthFeature.addCurrentHealth(-0.01f);
     }
@@ -98,10 +106,12 @@ void Consumer::tryHunt(QuadTreeAtlas& quadTreeAtlas){
     searchRect.y-=2*feature.rectInAtlas.h;
     searchRect.h*=4;
     searchRect.w*=4;
+
+    
     quadTreeAtlas.applyToNode(quadTreeAtlas.getRoot(),searchRect,[searchRect,this](std::shared_ptr<QuadTreeAtlasNode> & node){
             auto it=node->entities.begin();
             while(it!=node->entities.end()){
-                if(this->getFeature().isHunting&&intersect_(searchRect,(*it)->getRectInAtlas())&&(*it)->getEntityType()==PRODUCER_TYPE){
+                if(this->getFeature().isHunting&&intersect_(this->getRectInAtlas(),(*it)->getRectInAtlas())&&(*it)->getEntityType()==PRODUCER_TYPE){
                     if((*it)->getFeature().rectInAtlas.h>this->getFeature().rectInAtlas.h*3/2){
                         ++it;
                         continue;
@@ -144,7 +154,7 @@ void Consumer::update(QuadTreeAtlas& quadTreeAtlas){
     checkHunger(quadTreeAtlas);
     checkEnvironment();
     actReproduction(quadTreeAtlas);
-    feature.healthFeature.addCurrentHealth(feature.rectInAtlas.w/3);
+    feature.healthFeature.addCurrentHealth(2);
     this->move();/* Warning for crash bugs*/
     updateFeature();
     if(currentNode.lock()->children[0]){
@@ -158,7 +168,7 @@ float Consumer::calculateLifeLoss(float fitness) {
     const float maxLossPercentage = 0.005;  // 最大损失为最大生命值的0.1%
     float maxLoss = feature.healthFeature.currentMaxHealth * maxLossPercentage;
     if(fitness>0.7){
-        return (fitness-0.7)*maxLoss;
+        return (0.05)*maxLoss;
     }else if(fitness>0){
         return (fitness-0.7 )*maxLoss;
     }else{
@@ -177,7 +187,8 @@ void Consumer::checkEnvironment(){
     auto oxy_fac=feature.gene.calculateActualOxygen(act_ocy);
     auto tem_fac=feature.gene.calculateActualTemperature(act_tem);
     auto ph_fac=feature.gene.calculateActualPH(act_ph);
-    feature.healthFeature.addCurrentHealth(calculateLifeLoss(oxy_fac)+calculateLifeLoss(tem_fac)+calculateLifeLoss(ph_fac));
+    int fullLifeLoss=calculateLifeLoss(oxy_fac)+calculateLifeLoss(tem_fac)+calculateLifeLoss(ph_fac);
+    feature.healthFeature.addCurrentHealth(fullLifeLoss);
 }
 
 void Consumer::actReproduction(QuadTreeAtlas& quadTreeAtlas){

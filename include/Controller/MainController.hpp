@@ -65,22 +65,22 @@ public:
                     switch (event.key.keysym.sym) {
                         case SDLK_LEFT:
                             // 向左移动摄像头
-                            //view.moveCamera(-10, 0);
+
                             frame.moveCamera(-50,0);
                             break;
                         case SDLK_RIGHT:
                             // 向右移动摄像头
-                            //view.moveCamera(10, 0);
+
                             frame.moveCamera(50,0);
                             break;
                         case SDLK_UP:
                             // 向上移动摄像头
-                            //view.moveCamera(0, -10);
+
                             frame.moveCamera(0,-50);
                             break;
                         case SDLK_DOWN:
                             // 向下移动摄像头
-                            //view.moveCamera(0, 10);
+
                             frame.moveCamera(0,50);
                             break;
                     }
