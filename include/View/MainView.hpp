@@ -88,7 +88,7 @@ public:
         initializeSDL();
         /* 地图的位置*/
         atlasView.setDestRectInUI(initRect(265,105,750,750));
-        atlasView.setVisibleRect(initRect(500,500,750,750));
+        atlasView.setVisibleRect(initRect(1500,1500,750,750));
     }
 
 

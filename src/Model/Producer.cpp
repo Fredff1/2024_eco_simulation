@@ -26,14 +26,18 @@ void Producer::move(){
 
 void Producer::updateHunger(){
     auto node=currentNode.lock();
-    int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w*4;
-    feature.hungerFeature.addHunger(-lightIn/4);
+    int lightIn=feature.rectInAtlas.h*this->feature.rectInAtlas.w;
+    feature.hungerFeature.addHunger(-lightIn);
     if(node->resource.getLightResource()>lightIn){
         node->resource.minusLightResource(lightIn);
-        feature.hungerFeature.addHunger(lightIn/4);
+        feature.hungerFeature.addHunger(lightIn);
     }else{
         feature.hungerFeature.addHunger(node->resource.getLightResource());
         node->resource.setLightResource(0);
+    }
+
+    if(feature.hungerFeature.currentHuger<0){
+        feature.healthFeature.addCurrentHealth(-0.05f);
     }
 }
 

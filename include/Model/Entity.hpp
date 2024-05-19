@@ -128,6 +128,9 @@ struct EntityHealthFeature{
         }else{
             float ageDecline = float(ageFeature.currentAge - ageFeature.peakAge)*0.9 / (ageFeature.maxAge - ageFeature.peakAge);
         }
+        if(currentHealth>currentMaxHealth){
+            currentHealth=currentMaxHealth;
+        }
     }
 
     EntityHealthFeature(Gene& gene,EntityAgeFeature& ageFe,float shrinkRate){

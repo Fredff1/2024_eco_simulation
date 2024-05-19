@@ -24,6 +24,39 @@ public:
 
     void setRenderer(SDL_Renderer* renderer){
         this->renderer=renderer;
+        textureMap["backGround"]=createBackGroundTexture();
+    }
+
+    SDL_Texture* createBackGroundTexture(int height=4096,int width=4096){
+        SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+        if (!surface) {
+            SDL_Log("Unable to create gradient surface: %s", SDL_GetError());
+            return nullptr;
+        }
+
+        SDL_LockSurface(surface);
+        Uint32* pixels = (Uint32*) surface->pixels;
+
+        double centerX = width / 2.0;
+        double centerY = height / 2.0;
+        double maxDistance = sqrt(centerX * centerX + centerY * centerY);
+
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                double distance = sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
+                Uint8 blue = (Uint8)(255 - 255 * (distance / maxDistance));  // Color darkens as distance increases
+                Uint32 color = SDL_MapRGBA(surface->format, 0, 0, blue, 255);
+                pixels[y * width + x] = color;
+            }
+        }
+
+        SDL_UnlockSurface(surface);
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+        if (!texture) {
+            SDL_Log("Unable to create texture from surface: %s", SDL_GetError());
+        }
+        SDL_FreeSurface(surface); // 不再需要 surface
+        return texture;
     }
 
     SDL_Texture* loadTexture(const std::string& fileName){

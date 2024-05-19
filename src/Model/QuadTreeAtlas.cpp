@@ -408,7 +408,7 @@ void QuadTreeAtlas::update(FrameData& data){
 
     // 打印运行时间
     if(duration>0.00001){
-        std::cout << "Duration: " << duration << " seconds" << std::endl;
+        //std::cout << "Duration: " << duration << " seconds" << std::endl;
     }
     
 }

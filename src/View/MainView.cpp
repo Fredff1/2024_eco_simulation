@@ -47,9 +47,7 @@ void MainFrame::render(){
         readShellControllerData();
         SDL_SetRenderDrawColor(this->renderer,255,255,255,255);
         SDL_RenderClear(this->renderer);
-        SDL_SetRenderDrawColor(renderer,0,0,200,255);
-        SDL_RenderFillRect(renderer,&atlasView.getDestRectInUI());
-        
+        textureManager.drawTexture("backGround",&atlasView.getVisibleRect(),&atlasView.getDestRectInUI());
         renderEntities(frameData);
         SDL_RenderPresent(this->renderer);
         lastData=std::move(frameData);
@@ -58,9 +56,8 @@ void MainFrame::render(){
         readShellControllerData();
         SDL_SetRenderDrawColor(this->renderer,255,255,255,255);
         SDL_RenderClear(this->renderer);
-        SDL_SetRenderDrawColor(renderer,0,0,200,255);
-        SDL_RenderFillRect(renderer,&atlasView.getDestRectInUI());
-        
+
+        textureManager.drawTexture("backGround",&atlasView.getVisibleRect(),&atlasView.getDestRectInUI());
         renderEntities(frameData);
         SDL_RenderPresent(this->renderer);
     }
